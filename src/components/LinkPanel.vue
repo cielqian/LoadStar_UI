@@ -1,7 +1,7 @@
 <template>
   <div class="ls_container">
     <el-row>
-      <el-col style="margin-top:250px;" v-if="links.length == 0">
+      <el-col class="ls_text_center" style="margin-top:250px;" v-if="links.length == 0">
           <h2>Try Ctrl+V To Create New Link</h2>
       </el-col>
       <el-col v-else class="ls_link_item" :span="4">

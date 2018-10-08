@@ -15,7 +15,7 @@
         <el-dialog
       title="Sign up"
       :visible.sync="dialog.signUpDialogVisiable"
-      width="20%"
+      width="25%"
       >
       <el-row>
         <el-col>
@@ -41,7 +41,7 @@
     <el-dialog
       title="Sign in"
       :visible.sync="dialog.signInDialogVisiable"
-      width="20%"
+      width="25%"
       >
       <el-row>
         <el-col>
@@ -64,6 +64,7 @@
 </template>
 <script>
 import { mapGetters, mapState } from "vuex";
+import apis from "../assets/repository/apis";
 
 export default {
   name: "Login",

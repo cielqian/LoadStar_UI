@@ -1,7 +1,7 @@
 <template>
-  <div class="ls_container">
-    <el-row>
-      <el-col>
+  <div class="ls_container ls_text_center">
+    <el-row class="ls_text_center">
+      <el-col :span="12">
         <el-card>
           <div slot="header" class="clearfix">
             <span>Appearance</span>

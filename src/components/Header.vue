@@ -9,7 +9,7 @@
               <div class="ls_text_right ls_inline ls_pull_right">
               <el-dropdown @command="handleCommand">
                   <span class="el-dropdown-link">
-                  {{loginInfo.username}}<i class="el-icon-arrow-down el-icon--right"></i>
+                  {{loginInfo.nickname}}<i class="el-icon-arrow-down el-icon--right"></i>
                   </span>
                   <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item>

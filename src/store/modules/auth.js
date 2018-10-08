@@ -6,6 +6,7 @@ const state = {
     loginInfo: {
         hasLogined: false,
         username:'',
+        nickname:'',
         accessToken: ''
     }
 }
@@ -34,10 +35,12 @@ const mutations = {
         }else{
             localStorage.removeItem("LS_ACCESS_TOKEN");
             state.loginInfo.username = '';
+            state.loginInfo.nickname = '';
         }
     },
     setUserInfo(state, userInfo){
         state.loginInfo.username = userInfo.username;
+        state.loginInfo.nickname = userInfo.nickname;
     }
 }
 
