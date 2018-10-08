@@ -1,0 +1,27 @@
+sudo: required
+services:
+  - docker
+language: node_js
+node_js:
+  - "10"
+
+branches:
+  only:
+  - master
+
+env:
+  global:
+    - COMMIT=${TRAVIS_COMMIT::7}
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+
+  #TAG
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+
+  # WEB
+  - export WEB_CONTAINER="cielqian/pocket-web"
+  - docker build -t $WEB_CONTAINER:$COMMIT .
+  - docker tag $WEB_CONTAINER:$COMMIT $WEB_CONTAINER:$TAG
+  - docker push $WEB_CONTAINER
