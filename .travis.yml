@@ -9,6 +9,9 @@ branches:
   only:
   - master
 
+script:
+  - npm install
+  - npm run build
 env:
   global:
     - COMMIT=${TRAVIS_COMMIT::7}
