@@ -17,5 +17,13 @@ export default{
                 resolve(response);
             });
         });
+    },
+    changeLanguage(language){
+        return new Promise((resolve, reject) => {
+            axios.post(apis.theme.changeLanguage, {language:language})
+            .then(function(response) {
+                resolve(response);
+            });
+        });
     }
 }

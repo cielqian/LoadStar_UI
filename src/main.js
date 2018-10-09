@@ -11,6 +11,9 @@ import './assets/ls_global.css'
 import apis from './api/apis'
 // import store from "./assets/store/store";
 import store from "./store";
+import VueI18n from 'vue-i18n';
+import LangEn from '../static/lang/en'
+import LangZhCHS from '../static/lang/zhCHS'
 
 Vue.config.productionTip = false;
 axios.defaults.baseURL = apis.baseHost;
@@ -54,9 +57,19 @@ Vue.prototype.$http = axios;
 
 Vue.use(ElementUI);
 
+Vue.use(VueI18n)
+const i18n = new VueI18n({
+  locale: store.getters.getLanguage, 
+  messages:{
+    'en': LangEn,
+    'zhCHS': LangZhCHS
+  }
+})
+
 new Vue({
   store,
   router,
+  i18n,
   components: {App},
   template: '<App/>'
 }).$mount('#app');

@@ -62,13 +62,16 @@ const actions = {
     getUserInfo({ commit}){
         api.userInfo((response) => commit('setUserInfo', response.data))
     },
-    signIn({ commit ,dispatch}, account){
-        api.signIn(account
-            , (response) => {
-                commit('setLoginInfo', {hasLogined:true,accessToken:response.access_token});
-                dispatch('getUserInfo');
-                router.push('Home');
-        })
+    signIn({ commit, dispatch }, account) {
+        return new Promise((resolve, reject) => {
+            api.signIn(account)
+                .then((response) => {
+                    commit('setLoginInfo', { hasLogined: true, accessToken: response.access_token });
+                    dispatch('getUserInfo');
+                    router.push('Home');
+                    resolve();
+                }).catch((response) => reject());
+        });
     },
     signOut({commit}){
         commit('setLoginInfo', {hasLogined:false,accessToken:''});

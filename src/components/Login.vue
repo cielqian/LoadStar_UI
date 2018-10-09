@@ -3,61 +3,61 @@
         <el-row class="slogan">
             <el-col>
                 <img class="ls_logo_large" src="../assets/logo.png">
-                <h1>{{ title }}</h1>
+                <h1>{{ $t("global.title")  }}</h1>
             </el-col>
             <el-col>
-                <el-button type="text" @click="openSignInDialog">Sign in</el-button>
+                <el-button type="text" @click="openSignInDialog">{{$t('login.btnSignIn')}}</el-button>
                 /
-                <el-button type="text" @click="openSignUpDialog">Sign up</el-button>
+                <el-button type="text" @click="openSignUpDialog">{{$t('login.btnSignUp')}}</el-button>
             </el-col>
         </el-row>
 
         <el-dialog
-      title="Sign up"
+      :title="$t('login.lblSignUp')"
       :visible.sync="dialog.signUpDialogVisiable"
       width="25%"
       >
       <el-row>
         <el-col>
           <el-form class="ls_text_left" label-position="top" :model="account" ref="form" label-width="80px">
-            <el-form-item label="Username">
+            <el-form-item :label="$t('login.lblUserName')">
               <el-input v-model="account.username" placeholder="Pick a username"></el-input>
             </el-form-item>
-            <el-form-item label="Password">
+            <el-form-item :label="$t('login.lblPassword')">
               <el-input type="password" v-model="account.password" placeholder="Create a password"></el-input>
             </el-form-item>
-            <el-form-item label="Nickname">
+            <el-form-item :label="$t('login.lblNickName')">
               <el-input v-model="account.nickname" placeholder="Pick a nickname"></el-input>
             </el-form-item>
           </el-form>
         </el-col>
       </el-row>
       <span slot="footer">
-        <el-button type="text" @click="openSignInDialog">Sign in</el-button>
-        <el-button type="primary" @click="signUpAccount">Sign up</el-button>
+        <el-button type="text" @click="openSignInDialog">{{$t('login.btnSignIn')}}</el-button>
+        <el-button type="primary" @click="signUpAccount">{{$t('login.btnSignUp')}}</el-button>
       </span>
     </el-dialog>
 
     <el-dialog
-      title="Sign in"
+      :title="$t('login.lblSignIn')"
       :visible.sync="dialog.signInDialogVisiable"
       width="25%"
       >
       <el-row>
         <el-col>
           <el-form class="ls_text_left" label-position="top" :model="account" ref="form" label-width="80px">
-            <el-form-item label="Username">
+            <el-form-item :label="$t('login.lblUserName')">
               <el-input v-model="account.username" placeholder="Pick a username"></el-input>
             </el-form-item>
-            <el-form-item label="Password">
+            <el-form-item :label="$t('login.lblPassword')">
               <el-input type="password" v-model="account.password" placeholder="Create a password"></el-input>
             </el-form-item>
           </el-form>
         </el-col>
       </el-row>
       <span slot="footer">
-        <el-button type="text" @click="openSignUpDialog">Sign up</el-button>
-        <el-button type="primary" @click="signInAccount">Sign in</el-button>
+        <el-button type="text" @click="openSignUpDialog">{{$t('login.btnSignUp')}}</el-button>
+        <el-button type="primary" @click="signInAccount">{{$t('login.lblSignIn')}}</el-button>
       </span>
     </el-dialog>
     </div>
@@ -116,7 +116,8 @@ export default {
         scope: "ui",
         grant_type: "password"
       };
-      this.$store.dispatch("signIn", this.account);
+      this.$store.dispatch("signIn", this.account)
+      .catch(x => _this.$message.error('Incorrect username or password'));
     }
   },
   mounted(){

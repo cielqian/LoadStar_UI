@@ -18,9 +18,18 @@ body{
     float: right;
 }
 
+.ls_center{
+    margin: 0px auto;
+}
+
 .ls_text_left{
     text-align: left;
 }
+
+.ls_text_center{
+    text-align: center;
+}
+
 
 .ls_text_right{
     text-align: right;
@@ -48,4 +57,8 @@ body{
 
 .ls_fg_blue{
     color: #3a8ee6;
+}
+
+.ls_margin_top_15{
+    margin-top: 15px;
 }

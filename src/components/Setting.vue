@@ -1,15 +1,26 @@
 <template>
-  <div class="ls_container ls_text_center">
-    <el-row class="ls_text_center">
-      <el-col :span="12">
+  <div class="ls_container">
+    <el-row type="flex" justify="center">
+      <el-col :span="12"  class="ls_center">
         <el-card>
           <div slot="header" class="clearfix">
-            <span>Appearance</span>
+            <span>{{$t('setting.lblAppearance')}}</span>
           </div>
           <el-row>
             <el-col>
-              <el-radio v-model="radio" label="List">List</el-radio>
-              <el-radio v-model="radio" label="Card">Card</el-radio>
+              <el-radio v-model="listTypeRadio" label="List">{{$t('setting.lblAppearanceList')}}</el-radio>
+              <el-radio v-model="listTypeRadio" label="Card">{{$t('setting.lblAppearanceCard')}}</el-radio>
+            </el-col>
+          </el-row>
+        </el-card>
+        <el-card class="ls_margin_top_15">
+          <div slot="header" class="clearfix">
+            <span>{{$t('setting.lblLanguage')}}</span>
+          </div>
+          <el-row>
+            <el-col>
+              <el-radio v-model="languageRadio" label="en">English</el-radio>
+              <el-radio v-model="languageRadio" label="zhCHS">中文</el-radio>
             </el-col>
           </el-row>
         </el-card>
@@ -30,12 +41,21 @@ export default {
     };
   },
   computed:{
-    radio:{
+    listTypeRadio:{
       get () {
-        return this.$store.state.setting.theme.listTypeEnum
+        return this.$store.state.setting.theme.listTypeEnum;
       },
       set (value) {
         this.$store.dispatch('setListTypeEnum', value)
+      }
+    },
+    languageRadio:{
+      get () {
+        return this.$store.state.setting.theme.language;
+      },
+      set (value) {
+        this.$store.dispatch('setLanguage', value);
+        this.$i18n.locale = value;
       }
     }
   },

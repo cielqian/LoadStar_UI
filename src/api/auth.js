@@ -9,15 +9,16 @@ export default{
         form.append("username", account.username);
         form.append("password", account.password);
 
-        axios.post(apis.auth.signIn,  form, {
-                      headers: {
-                            'Content-Type': 'multipart/form-data'
-                      },
-                  })
-        .then((response) => {
-            cb(response);
-        }).catch((err)=>{
-            errorCb(err);
+        return new Promise((resolve, reject) => {
+            axios.post(apis.auth.signIn,  form, {
+                headers: {
+                      'Content-Type': 'multipart/form-data'
+                },
+            })
+            .then(function(response) {
+                resolve(response);
+            })
+            .catch(error => reject(error));
         });
     },
     userInfo(cb, errorCb){

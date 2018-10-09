@@ -1,31 +1,53 @@
 <template>
   <div class="ls_container">
     <el-row>
-      <el-col class="ls_text_center" style="margin-top:250px;" v-if="links.length == 0">
-          <h2>Try Ctrl+V To Create New Link</h2>
-      </el-col>
-      <el-col v-else class="ls_link_item" :span="4">
-        <div style="min-height:80px;">
-          <!-- <i class="iconfont icon-plus-circle" style="font-size:35px;padding-top:35px;"></i> -->
-          <span>Try Ctrl+V</span>
-        </div>
-      </el-col>
-      <el-col v-if="theme.listTypeEnum == 'Card'" class="ls_link_item" v-for="link in links" :key="link.id" :span="4">
-        <div class="remove">
-          <i @click="removeLink(link.id)" class="iconfont icon-close-circle"></i>
-        </div>
-        <el-tooltip class="ls_link_item_content" effect="dark" :content="link.title" placement="top">
-          <transition name="el-zoom-in-center">
-            <div @click="redirect(link)" class="transition-box">
-              <div v-if="link.icon != null" class="icon">
-                <img :src="link.icon">
+      <el-alert
+          :title="$t('global.pasteTitle')"
+          type="info"
+          show-icon>
+      </el-alert>
+      <div v-if="theme.listTypeEnum == 'Card'">
+        <el-col class="ls_link_item" v-for="link in links" :key="link.id" :span="4">
+          <div class="remove">
+            <i @click="removeLink(link.id)" class="iconfont icon-close-circle"></i>
+          </div>
+          <el-tooltip class="ls_link_item_content" effect="dark" :content="link.title" placement="top">
+            <transition name="el-zoom-in-center">
+              <div @click="redirect(link)" class="transition-box">
+                <div v-if="link.icon != null" class="icon">
+                  <img :src="link.icon">
+                </div>
+                <div style="padding-top:10px;"><span class="label ls_in_line">{{link.name}}</span></div>
+                <!-- <div><span class="title ls_in_line">{{link.title.substr(0,10)}}</span></div> -->
               </div>
-              <div style="padding-top:10px;"><span class="label ls_in_line">{{link.name}}</span></div>
-              <!-- <div><span class="title ls_in_line">{{link.title.substr(0,10)}}</span></div> -->
-            </div>
-          </transition>
-        </el-tooltip>
-      </el-col>
+            </transition>
+          </el-tooltip>
+        </el-col>
+      </div>
+      <div v-if="theme.listTypeEnum == 'List'">
+        <el-col v-if="theme.listTypeEnum == 'List'" :span="24">
+          <el-table
+            :data="links"
+            @cell-click="(row,column) => {if(column.property =='title') redirect(row);}"
+            class="ls_center"
+            style="width: 90%">
+            <el-table-column
+              prop="title">
+            </el-table-column>
+             <el-table-column 
+              width="50px">
+                <template slot-scope="scope">
+                   <i @click="removeLink(scope.row.id)" class="iconfont icon-close-circle"></i>
+                </template>
+              </el-table-column>
+          </el-table>
+        </el-col>
+      </div>
+      <div v-if="links.length == 0">
+        <el-col class="ls_text_center" style="margin-top:200px;">
+            <h2>Try Ctrl+V To Create New Link</h2>
+        </el-col>
+      </div>
     </el-row>
     <el-dialog
       title="New Link"
@@ -72,9 +94,6 @@ export default {
       dialog: {
         addLinkDialogVisiable: false
       },
-      theme:{
-        listTypeEnum:'Card'
-      },
       newLink: {
         name: "",
         title: "",
@@ -85,7 +104,8 @@ export default {
   computed: {
     ...mapState({
       title: state => state.home.title,
-      links: state => state.link.allLink
+      links: state => state.link.allLink,
+      theme: state => state.setting.theme
     })
   },
   methods: {
@@ -132,14 +152,7 @@ export default {
       this.newLink.icon = "";
     },
     getTheme: function() {
-      var _this = this;
-      _this.$http.get(apis.theme.current)
-      .then((response) => {
-        if (response.data != null) {
-          _this.theme = response.data;
-        }
-        
-      });
+      this.$store.dispatch('getTheme');
     },
     removeLink: function(linkId) {
       this.$store.dispatch('removeLink', linkId)

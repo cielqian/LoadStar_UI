@@ -15,6 +15,7 @@ export default{
     },
     theme:{
         current: '/user-service/api/theme/current',
-        updateListType: '/user-service/api/theme/listType'
+        updateListType: '/user-service/api/theme/listType',
+        changeLanguage: '/user-service/api/theme/language'
     }
 }
