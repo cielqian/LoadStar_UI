@@ -22,11 +22,16 @@ export default{
         });
     },
     userInfo(cb, errorCb){
-        axios.get(apis.auth.userInfo)
-        .then((response) => {
-            cb(response);
-        }).catch((err)=>{
-            errorCb(err);
+        return new Promise((resolve, reject) => {
+            
+            axios.get(apis.auth.userInfo)
+            .then(function(response) {
+                cb(response);
+                resolve(response);
+            })
+            .catch(error => reject(error));
         });
+
+        
     }
 }
