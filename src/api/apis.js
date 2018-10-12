@@ -12,7 +12,9 @@ export default{
         create: '/link-service/api/link',
         query: '/link-service/api/link',
         delete: '/link-service/api/link',
-        visit: '/link-service/api/link/{linkId}/visit'
+        visit: '/link-service/api/link/{linkId}/visit',
+        up: '/link-service/api/link/{linkId}/up',
+        down: '/link-service/api/link/{linkId}/down',
     },
     theme:{
         current: '/user-service/api/theme/current',

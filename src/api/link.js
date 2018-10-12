@@ -38,7 +38,22 @@ export default{
     visitLink(linkId){
         axios.put(utils.replace(apis.link.visit,[{key:'{linkId}', val:linkId}]))
         .then(function(response) {
-            resolve(response);
+        });
+    },
+    up(linkId){
+        return new Promise((resolve, reject) => {
+            axios.put(utils.replace(apis.link.up,[{key:'{linkId}', val:linkId}]))
+            .then(function(response) {
+                resolve(response);
+            });
+        });
+    },
+    down(linkId){
+        return new Promise((resolve, reject) => {
+            axios.put(utils.replace(apis.link.down,[{key:'{linkId}', val:linkId}]))
+            .then(function(response) {
+                resolve(response);
+            });
         });
     }
 }

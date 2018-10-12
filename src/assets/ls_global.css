@@ -62,3 +62,11 @@ body{
 .ls_margin_top_15{
     margin-top: 15px;
 }
+
+.ls_margin_left_15{
+    margin-left: 15px;
+}
+
+.ls_pointer{
+    cursor: pointer;
+}

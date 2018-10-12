@@ -25,19 +25,29 @@
         </el-col>
       </div>
       <div v-if="theme.listTypeEnum == 'List'">
+        <el-col>
+          <div class="ls_center" style="width: 90%">
+          <el-button class="ls_pull_right" type="text" @click="edit = !edit">Edit</el-button>
+
+          </div>
+        </el-col>
         <el-col v-if="theme.listTypeEnum == 'List'" :span="24">
           <el-table
             :data="links"
             @cell-click="(row,column) => {if(column.property =='title') redirect(row);}"
             class="ls_center"
-            style="width: 90%">
+            style="width: 90%"
+            :show-header="false">
             <el-table-column
               prop="title">
             </el-table-column>
              <el-table-column 
-              width="50px">
+              width="150px"
+              v-if="edit">
                 <template slot-scope="scope">
-                   <i @click="removeLink(scope.row.id)" class="iconfont icon-close-circle"></i>
+                   <i @click="removeLink(scope.row.id)" class="ls_inline ls_pointer ls_margin_left_15 iconfont icon-close-circle"></i>
+                   <i v-show="scope.row.sortIndex != 1" @click="upLink(scope.row.id)" class="ls_inline ls_pointer ls_margin_left_15 el-icon-caret-top"></i>
+                   <i v-show="scope.row.sortIndex != links.length" @click="downLink(scope.row.id)" class="ls_inline ls_pointer ls_margin_left_15 el-icon-caret-bottom"></i>
                 </template>
               </el-table-column>
           </el-table>
@@ -98,7 +108,8 @@ export default {
         name: "",
         title: "",
         url: ""
-      }
+      },
+      edit: false
     };
   },
   computed: {
@@ -156,6 +167,18 @@ export default {
     },
     removeLink: function(linkId) {
       this.$store.dispatch('removeLink', linkId)
+    },
+    upLink: function(linkId){
+      this.$store.dispatch('upLink', linkId)
+      .then(response => {
+        this.$store.dispatch('getAllLink');
+      });
+    },
+    downLink: function(linkId){
+      this.$store.dispatch('downLink', linkId)
+      .then(response => {
+        this.$store.dispatch('getAllLink');
+      });
     }
   },
   mounted() {

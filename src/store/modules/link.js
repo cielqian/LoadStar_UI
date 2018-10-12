@@ -42,6 +42,12 @@ const actions = {
     },
     visitLink({ commit, state, dispatch }, linkId) {
         api.visitLink(linkId);
+    },
+    upLink({ commit, state, dispatch }, linkId){
+        return api.up(linkId);
+    },
+    downLink({ commit, state, dispatch }, linkId){
+        return api.down(linkId);
     }
 }
 
