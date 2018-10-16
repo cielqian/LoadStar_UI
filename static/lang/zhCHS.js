@@ -21,6 +21,7 @@ export default{
         lblAppearance: '展示',
         lblAppearanceList: '列表',
         lblAppearanceCard: '卡片',
-        lblLanguage: '语言'
+        lblLanguage: '语言',
+        lblModule: '模块'
     }
 }

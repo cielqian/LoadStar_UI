@@ -121,9 +121,9 @@ export default {
     }
   },
   mounted(){
-    if (this.$store.getters.hasLogined) {
-      this.$router.push('Home');
-    }
+    // if (this.$store.getters.hasLogined) {
+    //   this.$router.push('Home');
+    // }
   }
 };
 </script>

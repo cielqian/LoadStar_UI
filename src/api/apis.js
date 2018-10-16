@@ -15,10 +15,13 @@ export default{
         visit: '/link-service/api/link/{linkId}/visit',
         up: '/link-service/api/link/{linkId}/up',
         down: '/link-service/api/link/{linkId}/down',
+        top: '/link-service/api/link/top',
+        recent: '/link-service/api/link/recent',
     },
     theme:{
         current: '/user-service/api/theme/current',
         updateListType: '/user-service/api/theme/listType',
-        changeLanguage: '/user-service/api/theme/language'
+        changeLanguage: '/user-service/api/theme/language',
+        triggerModule: '/user-service/api/theme/modules/{moduleName}'
     }
 }

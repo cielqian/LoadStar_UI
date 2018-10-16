@@ -6,6 +6,7 @@
           type="info"
           show-icon>
       </el-alert>
+      <LSRecentLink></LSRecentLink>
       <div v-if="theme.listTypeEnum == 'Card'">
         <el-col class="ls_link_item" v-for="link in links" :key="link.id" :span="4">
           <div class="remove">
@@ -90,6 +91,7 @@
 
 <script>
 import Vue from "vue";
+import LSRecentLink from './RecentLink.vue';
 import apis from "../assets/repository/apis";
 import { mapGetters, mapState } from "vuex";
 
@@ -99,6 +101,7 @@ function isUrl(text) {
 
 export default {
   name: "LinkPanel",
+  components:{LSRecentLink},
   data() {
     return {
       dialog: {

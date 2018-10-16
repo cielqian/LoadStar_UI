@@ -24,6 +24,20 @@
             </el-col>
           </el-row>
         </el-card>
+        <el-card class="ls_margin_top_15">
+          <div slot="header" class="clearfix">
+            <span>{{$t('setting.lblModule')}}</span>
+          </div>
+          <el-row>
+            <el-col v-for="(item,index) in modules" v-bind:key="item.module" v-bind:class="{'ls_margin_top_10':index>0}">
+              <el-switch
+                v-model="item.show"
+                :active-text="item.module"
+                @change="triggerModuleShow(item)">
+              </el-switch>
+            </el-col>
+          </el-row>
+        </el-card>
       </el-col>
     </el-row>
     
@@ -32,7 +46,7 @@
 
 <script>
 import LSHeader from './Header.vue';
-import { mapGetters, mapState } from "vuex";
+import { mapGetters, mapState, mapActions } from "vuex";
 
 export default {
   name: "Setting",
@@ -57,9 +71,20 @@ export default {
         this.$store.dispatch('setLanguage', value);
         this.$i18n.locale = value;
       }
-    }
+    },
+    ...mapGetters([
+      'isShowModule'
+    ]),
+    modules:{
+      get () {
+        return this.$store.state.setting.theme.modules;
+      }
+    },
   },
   methods: {
+    triggerModuleShow(e){
+      this.$store.dispatch('triggerModule', e.module);
+    }
   },
   mounted() {
     let _this = this;

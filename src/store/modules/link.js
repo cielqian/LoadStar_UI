@@ -1,7 +1,9 @@
 import api from '../../api/link';
 
 const state = {
-    allLink: []
+    allLink: [],
+    topLink: [],
+    recentLink: []
 }
 
 // getters
@@ -13,6 +15,12 @@ const mutations = {
     setLinks(state, links) {
         state.allLink = links;
     },
+    setTopLinks(state, links){
+        state.topLink = links;
+    },
+    setRecentLinks(state, links){
+        state.recentLink = links;
+    },
     putLink(state, link) {
         state.allLink.push(link);
     }
@@ -22,6 +30,18 @@ const mutations = {
 const actions = {
     getAllLink({ commit }) {
         api.getAllLinks((response) => commit('setLinks', response.data.items))
+    },
+    getRecentLink({ commit }){
+        api.getRecentLinks()
+        .then((response) => {
+            commit('setRecentLinks', response.data)
+        })
+    },
+    getTopLink({ commit }){
+        api.getTopLinks()
+        .then((response) => {
+            commit('setTopLinks', response.data)
+        })
     },
     analysisLink({ commit }, link) {
         return api.analysisLink(link);

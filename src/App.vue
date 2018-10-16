@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" v-loading.fullscreen.lock="fullscreenLoading">
     <router-view/>
   </div>
 </template>
@@ -10,7 +10,8 @@ import { mapGetters, mapState} from 'vuex';
 export default {
   name: 'App',
   computed: mapState({
-    hasLogined: state => state.auth.loginInfo.hasLogined
+    hasLogined: state => state.auth.loginInfo.hasLogined,
+    fullscreenLoading: state => state.home.fullscreenLoading
   }),
   mounted(){
     this.$store.dispatch('checkLoginInfo');

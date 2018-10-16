@@ -11,6 +11,22 @@ export default{
             errorCb(err);
         });
     },
+    getRecentLinks(){
+        return new Promise((resolve, reject) => {
+            axios.get(apis.link.recent)
+            .then(function(response) {
+                resolve(response);
+            });
+        });
+    },
+    getTopLinks(){
+        return new Promise((resolve, reject) => {
+            axios.get(apis.link.top)
+            .then(function(response) {
+                resolve(response);
+            });
+        });
+    },
     analysisLink(link, cb, errorCb){
         return new Promise((resolve, reject) => {
             axios.post(apis.link.analysis, link)

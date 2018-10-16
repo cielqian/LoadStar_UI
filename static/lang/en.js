@@ -21,6 +21,7 @@ export default{
         lblAppearance: 'Appearance',
         lblAppearanceList: 'List',
         lblAppearanceCard: 'Card',
-        lblLanguage: 'Language'
+        lblLanguage: 'Language',
+        lblModule: 'Modules'
     }
 }

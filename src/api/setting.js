@@ -1,5 +1,6 @@
 import axios from 'axios';
 import apis from './apis';
+import utils from '../utils/commonUtils';
 
 export default{
     getTheme(){
@@ -21,6 +22,14 @@ export default{
     changeLanguage(language){
         return new Promise((resolve, reject) => {
             axios.post(apis.theme.changeLanguage, {language:language})
+            .then(function(response) {
+                resolve(response);
+            });
+        });
+    },
+    triggerModule(module){
+        return new Promise((resolve, reject) => {
+            axios.post(utils.replace(apis.theme.triggerModule, [{key:'{moduleName}', val:module}]))
             .then(function(response) {
                 resolve(response);
             });

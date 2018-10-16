@@ -1,11 +1,11 @@
 import api from '../../api/setting';
-import Vue from 'vue'
 import commonUtils from '../../utils/commonUtils';
 
 const state = {
     theme: {
         listTypeEnum:'Card',
-        language: 'en'
+        language: 'en',
+        modules: [{ module: "Recently", show: false }, { module: "Top", show: false }]
     }
 }
 
@@ -18,6 +18,15 @@ const getters = {
         }
         state.theme.language = language;
         return language;
+    },
+    isShowModule: (state) => (moduleName) => {
+        for (let index = 0; index < state.theme.modules.length; index++) {
+            const cur = state.theme.modules[index];
+            if (cur.module === moduleName) {
+                return cur.show;
+            }
+        }
+        return false;
     }
 }
 
@@ -32,6 +41,14 @@ const mutations = {
     setLanguage(state, language){
         state.theme.language = language;
         localStorage.setItem("LS_LANGUAGE", language);
+    },
+    triggerModule(state, module){
+        for (let index = 0; index < state.theme.modules.length; index++) {
+            const cur = state.theme.modules[index];
+            if (cur.module === module) {
+                cur.show = !cur.show;
+            }
+        }
     }
 }
 
@@ -42,7 +59,8 @@ const actions = {
         {
             commit('setTheme',{
                 listTypeEnum:response.data.listTypeEnum,
-                language:response.data.language
+                language:response.data.language,
+                modules: JSON.parse(response.data.modules)
             });
             commit('setLanguage',response.data.language);
         })
@@ -54,6 +72,10 @@ const actions = {
     setLanguage({ commit }, language){
         commit('setLanguage', language);
         api.changeLanguage(language);
+    },
+    triggerModule({ commit }, module){
+        // commit('triggerModule', module);
+        api.triggerModule(module);
     }
 }
 

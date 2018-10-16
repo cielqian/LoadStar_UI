@@ -37,6 +37,9 @@ axios.interceptors.response.use(
       var res = response.data;
       if(response.request.responseURL.indexOf(apis.auth.signIn) >= 0){
       }else{
+        if (res.status == 401) {
+          router.push('Login');
+        }
         if (res.status != 200) {
           Vue.prototype.$message.error(res.message);
           return Promise.reject(res.message);

@@ -1,5 +1,6 @@
 const state = {
-    title:'Welcome To Your Online Bookmark App'
+    title:'Welcome To Your Online Bookmark App',
+    fullscreenLoading: false
 }
 
 // getters
