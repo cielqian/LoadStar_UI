@@ -15,6 +15,7 @@ export default{
     menu:{
         lblSetting: '设置',
         lblHome: '首页',
+        lblHistory: '历史',
         lblSignOut: '退出'
     },
     setting:{

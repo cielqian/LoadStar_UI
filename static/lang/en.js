@@ -15,6 +15,7 @@ export default{
     menu:{
         lblSetting: 'Setting',
         lblHome: 'Home',
+        lblHistory: 'History',
         lblSignOut: 'Sign out'
     },
     setting:{

@@ -8,6 +8,7 @@
               </div>
               <div class="ls_text_right ls_inline ls_pull_right">
               <router-link class="ls_fg_blue" to="/Home">{{$t('menu.lblHome')}}</router-link>
+              <router-link class="ls_fg_blue ls_margin_left_15" to="/Home">{{$t('menu.lblHistory')}}</router-link>
               <el-dropdown @command="handleCommand">
                   <span class="ls_pointer el-dropdown-link">
                   {{loginInfo.nickname}}<i class="el-icon-arrow-down el-icon--right"></i>
