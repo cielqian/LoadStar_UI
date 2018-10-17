@@ -29,7 +29,14 @@ const mutations = {
 // actions
 const actions = {
     getAllLink({ commit }) {
-        api.getAllLinks((response) => commit('setLinks', response.data.items))
+        return new Promise((resolve, reject) => {
+            api.getAllLinks()
+                .then((response) => {
+                    commit('setLinks', response.data.items);
+                    resolve();
+                })
+                .catch((response) => reject());
+        });
     },
     getRecentLink({ commit }){
         api.getRecentLinks()
@@ -53,11 +60,11 @@ const actions = {
         });
     },
     removeLink({ commit, state, dispatch }, linkId) {
-        api.removeLink(linkId).then(response => {
-            dispatch('getAllLink');
-            // commit('setLinks', remove(state.allLink, function(n) {
-            //     return n.id == linkId;
-            // }));
+        return new Promise((resolve, reject) => {
+            api.removeLink(linkId).then(response => {
+                dispatch('getAllLink');
+                resolve();
+            });
         });
     },
     visitLink({ commit, state, dispatch }, linkId) {

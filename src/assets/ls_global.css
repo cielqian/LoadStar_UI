@@ -71,6 +71,10 @@ body{
     color: #3a8ee6;
 }
 
+.ls_fg_white{
+    color: #FFF;
+}
+
 .ls_margin_top_10{
     margin-top: 10px;
 }
@@ -89,4 +93,11 @@ body{
 
 .ls_pointer{
     cursor: pointer;
+}
+
+.ls_btn_text{
+    cursor: pointer;
+    color: #3a8ee6;
+    font-size: 14px;
+    font-weight: normal;
 }

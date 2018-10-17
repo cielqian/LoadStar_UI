@@ -3,12 +3,12 @@ import apis from './apis';
 import utils from '../utils/commonUtils'
 
 export default{
-    getAllLinks(cb, errorCb){
-        axios.get(apis.link.query)
-        .then((response) => {
-            cb(response);
-        }).catch((err)=>{
-            errorCb(err);
+    getAllLinks(){
+        return new Promise((resolve, reject) => {
+            axios.get(apis.link.query)
+            .then((response) => {
+                resolve(response);
+            });
         });
     },
     getRecentLinks(){

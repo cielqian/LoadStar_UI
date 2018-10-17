@@ -10,17 +10,20 @@
       @on-click="redirect"
       @on-remove="removeLink"
       @on-up="upLink"
-      @on-down="downLink"></LSRecentLink>
+      @on-down="downLink">
+      </LSRecentLink>
       <LSTopLink v-if="showModule('Top')" 
       @on-click="redirect"
       @on-remove="removeLink"
       @on-up="upLink"
-      @on-down="downLink"></LSTopLink>
-      <LinkCardItem :links="links" title="All"
+      @on-down="downLink">
+      </LSTopLink>
+      <LinkCardItem v-loading="loading.allLinkLoading" :links="links" title="All" :listType="theme.listTypeEnum"
       @on-click="redirect"
       @on-remove="removeLink"
       @on-up="upLink"
-      @on-down="downLink"></LinkCardItem>
+      @on-down="downLink">
+      </LinkCardItem>
       <div v-if="links.length == 0">
         <el-col class="ls_text_center" style="margin-top:200px;">
             <h2>Try Ctrl+V To Create New Link</h2>
@@ -75,6 +78,9 @@ export default {
     return {
       dialog: {
         addLinkDialogVisiable: false
+      },
+      loading:{
+        allLinkLoading: false
       },
       newLink: {
         name: "",
@@ -139,19 +145,25 @@ export default {
       this.$store.dispatch('getTheme');
     },
     removeLink: function(link) {
-      this.$store.dispatch('removeLink', link.id)
+      let _this = this;
+      this.loading.allLinkLoading = true;
+      this.$store.dispatch('removeLink', link.id).finally(x => _this.loading.allLinkLoading = false);
     },
     upLink: function(link){
+      let _this = this;
+      this.loading.allLinkLoading = true;
       this.$store.dispatch('upLink', link.id)
       .then(response => {
         this.$store.dispatch('getAllLink');
-      });
+      }).finally(e =>  _this.loading.allLinkLoading = false);;
     },
     downLink: function(link){
+      let _this = this;
+      this.loading.allLinkLoading = true;
       this.$store.dispatch('downLink', link.id)
       .then(response => {
         this.$store.dispatch('getAllLink');
-      });
+      }).finally(e =>  _this.loading.allLinkLoading = false);
     },
     showModule: function(moduleName){
       return this.$store.getters.isShowModule(moduleName);
@@ -159,7 +171,8 @@ export default {
   },
   mounted() {
     let _this = this;
-    _this.$store.dispatch('getAllLink');
+    _this.loading.allLinkLoading = true;
+    _this.$store.dispatch('getAllLink').then(x => _this.loading.allLinkLoading = false);
 
     document.addEventListener("paste", function(event) {
       var clipText = event.clipboardData.getData("Text");

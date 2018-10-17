@@ -1,21 +1,22 @@
 <template>
     <div class="ls_link_list ls_padding_15_1 ls_overflow">
       <el-col class="title">
-        {{title}}
+        <span class="ls_inline">{{title}}</span>
+        <i class="el-icon-edit-outline ls_pull_right ls_pointer" @click="edit = !edit"></i>
       </el-col>
       <div v-if="listType == 'List'">
-        <el-col>
-          <div class="ls_center" style="width: 90%">
-          <el-button class="ls_pull_right" type="text" @click="edit = !edit">Edit</el-button>
-          </div>
-        </el-col>
         <el-col :span="24">
           <el-table
             :data="links"
             @cell-click="(row,column) => {if(column.property =='title') onClick(row);}"
             class="ls_center"
-            style="width: 90%"
             :show-header="false">
+            <el-table-column 
+              width="50px">
+                <template slot-scope="scope">
+                    <img style="height:20px;width:20px;" :src="scope.row.icon">
+                </template>
+              </el-table-column>
             <el-table-column
               prop="title">
             </el-table-column>
@@ -23,7 +24,7 @@
               width="150px"
               v-if="edit">
                 <template slot-scope="scope">
-                   <i @click="onRemove(scope.row.id)" class="ls_inline ls_pointer ls_margin_left_15 iconfont icon-close-circle"></i>
+                   <i @click="onRemove(scope.row)" class="ls_inline ls_pointer ls_margin_left_15 iconfont icon-close-circle"></i>
                    <i v-show="scope.row.sortIndex != 1" @click="onUp(scope.row)" class="ls_inline ls_pointer ls_margin_left_15 el-icon-caret-top"></i>
                    <i v-show="scope.row.sortIndex != links.length" @click="onDown(scope.row)" class="ls_inline ls_pointer ls_margin_left_15 el-icon-caret-bottom"></i>
                 </template>
@@ -32,11 +33,23 @@
         </el-col>
       </div>
       <div v-else>
-        <el-col class="ls_link_item" v-for="link in links" :key="link.id" :span="4">
-          <div class="remove">
-            <i @click="onRemove(link)" class="iconfont icon-close-circle"></i>
+        <el-col class="ls_link_item ls_link_item_card" v-for="link in links" :key="link.id" :span="4">
+          <div v-show="edit" class="operate ls_fg_white">
+            <el-col class="operate_btn">
+              <i class="el-icon-delete" @click="onRemove(link)"></i>
+            </el-col>
+            <el-col class="operate_btn">
+              <i class="el-icon-view" ></i>
+            </el-col>
+            <el-col class="operate_btn">
+              <i class="el-icon-caret-top" @click="onUp(link)"></i>
+            </el-col>
+            <el-col class="operate_btn">
+              <i class="el-icon-caret-bottom" @click="onDown(link)"></i>
+            </el-col>
+            
           </div>
-          <el-tooltip class="ls_link_item_content" effect="dark" :content="link.title" placement="top">
+          <el-tooltip class="ls_link_item_content" effect="dark" :open-delay="1000" :content="link.title" placement="top">
             <transition name="el-zoom-in-center">
               <div @click="onClick(link)" class="transition-box">
                 <div v-if="link.icon != null" class="icon">
@@ -54,9 +67,10 @@
 <script>
 export default {
   name: "LinkItems",
-  props: ['links', 'title', 'listType'],
+  props: ['links', 'title', 'listType', 'loading'],
   data() {
     return {
+      edit: false,
     };
   },
   methods:{
@@ -94,6 +108,33 @@ export default {
     padding: 20px 15px;
     position: relative;
   }
+
+  .ls_link_item_card{
+    .operate{
+      position: absolute;
+      top: 0px;
+      width: 50%;
+      right: 0px;
+      height: 100%;
+      background-color: #000;
+      opacity:0.6;
+      filter:alpha(opacity=60);
+
+      .operate_btn:first-child{
+        margin-top: 5px;
+      }
+
+      .operate_btn{
+        padding: 5px;
+        min-height: 20px;
+      }
+
+      .operate_btn:hover{
+        background-color: #FFF;
+        color: #000;
+      }
+    }
+  }
 }
 
 .ls_link_item_content {
@@ -121,7 +162,7 @@ export default {
 
 .ls_link_item .label {
   color: #555;
-  font-size: 18px;
+  font-size: 14px;
 }
 
 .ls_link_item .title {
