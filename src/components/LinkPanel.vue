@@ -6,54 +6,21 @@
           type="info"
           show-icon>
       </el-alert>
-      <LSRecentLink></LSRecentLink>
-      <div v-if="theme.listTypeEnum == 'Card'">
-        <el-col class="ls_link_item" v-for="link in links" :key="link.id" :span="4">
-          <div class="remove">
-            <i @click="removeLink(link.id)" class="iconfont icon-close-circle"></i>
-          </div>
-          <el-tooltip class="ls_link_item_content" effect="dark" :content="link.title" placement="top">
-            <transition name="el-zoom-in-center">
-              <div @click="redirect(link)" class="transition-box">
-                <div v-if="link.icon != null" class="icon">
-                  <img :src="link.icon">
-                </div>
-                <div style="padding-top:10px;"><span class="label ls_in_line">{{link.name}}</span></div>
-                <!-- <div><span class="title ls_in_line">{{link.title.substr(0,10)}}</span></div> -->
-              </div>
-            </transition>
-          </el-tooltip>
-        </el-col>
-      </div>
-      <div v-if="theme.listTypeEnum == 'List'">
-        <el-col>
-          <div class="ls_center" style="width: 90%">
-          <el-button class="ls_pull_right" type="text" @click="edit = !edit">Edit</el-button>
-
-          </div>
-        </el-col>
-        <el-col v-if="theme.listTypeEnum == 'List'" :span="24">
-          <el-table
-            :data="links"
-            @cell-click="(row,column) => {if(column.property =='title') redirect(row);}"
-            class="ls_center"
-            style="width: 90%"
-            :show-header="false">
-            <el-table-column
-              prop="title">
-            </el-table-column>
-             <el-table-column 
-              width="150px"
-              v-if="edit">
-                <template slot-scope="scope">
-                   <i @click="removeLink(scope.row.id)" class="ls_inline ls_pointer ls_margin_left_15 iconfont icon-close-circle"></i>
-                   <i v-show="scope.row.sortIndex != 1" @click="upLink(scope.row.id)" class="ls_inline ls_pointer ls_margin_left_15 el-icon-caret-top"></i>
-                   <i v-show="scope.row.sortIndex != links.length" @click="downLink(scope.row.id)" class="ls_inline ls_pointer ls_margin_left_15 el-icon-caret-bottom"></i>
-                </template>
-              </el-table-column>
-          </el-table>
-        </el-col>
-      </div>
+      <LSRecentLink v-if="showModule('Recently')" 
+      @on-click="redirect"
+      @on-remove="removeLink"
+      @on-up="upLink"
+      @on-down="downLink"></LSRecentLink>
+      <LSTopLink v-if="showModule('Top')" 
+      @on-click="redirect"
+      @on-remove="removeLink"
+      @on-up="upLink"
+      @on-down="downLink"></LSTopLink>
+      <LinkCardItem :links="links" title="All"
+      @on-click="redirect"
+      @on-remove="removeLink"
+      @on-up="upLink"
+      @on-down="downLink"></LinkCardItem>
       <div v-if="links.length == 0">
         <el-col class="ls_text_center" style="margin-top:200px;">
             <h2>Try Ctrl+V To Create New Link</h2>
@@ -92,6 +59,8 @@
 <script>
 import Vue from "vue";
 import LSRecentLink from './RecentLink.vue';
+import LSTopLink from './TopLink.vue';
+import LinkCardItem from './LinkItems.vue';
 import apis from "../assets/repository/apis";
 import { mapGetters, mapState } from "vuex";
 
@@ -101,7 +70,7 @@ function isUrl(text) {
 
 export default {
   name: "LinkPanel",
-  components:{LSRecentLink},
+  components:{LSRecentLink, LSTopLink, LinkCardItem},
   data() {
     return {
       dialog: {
@@ -112,7 +81,8 @@ export default {
         title: "",
         url: ""
       },
-      edit: false
+      edit: false,
+      recentLinks: []
     };
   },
   computed: {
@@ -168,20 +138,23 @@ export default {
     getTheme: function() {
       this.$store.dispatch('getTheme');
     },
-    removeLink: function(linkId) {
-      this.$store.dispatch('removeLink', linkId)
+    removeLink: function(link) {
+      this.$store.dispatch('removeLink', link.id)
     },
-    upLink: function(linkId){
-      this.$store.dispatch('upLink', linkId)
+    upLink: function(link){
+      this.$store.dispatch('upLink', link.id)
       .then(response => {
         this.$store.dispatch('getAllLink');
       });
     },
-    downLink: function(linkId){
-      this.$store.dispatch('downLink', linkId)
+    downLink: function(link){
+      this.$store.dispatch('downLink', link.id)
       .then(response => {
         this.$store.dispatch('getAllLink');
       });
+    },
+    showModule: function(moduleName){
+      return this.$store.getters.isShowModule(moduleName);
     }
   },
   mounted() {
@@ -207,51 +180,6 @@ export default {
 
 .ls_text_center {
   text-align: center;
-}
-
-.ls_link_item {
-  text-align: center;
-  min-height: 80px;
-  cursor: pointer;
-  border: 1px solid #c5c5c5;
-  margin-top: 20px;
-  margin-left: 15px;
-  padding: 20px 15px;
-  position: relative;
-}
-
-.ls_link_item_content {
-  min-height: 80px;
-}
-
-.ls_link_item .remove {
-  height: 20px;
-  width: 20px;
-  position: absolute;
-  top: -15px;
-  right: -8px;
-  font-size: 24px;
-  color: #c5c5c5;
-}
-
-.ls_link_item .remove i {
-  font-size: 24px;
-}
-
-.ls_link_item .icon img {
-  height: 25px;
-  width: 25px;
-}
-
-.ls_link_item .label {
-  color: #555;
-  font-size: 18px;
-}
-
-.ls_link_item .title {
-  color: #999;
-  font-size: 16px;
-  margin-top: 5px;
 }
 
 .ls_in_line {

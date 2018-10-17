@@ -1,0 +1,134 @@
+<template>
+    <div class="ls_link_list ls_padding_15_1 ls_overflow">
+      <el-col class="title">
+        {{title}}
+      </el-col>
+      <div v-if="listType == 'List'">
+        <el-col>
+          <div class="ls_center" style="width: 90%">
+          <el-button class="ls_pull_right" type="text" @click="edit = !edit">Edit</el-button>
+          </div>
+        </el-col>
+        <el-col :span="24">
+          <el-table
+            :data="links"
+            @cell-click="(row,column) => {if(column.property =='title') onClick(row);}"
+            class="ls_center"
+            style="width: 90%"
+            :show-header="false">
+            <el-table-column
+              prop="title">
+            </el-table-column>
+             <el-table-column 
+              width="150px"
+              v-if="edit">
+                <template slot-scope="scope">
+                   <i @click="onRemove(scope.row.id)" class="ls_inline ls_pointer ls_margin_left_15 iconfont icon-close-circle"></i>
+                   <i v-show="scope.row.sortIndex != 1" @click="onUp(scope.row)" class="ls_inline ls_pointer ls_margin_left_15 el-icon-caret-top"></i>
+                   <i v-show="scope.row.sortIndex != links.length" @click="onDown(scope.row)" class="ls_inline ls_pointer ls_margin_left_15 el-icon-caret-bottom"></i>
+                </template>
+              </el-table-column>
+          </el-table>
+        </el-col>
+      </div>
+      <div v-else>
+        <el-col class="ls_link_item" v-for="link in links" :key="link.id" :span="4">
+          <div class="remove">
+            <i @click="onRemove(link)" class="iconfont icon-close-circle"></i>
+          </div>
+          <el-tooltip class="ls_link_item_content" effect="dark" :content="link.title" placement="top">
+            <transition name="el-zoom-in-center">
+              <div @click="onClick(link)" class="transition-box">
+                <div v-if="link.icon != null" class="icon">
+                  <img :src="link.icon">
+                </div>
+                <div style="padding-top:10px;"><span class="label ls_in_line">{{link.name}}</span></div>
+              </div>
+            </transition>
+          </el-tooltip>
+        </el-col>
+        <!-- <div style="clear:both"></div>  -->
+      </div>
+    </div>
+</template>
+<script>
+export default {
+  name: "LinkItems",
+  props: ['links', 'title', 'listType'],
+  data() {
+    return {
+    };
+  },
+  methods:{
+    onClick: function (row) {
+      this.$emit('on-click', row);
+    },
+    onRemove: function (row){
+      this.$emit('on-remove', row);
+    },
+    onUp: function (row) {
+      this.$emit('on-up', row);      
+    },
+    onDown: function (row) {
+      this.$emit('on-down', row);      
+    }
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+
+.ls_link_list{
+  .title{
+    font-weight: bold;
+    color: #929292
+  }
+
+  .ls_link_item{
+    text-align: center;
+    min-height: 80px;
+    cursor: pointer;
+    border: 1px solid #c5c5c5;
+    margin-top: 20px;
+    margin-right: 15px;
+    padding: 20px 15px;
+    position: relative;
+  }
+}
+
+.ls_link_item_content {
+  min-height: 80px;
+}
+
+.ls_link_item .remove {
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  top: -15px;
+  right: -8px;
+  font-size: 24px;
+  color: #c5c5c5;
+}
+
+.ls_link_item .remove i {
+  font-size: 24px;
+}
+
+.ls_link_item .icon img {
+  height: 25px;
+  width: 25px;
+}
+
+.ls_link_item .label {
+  color: #555;
+  font-size: 18px;
+}
+
+.ls_link_item .title {
+  color: #999;
+  font-size: 16px;
+  margin-top: 5px;
+}
+</style>
+
+

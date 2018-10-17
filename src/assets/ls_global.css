@@ -1,5 +1,5 @@
-.ls_container {
-    padding: 15px 50px;
+html{
+    font-size: 16px;
 }
 
 a{
@@ -8,6 +8,10 @@ a{
 
 body{
     margin:0px;
+}
+
+.ls_container {
+    padding: 15px 50px;
 }
 
 .ls_pull_left{
@@ -40,6 +44,14 @@ body{
     vertical-align: middle;
 }
 
+.ls_clear{
+    clear: both;
+}
+
+.ls_overflow{
+    overflow: hidden;
+}
+
 .ls_logo_sm{
     height: 25px;
     width: 25px;
@@ -69,6 +81,10 @@ body{
 
 .ls_margin_left_15{
     margin-left: 15px;
+}
+
+.ls_padding_15_1{
+    padding: 15px 0px;
 }
 
 .ls_pointer{

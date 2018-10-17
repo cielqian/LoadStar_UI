@@ -1,6 +1,6 @@
 <template>
     <div>
-        <LinkCardItem :links="links" title="Recent"
+        <LinkCardItem :links="links" title="Top"
         @on-click="onClick"
         @on-remove="onRemove"
         @on-up="onUp"
@@ -12,14 +12,14 @@
 import LinkCardItem from './LinkItems.vue';
 import { mapGetters, mapState } from "vuex";
 export default {
-    name: "RecentLink",
+    name: "TopLink",
     data() {
         return {
         }
     },
     computed: {
         ...mapState({
-            links: state => state.link.recentLink,
+            links: state => state.link.topLink,
         })
     },
     components:{LinkCardItem},
@@ -38,7 +38,7 @@ export default {
         }
     },
     mounted(){
-        this.$store.dispatch('getRecentLink');
+        this.$store.dispatch('getTopLink');
     }
 }
 </script>
