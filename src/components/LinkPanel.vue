@@ -1,10 +1,10 @@
 <template>
   <div class="ls_container">
     <el-row>
-      <el-col :span="4">
+      <!-- <el-col :span="4">
         <Folder></Folder>
-      </el-col>
-      <el-col :span="20">
+      </el-col> -->
+      <el-col :span="24">
         <el-alert
             :title="$t('global.pasteTitle')"
             type="info"
