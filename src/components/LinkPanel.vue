@@ -1,34 +1,40 @@
 <template>
   <div class="ls_container">
     <el-row>
-      <el-alert
-          :title="$t('global.pasteTitle')"
-          type="info"
-          show-icon>
-      </el-alert>
-      <LSRecentLink v-if="showModule('Recently')" 
-      @on-click="redirect"
-      @on-remove="removeLink"
-      @on-up="upLink"
-      @on-down="downLink">
-      </LSRecentLink>
-      <LSTopLink v-if="showModule('Top')" 
-      @on-click="redirect"
-      @on-remove="removeLink"
-      @on-up="upLink"
-      @on-down="downLink">
-      </LSTopLink>
-      <LinkCardItem v-loading="loading.allLinkLoading" :links="links" title="All" :listType="theme.listTypeEnum"
-      @on-click="redirect"
-      @on-remove="removeLink"
-      @on-up="upLink"
-      @on-down="downLink">
-      </LinkCardItem>
-      <div v-if="links.length == 0">
-        <el-col class="ls_text_center" style="margin-top:200px;">
-            <h2>Try Ctrl+V To Create New Link</h2>
-        </el-col>
-      </div>
+      <el-col :span="4">
+        <Folder></Folder>
+      </el-col>
+      <el-col :span="20">
+        <el-alert
+            :title="$t('global.pasteTitle')"
+            type="info"
+            show-icon>
+        </el-alert>
+        
+        <LSRecentLink v-if="showModule('Recently')" 
+        @on-click="redirect"
+        @on-remove="removeLink"
+        @on-up="upLink"
+        @on-down="downLink">
+        </LSRecentLink>
+        <LSTopLink v-if="showModule('Top')" 
+        @on-click="redirect"
+        @on-remove="removeLink"
+        @on-up="upLink"
+        @on-down="downLink">
+        </LSTopLink>
+        <LinkCardItem v-loading="loading.allLinkLoading" :links="links" title="All" :listType="theme.listTypeEnum"
+        @on-click="redirect"
+        @on-remove="removeLink"
+        @on-up="upLink"
+        @on-down="downLink">
+        </LinkCardItem>
+        <div v-if="links.length == 0">
+          <el-col class="ls_text_center" style="margin-top:200px;">
+              <h2>Try Ctrl+V To Create New Link</h2>
+          </el-col>
+        </div>
+      </el-col>
     </el-row>
     <el-dialog
       title="New Link"
@@ -61,9 +67,10 @@
 
 <script>
 import Vue from "vue";
-import LSRecentLink from './RecentLink.vue';
-import LSTopLink from './TopLink.vue';
-import LinkCardItem from './LinkItems.vue';
+import LSRecentLink from "./RecentLink.vue";
+import LSTopLink from "./TopLink.vue";
+import LinkCardItem from "./LinkItems.vue";
+import Folder from "./Folder.vue";
 import apis from "../assets/repository/apis";
 import { mapGetters, mapState } from "vuex";
 
@@ -73,13 +80,13 @@ function isUrl(text) {
 
 export default {
   name: "LinkPanel",
-  components:{LSRecentLink, LSTopLink, LinkCardItem},
+  components: { LSRecentLink, LSTopLink, LinkCardItem, Folder },
   data() {
     return {
       dialog: {
         addLinkDialogVisiable: false
       },
-      loading:{
+      loading: {
         allLinkLoading: false
       },
       newLink: {
@@ -100,7 +107,7 @@ export default {
   },
   methods: {
     redirect: function(link) {
-      this.$store.dispatch('visitLink', link.id);
+      this.$store.dispatch("visitLink", link.id);
       window.open(link.url);
     },
     openAddLinkDialog: function() {
@@ -118,7 +125,7 @@ export default {
         url: this.newLink.url
       };
 
-      _this.$store.dispatch('analysisLink', d).then((response) => {
+      _this.$store.dispatch("analysisLink", d).then(response => {
         _this.newLink.name = response.data.name;
         _this.newLink.title = response.data.title;
         _this.newLink.icon = response.data.icon;
@@ -132,47 +139,56 @@ export default {
         title: this.newLink.title,
         url: this.newLink.url,
         icon: this.newLink.icon
-      }
+      };
 
-      this.$store.dispatch('createLink', d)
-      
+      this.$store.dispatch("createLink", d);
+
       this.newLink.name = "";
       this.newLink.title = "";
       this.newLink.url = "";
       this.newLink.icon = "";
     },
     getTheme: function() {
-      this.$store.dispatch('getTheme');
+      this.$store.dispatch("getTheme");
     },
     removeLink: function(link) {
       let _this = this;
       this.loading.allLinkLoading = true;
-      this.$store.dispatch('removeLink', link.id).finally(x => _this.loading.allLinkLoading = false);
+      this.$store
+        .dispatch("removeLink", link.id)
+        .finally(x => (_this.loading.allLinkLoading = false));
     },
-    upLink: function(link){
+    upLink: function(link) {
       let _this = this;
       this.loading.allLinkLoading = true;
-      this.$store.dispatch('upLink', link.id)
-      .then(response => {
-        this.$store.dispatch('getAllLink');
-      }).finally(e =>  _this.loading.allLinkLoading = false);;
+      this.$store
+        .dispatch("upLink", link.id)
+        .then(response => {
+          this.$store.dispatch("getAllLink");
+        })
+        .finally(e => (_this.loading.allLinkLoading = false));
     },
-    downLink: function(link){
+    downLink: function(link) {
       let _this = this;
       this.loading.allLinkLoading = true;
-      this.$store.dispatch('downLink', link.id)
-      .then(response => {
-        this.$store.dispatch('getAllLink');
-      }).finally(e =>  _this.loading.allLinkLoading = false);
+      this.$store
+        .dispatch("downLink", link.id)
+        .then(response => {
+          this.$store.dispatch("getAllLink");
+        })
+        .finally(e => (_this.loading.allLinkLoading = false));
     },
-    showModule: function(moduleName){
+    showModule: function(moduleName) {
       return this.$store.getters.isShowModule(moduleName);
     }
   },
   mounted() {
     let _this = this;
     _this.loading.allLinkLoading = true;
-    _this.$store.dispatch('getAllLink').then(x => _this.loading.allLinkLoading = false);
+    _this.$store
+      .dispatch("getAllLink")
+      .then(x => (_this.loading.allLinkLoading = false));
+    _this.$store.dispatch("getAllFolder");
 
     document.addEventListener("paste", function(event) {
       var clipText = event.clipboardData.getData("Text");
@@ -190,7 +206,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 .ls_text_center {
   text-align: center;
 }
@@ -200,10 +215,10 @@ export default {
 }
 
 .el-dropdown-link {
-    cursor: pointer;
-    color: #409EFF;
-  }
-  .el-icon-arrow-down {
-    font-size: 12px;
-  }
+  cursor: pointer;
+  color: #409eff;
+}
+.el-icon-arrow-down {
+  font-size: 12px;
+}
 </style>

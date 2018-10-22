@@ -18,6 +18,9 @@ export default{
         top: '/link-service/api/link/top',
         recent: '/link-service/api/link/recent',
     },
+    folder: {
+        query: '/link-service/api/folder/current',
+    },
     theme:{
         current: '/user-service/api/theme/current',
         updateListType: '/user-service/api/theme/listType',

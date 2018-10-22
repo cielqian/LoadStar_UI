@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import home from './modules/home'
 import auth from './modules/auth'
 import link from './modules/link'
+import folder from './modules/folder'
 import setting from './modules/setting'
 
 Vue.use(Vuex)
@@ -12,6 +13,7 @@ export default new Vuex.Store({
         home,
         auth,
         link,
+        folder,
         setting
     }
 })
