@@ -11,6 +11,14 @@ export default{
             });
         });
     },
+    getAllLinksUnderFolder(folderId){
+        return new Promise((resolve, reject) => {
+            axios.get(utils.replace(apis.link.underFolder,[{key:'{folderId}', val:folderId}]))
+            .then((response) => {
+                resolve(response);
+            });
+        });
+    },
     getRecentLinks(){
         return new Promise((resolve, reject) => {
             axios.get(apis.link.recent)

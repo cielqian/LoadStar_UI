@@ -4,6 +4,8 @@ import Home from '@/components/Home'
 import Setting from '@/components/Setting'
 import Login from '@/components/Login'
 import LinkPanel from '@/components/LinkPanel'
+import Tag from '@/components/Tag'
+import Folder from '@/components/Folder'
 import store from '../store';
 
 Vue.use(Router)
@@ -18,8 +20,18 @@ const vueRouter = new Router({
       meta: {
         requireLogin: true
       },
-      children:[
+      children: [
         { path: '', component: LinkPanel },
+        {
+          path: '/Tag', component: Tag, meta: {
+            requireLogin: true
+          }
+        },
+        {
+          path: '/Folder', component: Folder, meta: {
+            requireLogin: true
+          }
+        },
         {
           path: '/Setting',
           name: 'Setting',
@@ -40,15 +52,15 @@ const vueRouter = new Router({
 
 vueRouter.beforeEach((to, from, next) => {
   if (to.meta.requireLogin) {
-      if (store.getters.hasLogined) {
-          next()
-      } else {
-          next({
-              path: '/Login'
-          })
-      }
-  } else {
+    if (store.getters.hasLogined) {
       next()
+    } else {
+      next({
+        path: '/Login'
+      })
+    }
+  } else {
+    next()
   }
 })
 

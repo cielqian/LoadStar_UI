@@ -1,9 +1,9 @@
 <template>
     <div class="ls_link_list ls_padding_15_1 ls_overflow">
-      <el-col class="title">
+      <!-- <el-col class="title">
         <span class="ls_inline">{{title}}</span>
         <i class="el-icon-edit-outline ls_pull_right ls_pointer" @click="edit = !edit"></i>
-      </el-col>
+      </el-col> -->
       <div v-if="listType == 'List'">
         <el-col :span="24">
           <el-table
@@ -33,7 +33,7 @@
         </el-col>
       </div>
       <div v-else>
-        <el-col class="ls_link_item ls_link_item_card" v-for="link in links" :key="link.id" :span="4">
+        <el-col class="ls_link_item ls_link_item_card" v-for="link in links" :key="link.id" :xs="24" :sm="11" :md="5">
           <div v-show="edit" class="operate ls_fg_white">
             <el-col class="operate_btn">
               <i class="el-icon-delete" @click="onRemove(link)"></i>
@@ -100,13 +100,13 @@ export default {
 
   .ls_link_item{
     text-align: center;
-    min-height: 80px;
+    min-height: 70px;
     cursor: pointer;
-    border: 1px solid #c5c5c5;
     margin-top: 20px;
-    margin-right: 15px;
+    margin-right: 20px;
     padding: 20px 15px;
     position: relative;
+    background-color: #FFF;
   }
 
   .ls_link_item_card{
@@ -138,7 +138,11 @@ export default {
 }
 
 .ls_link_item_content {
-  min-height: 80px;
+  min-height: 70px;
+}
+
+.ls_link_item_content:focus{
+  outline: none;
 }
 
 .ls_link_item .remove {

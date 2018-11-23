@@ -1,15 +1,23 @@
 <template>
   <div class="ls_container">
     <el-row>
-      <!-- <el-col :span="4">
-        <Folder></Folder>
-      </el-col> -->
+      <el-input clearable v-model="searchContent" 
+        @keyup.enter.native="search" 
+        @keyup.delete.native="searchContent = ''"
+        placeholder="请输入内容" class="input-with-select ls_bd_black">
+        <el-select v-model="searchType" slot="prepend" placeholder="请选择" class="ls_no_border">
+          <el-option label="百度" value="1"></el-option>
+          <el-option label="书签" value="2"></el-option>
+        </el-select>
+      </el-input>
+    </el-row>
+    <el-row>
       <el-col :span="24">
-        <el-alert
+        <!-- <el-alert
             :title="$t('global.pasteTitle')"
             type="info"
             show-icon>
-        </el-alert>
+        </el-alert> -->
         
         <LSRecentLink v-if="showModule('Recently')" 
         @on-click="redirect"
@@ -23,7 +31,7 @@
         @on-up="upLink"
         @on-down="downLink">
         </LSTopLink>
-        <LinkCardItem v-loading="loading.allLinkLoading" :links="links" title="All" :listType="theme.listTypeEnum"
+        <LinkCardItem v-loading="loading.allLinkLoading" :links="links" :listType="theme.listTypeEnum"
         @on-click="redirect"
         @on-remove="removeLink"
         @on-up="upLink"
@@ -83,6 +91,8 @@ export default {
   components: { LSRecentLink, LSTopLink, LinkCardItem, Folder },
   data() {
     return {
+      searchType:'1',
+      searchContent: '',
       dialog: {
         addLinkDialogVisiable: false
       },
@@ -110,6 +120,19 @@ export default {
       this.$store.dispatch("visitLink", link.id);
       window.open(link.url);
     },
+    search: function() {
+      if(!!this.searchContent){
+        switch (this.searchType) {
+          case '1':
+              window.open("https://www.baidu.com/s?wd=" + this.searchContent);
+            break;
+        
+          default:
+              window.open("https://www.baidu.com/s?wd=" + this.searchContent);
+            break;
+        }
+      }
+    },
     openAddLinkDialog: function() {
       this.newLink.name = "";
       this.newLink.title = "";
@@ -119,7 +142,8 @@ export default {
     onNewLinkUrlBlur: function() {
       var _this = this;
       if (!isUrl(_this.newLink.url)) {
-        _this.$message.error("不是有效的链接格式");
+        // _this.$message.error("不是有效的链接格式");
+        return;
       }
       var d = {
         url: this.newLink.url
@@ -193,7 +217,7 @@ export default {
     document.addEventListener("paste", function(event) {
       var clipText = event.clipboardData.getData("Text");
       if (!isUrl(clipText)) {
-        _this.$message.error("不是有效的链接格式");
+        // _this.$message.error("不是有效的链接格式");
       } else {
         _this.newLink.url = clipText;
         _this.openAddLinkDialog();
@@ -220,5 +244,18 @@ export default {
 }
 .el-icon-arrow-down {
   font-size: 12px;
+}
+
+.input-with-select .el-input-group__prepend {
+  background-color: #fff;
+}
+</style>
+<style>
+.el-select .el-input {
+  width: 130px;
+}
+
+.el-input__inner:focus{
+  border: 1px solid #dcdfe6;
 }
 </style>

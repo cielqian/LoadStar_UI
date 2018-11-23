@@ -5,6 +5,7 @@ import auth from './modules/auth'
 import link from './modules/link'
 import folder from './modules/folder'
 import setting from './modules/setting'
+import tag from './modules/tag'
 
 Vue.use(Vuex)
 
@@ -14,6 +15,7 @@ export default new Vuex.Store({
         auth,
         link,
         folder,
-        setting
+        setting,
+        tag
     }
 })

@@ -17,9 +17,15 @@ export default{
         down: '/link-service/api/link/{linkId}/down',
         top: '/link-service/api/link/top',
         recent: '/link-service/api/link/recent',
+        underFolder: '/link-service/api/folder/{folderId}/link',
     },
     folder: {
         query: '/link-service/api/folder/current',
+    },
+    tag:{
+        query: '/link-service/api/tag/current',
+        create: '/link-service/api/tag',
+        delete: '/link-service/api/tag/{tagId}',
     },
     theme:{
         current: '/user-service/api/theme/current',

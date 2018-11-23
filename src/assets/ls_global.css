@@ -11,7 +11,10 @@ body{
 }
 
 .ls_container {
-    padding: 15px 50px;
+}
+
+.ls_content{
+    padding: 5px;
 }
 
 .ls_pull_left{
@@ -67,12 +70,28 @@ body{
     width: 75px;
 }
 
+.ls_bd_black{
+    border: 1px solid #171717 !important; 
+}
+
+.ls_bd_black:focus{
+    border: 1px solid #171717 !important; 
+}
+
+.ls_no_border{
+    border: none !important; 
+}
+
 .ls_fg_blue{
     color: #3a8ee6;
 }
 
 .ls_fg_white{
     color: #FFF;
+}
+
+.ls_bg_white{
+    background-color: #FFF;
 }
 
 .ls_margin_top_10{
@@ -85,6 +104,10 @@ body{
 
 .ls_margin_left_15{
     margin-left: 15px;
+}
+
+.ls_padding_15{
+    padding: 15px 0px;
 }
 
 .ls_padding_15_1{
