@@ -25,8 +25,27 @@
     </el-row>
       </el-col>
       <el-col v-show="visible1" :span="18" class="ls_content ls_bg_white ls_margin_left_15" >
-
-      </el-col>
+            <el-table highlight-current-row :data="links" :show-header="false" @row-dblclick="redirect">
+               <el-table-column
+                  prop="title">
+                </el-table-column>
+                <el-table-column width="50">
+                  <template slot-scope="scope">
+                    <el-popover
+                      placement="bottom"
+                      width="50"
+                      trigger="click">
+                      <ul style="list-style: none; padding-left:20px">
+                        <li class="ls_pointer" @click="removeLink(scope.row)">删除</li>
+                        <li class="ls_pointer">编辑</li>
+                      </ul>
+                      <i slot="reference" class="el-icon-more ls_pointer"></i>
+                    </el-popover>
+                    
+                  </template>
+                </el-table-column>
+            </el-table>
+          </el-col>
     </el-row>
   </div>
 </template>
@@ -45,6 +64,9 @@ export default {
   },
   methods:{
     createTag(){
+      if (!this.newTagName) {
+        return;
+      }
       let d = {name:this.newTagName};
       this.$store.dispatch("createTag", d);
       this.newTagName = '';
@@ -58,11 +80,22 @@ export default {
         return;
       }
       _this.selectedTagId = node.id;
-      api.getAllLinksUnderFolder(node.id)
+      api.getAllLinksUnderTag(node.id)
       .then(res => {
         _this.visible1 = true;
         _this.links = res.data;
       });
+    },
+    redirect(row){
+      this.$store.dispatch("visitLink", row.id);
+      window.open(row.url);
+    },
+    renderContent(h, { node, data, store }){
+       return (
+          <span class="custom-tree-node">
+            <i class="el-icon-news"></i>
+            <span>{node.label}</span>
+          </span>);
     },
   },
   computed:{

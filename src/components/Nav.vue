@@ -23,7 +23,7 @@
                     <span class="nav_menu">最近</span>
                 </template>
             </el-menu-item>
-            <el-menu-item index="5">
+            <el-menu-item index="5" @click="goTo('/Setting')">
                 <template slot="title">
                     <span class="nav_menu">设置</span>
                 </template>

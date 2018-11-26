@@ -19,6 +19,14 @@ export default{
             });
         });
     },
+    getAllLinksUnderTag(tagId){
+        return new Promise((resolve, reject) => {
+            axios.get(utils.replace(apis.link.underTag,[{key:'{tagId}', val:tagId}]))
+            .then((response) => {
+                resolve(response);
+            });
+        });
+    },
     getRecentLinks(){
         return new Promise((resolve, reject) => {
             axios.get(apis.link.recent)

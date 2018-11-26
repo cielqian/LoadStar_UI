@@ -38,6 +38,11 @@
             </el-col>
           </el-row>
         </el-card>
+        <el-row class="ls_margin_top_15">
+            <el-col class="ls_text_center">
+              <el-button style="width:300px" type="danger" @click="signOutAccount">{{$t('menu.lblSignOut ')}}</el-button>
+            </el-col>
+          </el-row>
       </el-col>
     </el-row>
     
@@ -84,6 +89,9 @@ export default {
   methods: {
     triggerModuleShow(e){
       this.$store.dispatch('triggerModule', e.module);
+    },
+    signOutAccount: function() {
+      this.$store.dispatch('signOut');
     }
   },
   mounted() {

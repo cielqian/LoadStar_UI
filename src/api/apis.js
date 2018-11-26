@@ -18,6 +18,7 @@ export default{
         top: '/link-service/api/link/top',
         recent: '/link-service/api/link/recent',
         underFolder: '/link-service/api/folder/{folderId}/link',
+        underTag: '/link-service/api/tag/{tagId}/link',
     },
     folder: {
         query: '/link-service/api/folder/current',
