@@ -61,6 +61,17 @@
             <el-form-item label="Title">
               <el-input v-model="newLink.title"></el-input>
             </el-form-item>
+            <el-form-item label="Tag">
+              <el-select
+                multiple
+                filterable
+                remote
+                reserve-keyword
+                placeholder="请输入关键词"
+                :remote-method="queryTag">
+                
+              </el-select>
+            </el-form-item>
           </el-form>
           </el-col>
       </el-row>
@@ -80,6 +91,7 @@ import LSTopLink from "./TopLink.vue";
 import LinkCardItem from "./LinkItems.vue";
 import Folder from "./Folder.vue";
 import apis from "../assets/repository/apis";
+import tagApi from "../api/tag";
 import { mapGetters, mapState } from "vuex";
 
 function isUrl(text) {
@@ -204,6 +216,9 @@ export default {
     },
     showModule: function(moduleName) {
       return this.$store.getters.isShowModule(moduleName);
+    },
+    queryTag: function (keyword) {
+      tagApi.queryTag(keyword);
     }
   },
   mounted() {

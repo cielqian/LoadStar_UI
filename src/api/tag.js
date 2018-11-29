@@ -26,5 +26,13 @@ export default{
                 resolve(response);
             });
         });
+    },
+    queryTag(keyword){
+        return new Promise((resolve, reject) => {
+            axios.get(apis.tag.queryByKeyword, {params: {keyword: keyword}})
+            .then(function(response) {
+                resolve(response);
+            });
+        });
     }
 }

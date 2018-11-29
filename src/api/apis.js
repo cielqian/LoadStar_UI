@@ -25,6 +25,7 @@ export default{
     },
     tag:{
         query: '/link-service/api/tag/current',
+        queryByKeyword: '/link-service/api/tag',
         create: '/link-service/api/tag',
         delete: '/link-service/api/tag/{tagId}',
     },
