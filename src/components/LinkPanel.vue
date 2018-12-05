@@ -1,6 +1,6 @@
 <template>
   <div class="ls_container">
-    <el-row>
+    <el-row class="searcher">
       <el-input clearable v-model="searchContent" 
         @keyup.enter.native="search" 
         @keyup.delete.native="searchContent = ''"
@@ -63,13 +63,20 @@
             </el-form-item>
             <el-form-item label="Tag">
               <el-select
+                style="width:100%"
+                v-model="newLink.tags"
                 multiple
                 filterable
                 remote
-                reserve-keyword
                 placeholder="请输入关键词"
-                :remote-method="queryTag">
-                
+                :remote-method="queryTag"
+                :loading="loading.tagSearch">
+                <el-option
+                  v-for="item in options4"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id">
+                </el-option>
               </el-select>
             </el-form-item>
           </el-form>
@@ -105,16 +112,19 @@ export default {
     return {
       searchType:'1',
       searchContent: '',
+      options4: [],
       dialog: {
         addLinkDialogVisiable: false
       },
       loading: {
-        allLinkLoading: false
+        allLinkLoading: false,
+        tagSearch: false
       },
       newLink: {
         name: "",
         title: "",
-        url: ""
+        url: "",
+        tags: ""
       },
       edit: false,
       recentLinks: []
@@ -174,7 +184,8 @@ export default {
         name: this.newLink.name,
         title: this.newLink.title,
         url: this.newLink.url,
-        icon: this.newLink.icon
+        icon: this.newLink.icon,
+        tags: this.newLink.tags
       };
 
       this.$store.dispatch("createLink", d);
@@ -218,7 +229,9 @@ export default {
       return this.$store.getters.isShowModule(moduleName);
     },
     queryTag: function (keyword) {
-      tagApi.queryTag(keyword);
+      let _this = this;
+      this.loading.tagSearch = true;
+      tagApi.queryTag(keyword).then(res => {_this.loading.tagSearch = false;_this.options4 = res.data;});
     }
   },
   mounted() {
@@ -266,7 +279,7 @@ export default {
 }
 </style>
 <style>
-.el-select .el-input {
+.searcher .el-select .el-input {
   width: 130px;
 }
 
