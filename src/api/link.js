@@ -67,6 +67,14 @@ export default{
             });
         });
     },
+    trashLink(linkId){
+        return new Promise((resolve, reject) => {
+            axios.put(utils.replace(apis.link.trash,[{key:'{linkId}', val:linkId}]))
+            .then(function(response) {
+                resolve(response);
+            });
+        });
+    },
     visitLink(linkId){
         axios.put(utils.replace(apis.link.visit,[{key:'{linkId}', val:linkId}]))
         .then(function(response) {

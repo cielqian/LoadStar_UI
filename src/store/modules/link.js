@@ -62,7 +62,13 @@ const actions = {
     removeLink({ commit, state, dispatch }, linkId) {
         return new Promise((resolve, reject) => {
             api.removeLink(linkId).then(response => {
-                dispatch('getAllLink');
+                resolve();
+            });
+        });
+    },
+    trashLink({ commit, state, dispatch }, linkId){
+        return new Promise((resolve, reject) => {
+            api.trashLink(linkId).then(response => {
                 resolve();
             });
         });

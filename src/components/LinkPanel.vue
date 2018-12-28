@@ -4,7 +4,7 @@
       <el-input clearable v-model="searchContent" 
         @keyup.enter.native="search" 
         @keyup.delete.native="searchContent = ''"
-        placeholder="请输入内容" class="input-with-select ls_bd_black">
+        placeholder="请输入内容,回车确认" class="input-with-select ls_bd_black">
         <el-select v-model="searchType" slot="prepend" placeholder="请选择" class="ls_no_border">
           <el-option label="百度" value="1"></el-option>
           <el-option label="书签" value="2"></el-option>

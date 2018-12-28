@@ -19,6 +19,7 @@ export default{
         recent: '/link-service/api/link/recent',
         underFolder: '/link-service/api/folder/{folderId}/link',
         underTag: '/link-service/api/tag/{tagId}/link',
+        trash: '/link-service/api/link/trash/{linkId}',
     },
     folder: {
         query: '/link-service/api/folder/current',

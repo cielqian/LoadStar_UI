@@ -49,7 +49,7 @@
             </el-col>
             
           </div>
-          <el-tooltip class="ls_link_item_content" effect="dark" :open-delay="1000" :content="link.title" placement="top">
+          <el-tooltip class="ls_link_item_content" effect="dark" :open-delay="500" :content="link.title" placement="top">
             <transition name="el-zoom-in-center">
               <div @click="onClick(link)" class="transition-box">
                 <div v-if="link.icon != null" class="icon">
