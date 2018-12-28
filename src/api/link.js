@@ -75,6 +75,14 @@ export default{
             });
         });
     },
+    movelink(linkId, folderId){
+        return new Promise((resolve, reject) => {
+            axios.put(utils.replace(apis.link.move,[{key:'{linkId}', val:linkId},{key:'{folderId}', val:folderId}]))
+            .then(function(response) {
+                resolve(response);
+            });
+        });
+    },
     visitLink(linkId){
         axios.put(utils.replace(apis.link.visit,[{key:'{linkId}', val:linkId}]))
         .then(function(response) {

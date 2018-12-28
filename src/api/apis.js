@@ -20,6 +20,7 @@ export default{
         underFolder: '/link-service/api/folder/{folderId}/link',
         underTag: '/link-service/api/tag/{tagId}/link',
         trash: '/link-service/api/link/trash/{linkId}',
+        move: '/link-service/api/link/{linkId}/to/{folderId}',
     },
     folder: {
         query: '/link-service/api/folder/current',

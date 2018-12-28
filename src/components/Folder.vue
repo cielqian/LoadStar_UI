@@ -132,6 +132,12 @@ export default {
           var linkId = e.dataTransfer.getData("LinkId");
           console.log(linkId);
           console.log(e.target.id);
+          let folderId = e.target.id;
+          api.movelink(linkId, folderId).then(res => {
+              api.getAllLinksUnderFolder(_this.selectedFolderId).then(res => {
+              _this.links = res.data;
+            });
+          });
         }
       };
     });
