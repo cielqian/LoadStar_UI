@@ -83,6 +83,14 @@ export default{
             });
         });
     },
+    deleteByFolder(folderId){
+        return new Promise((resolve, reject) => {
+            axios.delete(utils.replace(apis.link.deleteByFolder,[{key:'{folderId}', val:folderId}]))
+            .then(function(response) {
+                resolve(response);
+            });
+        });
+    },
     visitLink(linkId){
         axios.put(utils.replace(apis.link.visit,[{key:'{linkId}', val:linkId}]))
         .then(function(response) {

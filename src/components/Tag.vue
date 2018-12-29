@@ -5,7 +5,6 @@
         <el-row>
       <el-col :span="24">
         <el-input
-          size="small"
           placeholder="创建标签"
           suffix-icon="el-icon-circle-plus-outline"
           v-model="newTagName"
@@ -17,6 +16,7 @@
       <el-tag
       :key="tag.id"
       v-for="tag in tags"
+      :type="tag.type"
       closable
       :disable-transitions="false"
       @close="handleClose(tag)">

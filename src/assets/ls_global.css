@@ -90,6 +90,10 @@ body{
     color: #FFF;
 }
 
+.ls_fg_black{
+    color: #171717 !important;
+}
+
 .ls_bg_white{
     background-color: #FFF;
 }
@@ -106,12 +110,24 @@ body{
     margin-left: 15px;
 }
 
+.ls_margin_left_30{
+    margin-left: 30px;
+}
+
 .ls_padding_15{
     padding: 15px 0px;
 }
 
+.ls_padding_left_15{
+    padding-left: 15px;
+}
+
 .ls_padding_15_1{
     padding: 15px 0px;
+}
+
+.ls_padding_right_15{
+    padding-right: 15px;
 }
 
 .ls_pointer{

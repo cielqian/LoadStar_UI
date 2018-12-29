@@ -38,6 +38,25 @@ const actions = {
 // mutations
 const mutations = {
     setTags(state, tags) {
+        tags.forEach(element => {
+            let ran = Math.floor((Math.random()*5)+1);
+            switch (ran) {
+                    case 1:
+                    element.type = 'info';
+                    break;
+                    case 2:
+                    element.type = 'success';
+                    break;
+                    case 3:
+                    element.type = 'warning';
+                    break;
+                    case 4:
+                    element.type = 'danger';
+                    break;
+                default:
+                    break;
+            }
+        });
         state.allTag = tags;
     },
     putTag(state, tag){

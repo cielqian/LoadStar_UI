@@ -22,6 +22,12 @@ const getters = {
     },
     hasLogined: state => {
         return utils.isNotEmpty(getters.getAccessToken(state));
+    },
+    getUserInfo: state => {
+        return {
+            username: state.loginInfo.username,
+            nickname: state.loginInfo.nickname
+        }
     }
 }
 

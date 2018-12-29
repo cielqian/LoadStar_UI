@@ -18,7 +18,14 @@ const actions = {
                 })
                 .catch((response) => reject());
         });
-    }
+    },
+    createFolder({ commit }, folder) {
+        return new Promise((resolve, reject) => {
+            api.createFolder(folder).then(response => {
+                resolve();
+            });
+        });
+    },
 }
 
 // mutations

@@ -11,9 +11,9 @@ export default{
             });
         });
     },
-    createFolder(link){
+    createFolder(folder){
         return new Promise((resolve, reject) => {
-            axios.post(apis.link.create, link)
+            axios.post(apis.folder.create, folder)
             .then(function(response) {
                 resolve(response);
             });
@@ -21,7 +21,7 @@ export default{
     },
     removeFolder(linkId){
         return new Promise((resolve, reject) => {
-            axios.delete(apis.link.delete + '/' + linkId)
+            axios.delete(apis.folder.delete + '/' + linkId)
             .then(function(response) {
                 resolve(response);
             });

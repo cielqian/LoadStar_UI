@@ -2,7 +2,12 @@
   <div class="ls_container">
     <el-row type="flex" justify="center">
       <el-col :span="12"  class="ls_center">
-        <el-card>
+        <el-row>
+          <el-col>
+            <h2>{{getUserInfo.username}}({{getUserInfo.nickname}})</h2>
+          </el-col>
+        </el-row>
+        <el-card class="ls_margin_top_15">
           <div slot="header" class="clearfix">
             <span>{{$t('setting.lblAppearance')}}</span>
           </div>
@@ -78,7 +83,8 @@ export default {
       }
     },
     ...mapGetters([
-      'isShowModule'
+      'isShowModule',
+      'getUserInfo'
     ]),
     modules:{
       get () {
