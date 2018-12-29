@@ -20,7 +20,7 @@
       closable
       :disable-transitions="false"
       @close="handleClose(tag)">
-      <span @click="nodeClick(tag)" class="ls_pointer">{{tag.name}}</span>
+      <span @click="nodeClick(tag)" class="ls_pointer">{{tag.name}}({{tag.linkCount}})</span>
     </el-tag>
     </el-row>
       </el-col>

@@ -22,6 +22,7 @@ const actions = {
     createTag({ commit }, tag) {
         api.createTag(tag).then(response => {
             tag.id = response.data;
+            tag.linkCount = 0;
             commit('putTag', tag);
         });
     },
