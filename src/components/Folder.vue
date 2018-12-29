@@ -208,12 +208,12 @@ export default {
 
 .el-tree-node:focus > .el-tree-node__content,
 .is-current {
-  background-color: #000;
+  background-color: #000 !important;
   color: #fff;
 }
 
 .is-current > .el-tree-node__content:hover {
-  background-color: #000;
+  background-color: #000 !important;
   color: #fff;
 }
 
