@@ -116,6 +116,7 @@ export default {
       width: 50%;
       right: 0px;
       height: 100%;
+      color: #555;
       background-color: #000;
       opacity:0.6;
       filter:alpha(opacity=60);
@@ -134,6 +135,11 @@ export default {
         color: #000;
       }
     }
+  }
+
+  .ls_link_item_card:hover{
+    border: solid 2px #555;
+    font-size: 18px;
   }
 }
 
@@ -165,8 +171,7 @@ export default {
 }
 
 .ls_link_item .label {
-  color: #555;
-  font-size: 14px;
+  // font-size: 14px;
 }
 
 .ls_link_item .title {

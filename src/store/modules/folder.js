@@ -1,7 +1,7 @@
 import api from '../../api/folder';
 
 const state = {
-    allFolder:[]
+    allFolder:[{name:''}]
 }
 
 // getters

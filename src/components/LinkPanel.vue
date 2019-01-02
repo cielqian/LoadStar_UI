@@ -2,6 +2,7 @@
   <div class="ls_container">
     <el-row class="searcher">
       <el-input clearable v-model="searchContent" 
+        maxlength="20"
         @keyup.enter.native="search" 
         @keyup.delete.native="searchContent = ''"
         placeholder="请输入内容，并按回车确认" class="input-with-select ls_bd_black">

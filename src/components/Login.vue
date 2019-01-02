@@ -117,7 +117,7 @@ export default {
         grant_type: "password"
       };
       this.$store.dispatch("signIn", this.account)
-      .catch(x => _this.$message.error('Incorrect username or password'));
+      .catch(x => _this.$message.error('用户名或密码不正确'));
     }
   },
   mounted(){

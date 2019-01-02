@@ -29,5 +29,6 @@ export default {
 
 html, body, #app{
   height: 100%;
+  min-width: 1000px;
 }
 </style>

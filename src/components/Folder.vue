@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="4">
         <el-input suffix-icon="el-icon-circle-plus-outline"
-         v-model="createFolderModel.name" placeholder="文件夹名称"
+         v-model="createFolderModel.name" placeholder="文件夹名称" maxlength="8"
          @keyup.enter.native="createFolder">
         </el-input>
 
@@ -11,6 +11,7 @@
           class="ls_margin_top_15"
           ref="folderTree"
           :data="folders"
+          node-Key="id"
           :props="folderProps"
           @node-click="nodeClick"
         >
@@ -77,6 +78,7 @@ export default {
       },
       selectedFolderId: 0,
       selectedFolderName: "",
+      firstLoaded: true,
       links: []
     };
   },
@@ -104,6 +106,9 @@ export default {
       _this.loading.folderTree = true;
       _this.$store.dispatch("getAllFolder").then(() => {
         _this.loading.folderTree = false;
+        if (_this.firstLoaded) {
+          _this.firstLoaded = false;
+        }
         let nodes = document.getElementsByClassName("custom-tree-node");
         for (let node of nodes) {
           node.ondragover = function(e) {
@@ -113,8 +118,6 @@ export default {
           node.ondrop = function(e) {
             e.preventDefault(); // 表示允许放置
             var linkId = e.dataTransfer.getData("LinkId");
-            console.log(linkId);
-            console.log(e.target.id);
             let folderId = e.target.id;
             api.movelink(linkId, folderId).then(res => {
               api.getAllLinksUnderFolder(_this.selectedFolderId).then(res => {

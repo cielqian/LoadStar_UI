@@ -49,7 +49,8 @@ axios.interceptors.response.use(
   },
   function (error) {
     if (error.response.status == 401) {
-      router.push('Login');
+      store.dispatch('signOut');
+      // router.push('Login');
     }
     console.log(error);
     return Promise.reject(error)
