@@ -13,7 +13,8 @@
         <el-select v-model="searchType" slot="prepend" placeholder="请选择" class="ls_no_border">
           <el-option label="全部" value="0"></el-option>
           <el-option label="百度" value="1"></el-option>
-          <el-option label="书签" value="2"></el-option>
+          <el-option label="必应" value="2"></el-option>
+          <el-option label="书签" value="3"></el-option>
         </el-select>
       </el-input>
     </el-row>
@@ -22,20 +23,25 @@
         <el-col :span="8" class="ls_padding_all_15">
           <el-row>
             <el-col :span="12"><span class="ls_h3">百度</span>
-            <span class="ls_margin_left_15 ls_text_d ls_pointer">跳转</span></el-col>
+            <span class="ls_margin_left_15 ls_text_d ls_pointer" @click="jumpSearch('baidu')">跳转</span></el-col>
           </el-row>
           <iframe id="baiduIframe" width="100%" height="500px" class="searchIframe ls_no_border" src="https://www.baidu.com/s?ie=UTF-8&wd=123"></iframe>
         </el-col>
         <el-col :span="8" class="ls_padding_all_15">
           <el-row>
             <el-col :span="12"><span class="ls_h3">必应</span>
-            <span class="ls_margin_left_15 ls_text_d ls_pointer">跳转</span></el-col>
+            <span class="ls_margin_left_15 ls_text_d ls_pointer" @click="jumpSearch('bing')">跳转</span></el-col>
           </el-row>
           <iframe id="bingIframe"  width="100%" height="500px" class="searchIframe ls_no_border" src="https://www.baidu.com/s?ie=UTF-8&wd=123"></iframe>
         </el-col>
         <el-col :span="8">
-          书签
+          <el-row>
+            <el-col :span="12"><span class="ls_h3">书签</span></el-col>
+          </el-row>
         </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="24" class="ls_text_center ls_pointer" @click.native="hiddenSearch">收起</el-col>
       </el-row>
       
     </el-row>
@@ -199,6 +205,11 @@ export default {
     return {
       searchType: "0",
       searchContent: "",
+      searchEngine:{
+        baidu:'https://www.baidu.com/s?wd=',
+        mbaidu:'https://m.baidu.com/s?wd=',
+        bing:'https://m.bing.com/search?q='
+      },
       dialog: {
         addLinkDialogVisiable: false
       },
@@ -260,22 +271,31 @@ export default {
       window.open(link.url);
     },
     search: function() {
+      this.visible.searchResult = false;
       if (!!this.searchContent) {
         switch (this.searchType) {
           case "0":
             this.visible.searchResult = true;
-            document.getElementById("baiduIframe").src = "https://m.baidu.com/s?wd=" + this.searchContent;
-            document.getElementById("bingIframe").src = "https://m.bing.com/search?q=" + this.searchContent;
+            document.getElementById("baiduIframe").src = this.searchEngine.mbaidu + this.searchContent;
+            document.getElementById("bingIframe").src = this.searchEngine.bing+ this.searchContent;
             break;
           case "1":
-            window.open("https://www.baidu.com/s?wd=" + this.searchContent);
+            window.open(this.searchEngine.baidu + this.searchContent);
             break;
-
+          case "2":
+            window.open(this.searchEngine.bing + this.searchContent);
+            break;
           default:
             window.open("https://www.baidu.com/s?wd=" + this.searchContent);
             break;
         }
       }
+    },
+    jumpSearch: function(engine) {
+      window.open(this.searchEngine[engine] + this.searchContent);
+    },
+    hiddenSearch: function () {
+      this.visible.searchResult = false;
     },
     openAddLinkDialog: function() {
       this.newLink.name = "";
