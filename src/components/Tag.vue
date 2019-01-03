@@ -13,6 +13,8 @@
       </el-col>
     </el-row>
     <el-row>
+      <el-tag class="ls_pointer" @click.native="nodeClick()">全部</el-tag>
+      
       <el-tag
       :key="tag.id"
       v-for="tag in tags"
@@ -25,10 +27,12 @@
     </el-row>
       </el-col>
       <el-col v-show="visible1" :span="18" class="ls_content ls_bg_white ls_margin_left_15" >
-            <el-table highlight-current-row :data="links" :show-header="false" @row-dblclick="redirect">
-               <el-table-column
-                  prop="title">
-                </el-table-column>
+            <el-table highlight-current-row :data="links" :show-header="false">
+               <el-table-column>
+                <template slot-scope="scope">
+                  <div class="ls_pointer" @click="redirect(scope.row)">{{scope.row.title}}</div>
+                </template>
+               </el-table-column>
                 <el-table-column width="50">
                   <template slot-scope="scope">
                     <el-popover
@@ -63,6 +67,10 @@ export default {
     };
   },
   methods:{
+    redirect(row) {
+      this.$store.dispatch("visitLink", row.id);
+      window.open(row.url);
+    },
     createTag(){
       if (!this.newTagName) {
         return;
@@ -72,19 +80,33 @@ export default {
       this.newTagName = '';
     },
     handleClose(tag){
-      this.$store.dispatch("removeTag", tag.id);
+      let _this =this;
+      _this.$confirm('确认删除标签: ' + tag.name + ' ?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        _this.$store.dispatch("removeTag", tag.id);
+      });
+      
     },
     nodeClick(node){
       let _this = this;
-      if (_this.selectedTagId == node.id) {
-        return;
+      if (!!node) {
+        if (_this.selectedTagId == node.id) {
+          return;
+        }
+        _this.selectedTagId = node.id;
+        api.getAllLinksUnderTag(node.id)
+        .then(res => {
+          _this.visible1 = true;
+          _this.links = res.data;
+        });
       }
-      _this.selectedTagId = node.id;
-      api.getAllLinksUnderTag(node.id)
-      .then(res => {
-        _this.visible1 = true;
-        _this.links = res.data;
-      });
+      else{
+          _this.visible1 = true;
+          _this.links = [..._this.$store.state.link.allLink];
+      }
     },
     redirect(row){
       this.$store.dispatch("visitLink", row.id);

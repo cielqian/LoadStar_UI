@@ -14,6 +14,7 @@ import store from "./store";
 import VueI18n from 'vue-i18n';
 import LangEn from '../static/lang/en'
 import LangZhCHS from '../static/lang/zhCHS'
+import _ from 'lodash'
 
 Vue.config.productionTip = false;
 axios.defaults.baseURL = apis.baseHost;
@@ -58,6 +59,7 @@ axios.interceptors.response.use(
 );
 
 Vue.prototype.$http = axios;
+Vue.prototype._ = _;
 
 Vue.use(ElementUI);
 

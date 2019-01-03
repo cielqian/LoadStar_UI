@@ -20,10 +20,14 @@ const actions = {
         });
     },
     createTag({ commit }, tag) {
-        api.createTag(tag).then(response => {
-            tag.id = response.data;
-            tag.linkCount = 0;
-            commit('putTag', tag);
+        return new Promise((resolve, reject) => {
+            api.createTag(tag).then(response => {
+                tag.id = response.data;
+                tag.name = tag.name;
+                tag.linkCount = 0;
+                commit('putTag', tag);
+                resolve(tag);
+            });
         });
     },
     removeTag({ commit, state, dispatch }, tagId) {

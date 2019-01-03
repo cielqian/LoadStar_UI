@@ -118,6 +118,10 @@ body{
     padding: 15px 0px;
 }
 
+.ls_padding_all_15{
+    padding: 15px;
+}
+
 .ls_padding_left_15{
     padding-left: 15px;
 }
@@ -134,9 +138,18 @@ body{
     cursor: pointer;
 }
 
+.ls_text_d{
+    text-decoration-line: underline;
+}
+
 .ls_btn_text{
     cursor: pointer;
     color: #3a8ee6;
     font-size: 14px;
     font-weight: normal;
+}
+
+.ls_h3{
+    font-size: 1.1rem;
+    font-weight: bold;
 }

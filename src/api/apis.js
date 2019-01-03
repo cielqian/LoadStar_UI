@@ -25,6 +25,7 @@ export default{
     },
     folder: {
         query: '/link-service/api/folder/current',
+        delete: '/link-service/api/folder/{folderId}',
         create: '/link-service/api/folder/current',
     },
     tag:{
