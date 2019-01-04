@@ -39,7 +39,7 @@
                       placement="bottom"
                       width="50"
                       trigger="click">
-                      <ul style="list-style: none; padding-left:20px">
+                      <ul class="popover_menu ls_text_center">
                         <li class="ls_pointer" @click="removeLink(scope.row)">删除</li>
                         <li class="ls_pointer">编辑</li>
                       </ul>
@@ -132,7 +132,7 @@ export default {
   }
 };
 </script>
-<style>
+<style lang="scss">
   .el-tag {
     margin-left: 10px;
     margin-top: 10px;
@@ -149,6 +149,27 @@ export default {
     margin-left: 10px;
     vertical-align: bottom;
   }
+  
+.el-popover {
+  padding: 0px;
+}
+  
+.popover_menu {
+  list-style: none;
+  padding-left: 0px;
+  margin-block-end: 0px;
+  margin-block-start: 0px;
+
+  li {
+    padding: 5px 0px;
+    font-size: 0.9rem;
+  }
+
+  li:hover {
+    background-color: #000;
+    color: #fff;
+  }
+}
 </style>
 
 

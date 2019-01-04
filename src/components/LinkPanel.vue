@@ -6,7 +6,7 @@
         v-model="searchContent"
         maxlength="20"
         @keyup.enter.native="search"
-        @keyup.delete.native="searchContent = ''"
+        ref="searchInputCtrl"
         placeholder="请输入内容，并按回车确认"
         class="input-with-select ls_bd_black"
       >
@@ -25,23 +25,43 @@
             <el-col :span="12"><span class="ls_h3">百度</span>
             <span class="ls_margin_left_15 ls_text_d ls_pointer" @click="jumpSearch('baidu')">跳转</span></el-col>
           </el-row>
-          <iframe id="baiduIframe" width="100%" height="500px" class="searchIframe ls_no_border" src="https://www.baidu.com/s?ie=UTF-8&wd=123"></iframe>
+          <iframe id="baiduIframe" width="100%" height="500px" class="searchIframe ls_no_border" src=""></iframe>
         </el-col>
         <el-col :span="8" class="ls_padding_all_15">
           <el-row>
             <el-col :span="12"><span class="ls_h3">必应</span>
             <span class="ls_margin_left_15 ls_text_d ls_pointer" @click="jumpSearch('bing')">跳转</span></el-col>
           </el-row>
-          <iframe id="bingIframe"  width="100%" height="500px" class="searchIframe ls_no_border" src="https://www.baidu.com/s?ie=UTF-8&wd=123"></iframe>
+          <iframe id="bingIframe"  width="100%" height="500px" class="searchIframe ls_no_border" src=""></iframe>
         </el-col>
-        <el-col :span="8">
+        <!-- <el-col :span="8" class="ls_padding_all_15">
+          <el-row>
+            <el-col :span="12"><span class="ls_h3">禅道</span>
+            <span class="ls_margin_left_15 ls_text_d ls_pointer" @click="jumpSearch('zhihu')">跳转</span></el-col>
+          </el-row>
+          <iframe id="zhihuIframe"  width="100%" height="500px" class="searchIframe ls_no_border" src=""></iframe>
+        </el-col>-->
+        <el-col :span="8"> 
           <el-row>
             <el-col :span="12"><span class="ls_h3">书签</span></el-col>
           </el-row>
+          <el-row>
+            <el-col>
+              <el-table :data="searchLinks">
+                <el-table-column prop="title">
+                  <template slot-scope="scope">
+                    <div v-html="renderTitle(scope.row.title)"></div>
+                  </template>
+                </el-table-column>
+              </el-table>
+              
+            </el-col>
+          </el-row>
+          
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="24" class="ls_text_center ls_pointer" @click.native="hiddenSearch">收起</el-col>
+        <el-col :span="24" class="ls_text_center ls_pointer" @click.native="hiddenSearch"><i class="el-icon-arrow-up"></i>收起</el-col>
       </el-row>
       
     </el-row>
@@ -87,9 +107,8 @@
       title="New Link"
       :visible.sync="dialog.addLinkDialogVisiable"
       width="40%"
-      @close="dialog.addLinkDialogVisiable = false"
-    >
-      <el-row class="ls_text_center">
+      @close="dialog.addLinkDialogVisiable = false">
+      <!-- <el-row class="ls_text_center">
         <el-col :span="24">
           <el-form :model="newLink" ref="form" label-width="80px">
             <el-form-item label="链接">
@@ -151,30 +170,11 @@
                   <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 新标签</el-button>
                 </el-col>
               </el-row>
-
-              <!-- <el-select
-              class="ls_pull_left"
-                style="width:50%"
-                v-model="newLink.tags"
-                @focus="queryTag('')"
-                multiple
-                filterable
-                remote
-                placeholder="请选择关键词"
-                :remote-method="queryTag"
-                :loading="loading.tagSearch">
-                <el-option
-                  v-for="item in options4"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id">
-                </el-option>
-              </el-select>-->
             </el-form-item>
           </el-form>
         </el-col>
-      </el-row>
-
+      </el-row> -->
+      <LinkDetail v-bind:linkUrl="newLink.url"></LinkDetail>
       <span slot="footer">
         <el-button @click="dialog.addLinkDialogVisiable = false">Cancel</el-button>
         <el-button type="primary" @click="createNewLink">Create</el-button>
@@ -188,10 +188,12 @@ import Vue from "vue";
 import _ from "vue";
 import LSRecentLink from "./RecentLink.vue";
 import LSTopLink from "./TopLink.vue";
+import LinkDetail from "./LinkDetail.vue";
 import LinkCardItem from "./LinkItems.vue";
 import Folder from "./Folder.vue";
 import apis from "../assets/repository/apis";
 import tagApi from "../api/tag";
+import linkApi from "../api/link";
 import { mapGetters, mapState } from "vuex";
 
 function isUrl(text) {
@@ -200,7 +202,7 @@ function isUrl(text) {
 
 export default {
   name: "LinkPanel",
-  components: { LSRecentLink, LSTopLink, LinkCardItem, Folder },
+  components: { LSRecentLink, LinkDetail, LSTopLink, LinkCardItem, Folder },
   data() {
     return {
       searchType: "0",
@@ -208,7 +210,9 @@ export default {
       searchEngine:{
         baidu:'https://www.baidu.com/s?wd=',
         mbaidu:'https://m.baidu.com/s?wd=',
-        bing:'https://m.bing.com/search?q='
+        bing:'https://bing.com/search?q=',
+        zhihu: 'http://www.zhihu.com/search?type=content&q=',
+        chandao: 'http://ztpm.goldwind.com.cn:9898/pro/search-index.html?words='
       },
       dialog: {
         addLinkDialogVisiable: false
@@ -234,7 +238,8 @@ export default {
       selectedTag: [],
       unSelectedTag: [],
       edit: false,
-      recentLinks: []
+      recentLinks: [],
+      searchLinks: []
     };
   },
   computed: {
@@ -271,6 +276,7 @@ export default {
       window.open(link.url);
     },
     search: function() {
+      let _this = this;
       this.visible.searchResult = false;
       if (!!this.searchContent) {
         switch (this.searchType) {
@@ -278,6 +284,7 @@ export default {
             this.visible.searchResult = true;
             document.getElementById("baiduIframe").src = this.searchEngine.mbaidu + this.searchContent;
             document.getElementById("bingIframe").src = this.searchEngine.bing+ this.searchContent;
+            linkApi.queryLinks(this.searchContent).then(res => {_this.searchLinks = res.data.items});
             break;
           case "1":
             window.open(this.searchEngine.baidu + this.searchContent);
@@ -293,6 +300,13 @@ export default {
     },
     jumpSearch: function(engine) {
       window.open(this.searchEngine[engine] + this.searchContent);
+    },
+    renderTitle: function (title) {
+      let titleString = title;
+      let replaceReg = new RegExp(this.searchContent, 'gi');
+      let replaceString = '<span class="highlight">' + this.searchContent + '</span>';
+      titleString = titleString.replace(replaceReg, replaceString);
+      return titleString;
     },
     hiddenSearch: function () {
       this.visible.searchResult = false;
@@ -412,7 +426,10 @@ export default {
       var clipText = event.clipboardData.getData("Text");
       if (!isUrl(clipText)) {
         // _this.$message.error("不是有效的链接格式");
+        _this.searchContent = '';
         _this.searchContent = clipText;
+        _this.$refs.searchInputCtrl.$refs[0].focus();
+
       } else {
         _this.newLink.url = clipText;
         _this.newLink.folderId = "未归档";
@@ -446,8 +463,14 @@ export default {
   background-color: #fff;
 }
 
+
+
 </style>
 <style>
+.highlight{
+  color: #c00;
+}
+
 .searcher .el-select .el-input {
   width: 130px;
 }

@@ -5,7 +5,15 @@ import utils from '../utils/commonUtils'
 export default{
     getAllLinks(){
         return new Promise((resolve, reject) => {
-            axios.get(apis.link.query)
+            axios.get(apis.link.query, {params:{ pageSize:20}})
+            .then((response) => {
+                resolve(response);
+            });
+        });
+    },
+    queryLinks(keyword){
+        return new Promise((resolve, reject) => {
+            axios.get(apis.link.query, {params:{ keyword:keyword}})
             .then((response) => {
                 resolve(response);
             });
