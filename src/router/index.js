@@ -7,6 +7,8 @@ import LinkPanel from '@/components/LinkPanel'
 import Tag from '@/components/Tag'
 import Folder from '@/components/Folder'
 import store from '../store';
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 
 Vue.use(Router)
 
@@ -51,6 +53,7 @@ const vueRouter = new Router({
 })
 
 vueRouter.beforeEach((to, from, next) => {
+  NProgress.start();
   if (to.meta.requireLogin) {
     if (store.getters.hasLogined) {
       next()
@@ -62,6 +65,10 @@ vueRouter.beforeEach((to, from, next) => {
   } else {
     next()
   }
+})
+
+vueRouter.afterEach(() => {
+  NProgress.done()
 })
 
 export default vueRouter

@@ -23,14 +23,19 @@
         <el-col :span="8" class="ls_padding_all_15">
           <el-row>
             <el-col :span="12"><span class="ls_h3">百度</span>
-            <span class="ls_margin_left_15 ls_text_d ls_pointer" @click="jumpSearch('baidu')">跳转</span></el-col>
+            <span class="ls_margin_left_15 ls_text_d ls_pointer" @click="jumpSearch('baidu')">跳转</span>
+            <span class="ls_margin_left_15 ls_text_d ls_pointer" @click="fullScreen('baidu')">全屏</span>
+          </el-col>
           </el-row>
           <iframe id="baiduIframe" width="100%" height="500px" class="searchIframe ls_no_border" src=""></iframe>
         </el-col>
         <el-col :span="8" class="ls_padding_all_15">
           <el-row>
             <el-col :span="12"><span class="ls_h3">必应</span>
-            <span class="ls_margin_left_15 ls_text_d ls_pointer" @click="jumpSearch('bing')">跳转</span></el-col>
+              <span class="ls_margin_left_15 ls_text_d ls_pointer" @click="jumpSearch('bing')">跳转</span>
+            <span class="ls_margin_left_15 ls_text_d ls_pointer" @click="fullScreen('bing')">全屏</span>
+
+            </el-col>
           </el-row>
           <iframe id="bingIframe"  width="100%" height="500px" class="searchIframe ls_no_border" src=""></iframe>
         </el-col>
@@ -107,78 +112,20 @@
       title="New Link"
       :visible.sync="dialog.addLinkDialogVisiable"
       width="40%"
-      @close="dialog.addLinkDialogVisiable = false">
-      <!-- <el-row class="ls_text_center">
-        <el-col :span="24">
-          <el-form :model="newLink" ref="form" label-width="80px">
-            <el-form-item label="链接">
-              <el-input ref="newLinkUrl" v-model="newLink.url" @blur="onNewLinkUrlBlur"></el-input>
-            </el-form-item>
-            <el-form-item label="名称">
-              <el-input v-model="newLink.name"></el-input>
-            </el-form-item>
-            <el-form-item label="标题">
-              <el-input v-model="newLink.title"></el-input>
-            </el-form-item>
-            <el-form-item label="文件夹">
-              <el-select
-                class="ls_pull_left"
-                style="width:50%"
-                v-model="newLink.folderId"
-                filterable
-                placeholder="请选择文件夹"
-              >
-                <el-option
-                  v-for="item in folders"
-                  :key="item.id"
-                  :label="item.name"
-                  :value="item.id"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="标签">
-              <el-row>
-                <el-col :span="24" class="ls_text_left">
-                  <el-tag
-                    class="ls_pointer"
-                    @close="unSelectTag(item)"
-                    closable
-                    v-for="item in selectedTag"
-                    :key="item.id"
-                  >{{item.name}}</el-tag>
-                </el-col>
-              </el-row>
-
-              <el-row>
-                <el-col :span="24" class="ls_text_left">
-                  <el-tag
-                    type="info"
-                    class="ls_pointer"
-                    @click.native="selectTag(item)"
-                    v-for="item in unSelectedTag"
-                    :key="item.id"
-                  >{{item.name}}</el-tag>
-                  <el-input
-                    v-if="visible.inputVisible"
-                    v-model="newTag.name"
-                    class="input-new-tag"
-                    ref="saveTagInput"
-                    size="small"
-                    @keyup.enter.native="createTag"
-                    @blur="createTag"
-                  ></el-input>
-                  <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 新标签</el-button>
-                </el-col>
-              </el-row>
-            </el-form-item>
-          </el-form>
-        </el-col>
-      </el-row> -->
-      <LinkDetail v-bind:linkUrl="newLink.url"></LinkDetail>
+      @close="dialog.addLinkDialogVisiable = false"
+      @opened="analysisLink">
+      <LinkDetail ref="c1"></LinkDetail>
       <span slot="footer">
         <el-button @click="dialog.addLinkDialogVisiable = false">Cancel</el-button>
         <el-button type="primary" @click="createNewLink">Create</el-button>
       </span>
+    </el-dialog>
+    <el-dialog
+    :visible.sync="dialog.fullIframeDialogVisiable"
+    fullscreen
+    top="0vh"
+    @opened="openFullScreenIFrame">
+      <iframe id="fullScreenIframe"  width="100%" :height="client.htmlHeight" class="searchIframe ls_no_border" src=""></iframe>
     </el-dialog>
   </div>
 </template>
@@ -214,8 +161,13 @@ export default {
         zhihu: 'http://www.zhihu.com/search?type=content&q=',
         chandao: 'http://ztpm.goldwind.com.cn:9898/pro/search-index.html?words='
       },
+      currentSearchEngine:'baidu',
       dialog: {
-        addLinkDialogVisiable: false
+        addLinkDialogVisiable: false,
+        fullIframeDialogVisiable: false
+      },
+      client:{
+        htmlHeight:800
       },
       loading: {
         allLinkLoading: false,
@@ -225,18 +177,9 @@ export default {
         inputVisible: false,
         searchResult: false
       },
-      newLink: {
-        folderId: "",
-        name: "",
-        title: "",
-        url: "",
-        tags: ""
+      newLink:{
+        url:''
       },
-      newTag: {
-        name: ""
-      },
-      selectedTag: [],
-      unSelectedTag: [],
       edit: false,
       recentLinks: [],
       searchLinks: []
@@ -252,25 +195,12 @@ export default {
     })
   },
   methods: {
-    showInput() {
-      this.visible.inputVisible = true;
-      this.$nextTick(_ => {
-        this.$refs.saveTagInput.$refs.input.focus();
-      });
-    },
-    selectTag: function(tag) {
-      this.unSelectedTag = this._.filter(this.unSelectedTag, function(n) {
-        return n.id != tag.id;
-      });
-      this.selectedTag.push(tag);
-    },
-    unSelectTag: function(tag) {
-      this.selectedTag = this._.filter(this.selectedTag, function(n) {
-        return n.id != tag.id;
-      });
-
-      this.unSelectedTag.push(tag);
-    },
+    // showInput() {
+    //   this.visible.inputVisible = true;
+    //   this.$nextTick(_ => {
+    //     this.$refs.saveTagInput.$refs.input.focus();
+    //   });
+    // },
     redirect: function(link) {
       this.$store.dispatch("visitLink", link.id);
       window.open(link.url);
@@ -298,6 +228,20 @@ export default {
         }
       }
     },
+    openFullScreenIFrame(){
+      switch (this.currentSearchEngine) {
+        case "baidu":
+          document.getElementById("fullScreenIframe").src = this.searchEngine.baidu + this.searchContent;
+          break;
+        case "bing":
+          document.getElementById("fullScreenIframe").src = this.searchEngine.bing + this.searchContent;
+          break;
+      }
+    },
+    fullScreen: function(t) {
+      this.currentSearchEngine = t;
+      this.dialog.fullIframeDialogVisiable = true;
+    },
     jumpSearch: function(engine) {
       window.open(this.searchEngine[engine] + this.searchContent);
     },
@@ -312,50 +256,17 @@ export default {
       this.visible.searchResult = false;
     },
     openAddLinkDialog: function() {
-      this.newLink.name = "";
-      this.newLink.title = "";
-      this.newLink.icon = "";
       this.dialog.addLinkDialogVisiable = true;
     },
-    onNewLinkUrlBlur: function() {
-      var _this = this;
-      if (!isUrl(_this.newLink.url)) {
-        // _this.$message.error("不是有效的链接格式");
-        return;
-      }
-      var d = {
-        url: this.newLink.url
-      };
-
-      _this.$store.dispatch("analysisLink", d).then(response => {
-        _this.newLink.name = response.data.name;
-        _this.newLink.title = response.data.title;
-        _this.newLink.icon = response.data.icon;
+    createNewLink: function () {
+      let _this = this;
+      this.$refs.c1.createNewLink(() => {
+      this.dialog.addLinkDialogVisiable = false;
       });
     },
-    createNewLink: function() {
-      this.dialog.addLinkDialogVisiable = false;
-
-      let tagsId = [];
-      this.selectedTag.forEach(element => {
-        tagsId.push(element.id);
-      });
-
-      var d = {
-        name: this.newLink.name,
-        title: this.newLink.title,
-        folderId: this.newLink.folderId=='未归档'?'':this.newLink.folderId,
-        url: this.newLink.url,
-        icon: this.newLink.icon,
-        tags: tagsId
-      };
-
-      this.$store.dispatch("createLink", d);
-
-      this.newLink.name = "";
-      this.newLink.title = "";
-      this.newLink.url = "";
-      this.newLink.icon = "";
+    analysisLink: function () {
+      let _this = this;
+      _this.$refs.c1.analysisLink(_this.newLink.url);
     },
     getTheme: function() {
       this.$store.dispatch("getTheme");
@@ -397,22 +308,11 @@ export default {
         _this.loading.tagSearch = false;
         _this.options4 = res.data;
       });
-    },
-    createTag: function() {
-      let _this = this;
-      this.visible.inputVisible = false;
-      if (!this.newTag.name) {
-        return;
-      }
-      let d = { name: this.newTag.name };
-      this.$store.dispatch("createTag", d).then(tag => {
-        _this.unSelectedTag.push(tag);
-      });
-      this.newTag.name = "";
     }
   },
   mounted() {
     let _this = this;
+    _this.dialog.addLinkDialogVisiable = false;
     _this.loading.allLinkLoading = true;
     _this.$store
       .dispatch("getAllLink")
@@ -428,15 +328,17 @@ export default {
         // _this.$message.error("不是有效的链接格式");
         _this.searchContent = '';
         _this.searchContent = clipText;
-        _this.$refs.searchInputCtrl.$refs[0].focus();
+        _this.$refs.searchInputCtrl.focus();
 
       } else {
         _this.newLink.url = clipText;
-        _this.newLink.folderId = "未归档";
+        
         _this.openAddLinkDialog();
-        _this.onNewLinkUrlBlur();
+       
       }
     });
+
+    this.client.htmlHeight = window.screen.availHeight - 180;
   }
 };
 </script>

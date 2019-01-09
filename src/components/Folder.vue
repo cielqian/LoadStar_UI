@@ -9,6 +9,7 @@
 
         <el-tree
           class="ls_margin_top_15"
+          :class="{'dragarea':onMove}"
           ref="folderTree"
           :data="folders"
           node-Key="id"
@@ -73,6 +74,7 @@ export default {
         linkList: true,
         folderTree: true
       },
+      onMove: false,
       createFolderModel: {
         name: ""
       },
@@ -116,6 +118,7 @@ export default {
           };
 
           node.ondrop = function(e) {
+            _this.onMove = false;
             e.preventDefault(); // 表示允许放置
             var linkId = e.dataTransfer.getData("LinkId");
             let folderId = e.target.id;
@@ -185,16 +188,19 @@ export default {
     },
     dragStart(e, id) {
       e.dataTransfer.setData("LinkId", id);
+      this.onMove = true;
     },
     drogEnd(event) {
       event.preventDefault();
-      console.log(123);
+      this.onMove = false;
     },
     allowDrag(event) {
       event.preventDefault();
+      this.onMove = false;
     },
     drop(a) {
       console.log(a);
+      this.onMove = false;
     }
   },
   mounted() {
@@ -207,6 +213,10 @@ export default {
 <style lang="scss">
 .el-tree-node {
   padding: 3px;
+}
+
+.dragarea{
+  border: 1px solid #000;
 }
 
 .el-tree-node:focus > .el-tree-node__content,

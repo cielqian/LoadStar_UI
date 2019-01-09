@@ -129,7 +129,7 @@ export default {
 </script>
 <style scoped>
     .slogan{
-        margin-top:150px;
+        padding-top:200px;
         text-align: center;
     }
 </style>

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <el-row class="ls_text_center">
+    <el-row class="ls_text_center" >
       <el-col :span="24">
-        <el-form :model="newLink" ref="form" label-width="80px">
+        <el-form label-width="80px">
           <el-form-item label="链接">
-            <el-input ref="newLinkUrl" v-model="newLink.url" @blur="onNewLinkUrlBlur"></el-input>
+            <el-input ref="newLinkUrl" v-model="newLink.url"></el-input>
           </el-form-item>
           <el-form-item label="名称">
             <el-input v-model="newLink.name"></el-input>
@@ -64,6 +64,10 @@
   </div>
 </template>
 <script>
+function isUrl(text) {
+  return text.indexOf("http") >= 0 || text.indexOf("https") >= 0;
+}
+
 import { mapGetters, mapState } from "vuex";
 export default {
   name: "LSLink",
@@ -100,25 +104,27 @@ export default {
         this.$refs.saveTagInput.$refs.input.focus();
       });
     },
-    onNewLinkUrlBlur: function() {
+    analysisLink: function (url) {
       var _this = this;
-      if (!isUrl(_this.newLink.url)) {
-        // _this.$message.error("不是有效的链接格式");
+      if (!isUrl(url)) {
         return;
       }
+      _this.newLink.url = url;
+
       var d = {
-        url: this.newLink.url
+        url: url
       };
 
       _this.$store.dispatch("analysisLink", d).then(response => {
         _this.newLink.name = response.data.name;
         _this.newLink.title = response.data.title;
         _this.newLink.icon = response.data.icon;
+        _this.newLink.folderId = "未归档";
+        _this.selectedTag = [];
+        _this.unSelectedTag = _this.tags;
       });
     },
-    createNewLink: function() {
-      this.dialog.addLinkDialogVisiable = false;
-
+    createNewLink: function(cb) {
       let tagsId = [];
       this.selectedTag.forEach(element => {
         tagsId.push(element.id);
@@ -127,19 +133,47 @@ export default {
       var d = {
         name: this.newLink.name,
         title: this.newLink.title,
-        folderId:
-          this.newLink.folderId == "未归档" ? "" : this.newLink.folderId,
+        folderId: this.newLink.folderId == "未归档" ? "" : this.newLink.folderId,
         url: this.newLink.url,
         icon: this.newLink.icon,
         tags: tagsId
       };
 
-      this.$store.dispatch("createLink", d);
+      this.$store.dispatch("createLink", d).then(res => {
+        if (!!cb) {
+          cb();          
+        }
+      });
 
       this.newLink.name = "";
       this.newLink.title = "";
       this.newLink.url = "";
       this.newLink.icon = "";
+    },
+    createTag: function() {
+      let _this = this;
+      this.visible.inputVisible = false;
+      if (!this.newTag.name) {
+        return;
+      }
+      let d = { name: this.newTag.name };
+      this.$store.dispatch("createTag", d).then(tag => {
+        _this.unSelectedTag.push(tag);
+      });
+      this.newTag.name = "";
+    },
+    selectTag: function(tag) {
+      this.unSelectedTag = this._.filter(this.unSelectedTag, function(n) {
+        return n.id != tag.id;
+      });
+      this.selectedTag.push(tag);
+    },
+    unSelectTag: function(tag) {
+      this.selectedTag = this._.filter(this.selectedTag, function(n) {
+        return n.id != tag.id;
+      });
+
+      this.unSelectedTag.push(tag);
     }
   }
 };

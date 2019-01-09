@@ -1,6 +1,6 @@
 export default{
     global: {
-        title:'云端书签',
+        title:'云 端 书 签',
         pasteTitle: 'Ctrl+V粘贴 创建新书签'
     },
     login: {

@@ -31,4 +31,9 @@ html, body, #app{
   height: 100%;
   min-width: 1000px;
 }
+
+#nprogress .bar {
+  background: #000 !important;
+}
+
 </style>
