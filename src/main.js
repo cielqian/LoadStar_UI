@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios' 
-import ElementUI from 'element-ui';
+// import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import './assets/iconfont.css'
 import './assets/ls_global.css'
@@ -66,7 +66,7 @@ axios.interceptors.response.use(
 Vue.prototype.$http = axios;
 Vue.prototype._ = _;
 
-Vue.use(ElementUI);
+// Vue.use(ElementUI);
 
 Vue.use(VueI18n)
 const i18n = new VueI18n({
