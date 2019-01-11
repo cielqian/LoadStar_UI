@@ -261,7 +261,7 @@ export default {
     createNewLink: function () {
       let _this = this;
       this.$refs.c1.createNewLink(() => {
-      this.dialog.addLinkDialogVisiable = false;
+        this.dialog.addLinkDialogVisiable = false;
       });
     },
     analysisLink: function () {
@@ -318,9 +318,7 @@ export default {
       .dispatch("getAllLink")
       .then(x => (_this.loading.allLinkLoading = false));
     _this.$store.dispatch("getAllFolder");
-    _this.$store.dispatch("getAllTag").then(() => {
-      _this.unSelectedTag = [..._this.$store.state.tag.allTag];
-    });
+    _this.$store.dispatch("getAllTag");
 
     document.addEventListener("paste", function(event) {
       var clipText = event.clipboardData.getData("Text");

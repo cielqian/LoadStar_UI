@@ -121,7 +121,7 @@ export default {
         _this.newLink.icon = response.data.icon;
         _this.newLink.folderId = "未归档";
         _this.selectedTag = [];
-        _this.unSelectedTag = _this.tags;
+        _this.unSelectedTag = [..._this.tags];
       });
     },
     createNewLink: function(cb) {
@@ -141,7 +141,7 @@ export default {
 
       this.$store.dispatch("createLink", d).then(res => {
         if (!!cb) {
-          cb();          
+          cb();
         }
       });
 

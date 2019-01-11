@@ -5,7 +5,7 @@
         <el-row>
       <el-col :span="24">
         <el-input
-          placeholder="创建标签"
+          placeholder="输入标签名称，并按回车创建"
           suffix-icon="el-icon-circle-plus-outline"
           v-model="newTagName"
           @keyup.enter.native="createTag">
@@ -22,7 +22,7 @@
       closable
       :disable-transitions="false"
       @close="handleClose(tag)">
-      <span @click="nodeClick(tag)" class="ls_pointer">{{tag.name}}({{tag.linkCount}})</span>
+      <span @click="nodeClick(tag)" class="ls_pointer">{{tag.name}}&nbsp;({{tag.linkCount}})</span>
     </el-tag>
     </el-row>
       </el-col>

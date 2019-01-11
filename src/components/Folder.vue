@@ -3,7 +3,7 @@
     <el-row>
       <el-col :span="4">
         <el-input suffix-icon="el-icon-circle-plus-outline"
-         v-model="createFolderModel.name" placeholder="文件夹名称" maxlength="8"
+         v-model="createFolderModel.name" placeholder="输入文件夹名称，并按回车创建" maxlength="8"
          @keyup.enter.native="createFolder">
         </el-input>
 
