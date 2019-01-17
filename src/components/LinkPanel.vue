@@ -112,7 +112,7 @@
       title="New Link"
       :visible.sync="dialog.addLinkDialogVisiable"
       width="40%"
-      @close="dialog.addLinkDialogVisiable = false"
+      @close="closeAddLinkDialog"
       @opened="analysisLink">
       <LinkDetail ref="c1"></LinkDetail>
       <span slot="footer">
@@ -258,6 +258,10 @@ export default {
     openAddLinkDialog: function() {
       this.dialog.addLinkDialogVisiable = true;
     },
+    closeAddLinkDialog: function () {
+      this.dialog.addLinkDialogVisiable = false
+      document.addEventListener("paste", this.pasteFn);
+    },
     createNewLink: function () {
       let _this = this;
       this.$refs.c1.createNewLink(() => {
@@ -308,6 +312,22 @@ export default {
         _this.loading.tagSearch = false;
         _this.options4 = res.data;
       });
+    },
+    pasteFn: function(event) {
+      let _this = this;
+      var clipText = event.clipboardData.getData("Text");
+      if (!isUrl(clipText)) {
+        // _this.$message.error("不是有效的链接格式");
+        _this.searchContent = '';
+        _this.searchContent = clipText;
+        _this.$refs.searchInputCtrl.focus();
+
+      } else {
+        _this.newLink.url = clipText;
+        
+        _this.openAddLinkDialog();
+        document.removeEventListener('paste', _this.pasteFn)
+      }
     }
   },
   mounted() {
@@ -320,21 +340,7 @@ export default {
     _this.$store.dispatch("getAllFolder");
     _this.$store.dispatch("getAllTag");
 
-    document.addEventListener("paste", function(event) {
-      var clipText = event.clipboardData.getData("Text");
-      if (!isUrl(clipText)) {
-        // _this.$message.error("不是有效的链接格式");
-        _this.searchContent = '';
-        _this.searchContent = clipText;
-        _this.$refs.searchInputCtrl.focus();
-
-      } else {
-        _this.newLink.url = clipText;
-        
-        _this.openAddLinkDialog();
-       
-      }
-    });
+    document.addEventListener("paste", _this.pasteFn);
 
     this.client.htmlHeight = window.screen.availHeight - 180;
   }

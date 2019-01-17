@@ -81,14 +81,13 @@ export default {
     },
     handleClose(tag){
       let _this =this;
-      _this.$confirm('确认删除标签: ' + tag.name + ' ?', '提示', {
+      _this.$confirm('确认删除标签: ' + tag.name + ' ?', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         _this.$store.dispatch("removeTag", tag.id);
       });
-      
     },
     nodeClick(node){
       let _this = this;

@@ -84,11 +84,3 @@ new Vue({
   components: {App},
   template: '<App/>'
 }).$mount('#app');
-
-
-// let theBoyFriend = new BoyFriend();
-// theBoyFriend
-//   .with(new Money(9999999999999))
-//   .with(new Car('BMW'), new Car('Benz'), new Car('Tesla'))
-//   .with(new Car('BMW'), new Car('Benz'), new Car('Tesla'))
-//   .with(new Food('Morning noodles'), new Food('Cherries'));
