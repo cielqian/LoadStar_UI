@@ -27,7 +27,7 @@
             <span class="ls_margin_left_15 ls_text_d ls_pointer" @click="fullScreen('baidu')">全屏</span>
           </el-col>
           </el-row>
-          <iframe id="baiduIframe" width="100%" height="500px" class="searchIframe ls_no_border" src=""></iframe>
+          <iframe id="baiduIframe" width="100%" height="500px" class="searchIframe ls_no_border ls_scroll" src=""></iframe>
         </el-col>
         <el-col :span="8" class="ls_padding_all_15">
           <el-row>

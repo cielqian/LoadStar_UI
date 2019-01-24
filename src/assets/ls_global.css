@@ -17,6 +17,17 @@ body{
     padding: 5px;
 }
 
+.ls_scroll::-webkit-scrollbar{
+    width: 5px;
+    height: 5px;
+}
+
+.ls_scroll::-webkit-scrollbar-track {/*滚动条里面轨道*/
+    -webkit-box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+    border-radius: 10px;
+    background: #EDEDED;
+}
+
 .ls_pull_left{
     float: left;
 }
