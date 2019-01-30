@@ -77,6 +77,8 @@ const i18n = new VueI18n({
   }
 })
 
+console.log('version: 1.0.0');
+
 new Vue({
   store,
   router,
