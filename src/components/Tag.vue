@@ -14,7 +14,6 @@
     </el-row>
     <el-row>
       <el-tag class="ls_pointer" @click.native="nodeClick()">全部</el-tag>
-      
       <el-tag
       :key="tag.id"
       v-for="tag in tags"
@@ -30,7 +29,10 @@
             <el-table highlight-current-row :data="links" :show-header="false">
                <el-table-column>
                 <template slot-scope="scope">
-                  <div class="ls_pointer" @click="redirect(scope.row)">{{scope.row.title}}</div>
+                  <div class="icon">
+                    <img class="ls_inline ls_icon_sm" :src="scope.row.icon" onerror="javascript:this.src='/static/logo.png'">
+                    <div class="ls_pointer ls_inline ls_padding_left_5" @click="redirect(scope.row)">{{scope.row.title}}</div>
+                  </div>
                 </template>
                </el-table-column>
                 <el-table-column width="50">
@@ -45,7 +47,6 @@
                       </ul>
                       <i slot="reference" class="el-icon-more ls_pointer"></i>
                     </el-popover>
-                    
                   </template>
                 </el-table-column>
             </el-table>
@@ -67,10 +68,6 @@ export default {
     };
   },
   methods:{
-    redirect(row) {
-      this.$store.dispatch("visitLink", row.id);
-      window.open(row.url);
-    },
     createTag(){
       if (!this.newTagName) {
         return;
@@ -103,13 +100,13 @@ export default {
         });
       }
       else{
-          _this.visible1 = true;
-          _this.links = [..._this.$store.state.link.allLink];
+        _this.selectedTagId = 0;
+        _this.visible1 = true;
+        _this.links = [..._this.$store.state.link.allLink];
       }
     },
     redirect(row){
-      this.$store.dispatch("visitLink", row.id);
-      window.open(row.url);
+      this.$store.dispatch("visitLink", row);
     },
     renderContent(h, { node, data, store }){
        return (

@@ -55,7 +55,7 @@
               <el-table :data="searchLinks">
                 <el-table-column prop="title">
                   <template slot-scope="scope">
-                    <div v-html="renderTitle(scope.row.title)"></div>
+                    <div class="ls_pointer" v-html="renderTitle(scope.row.title)" @click="redirect(scope.row)"></div>
                   </template>
                 </el-table-column>
               </el-table>
@@ -202,8 +202,7 @@ export default {
     //   });
     // },
     redirect: function(link) {
-      this.$store.dispatch("visitLink", link.id);
-      window.open(link.url);
+      this.$store.dispatch("visitLink", link);
     },
     search: function() {
       let _this = this;

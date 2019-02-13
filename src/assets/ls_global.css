@@ -133,6 +133,10 @@ body{
     padding: 15px;
 }
 
+.ls_padding_left_5{
+    padding-left: 5px;
+}
+
 .ls_padding_left_15{
     padding-left: 15px;
 }
@@ -163,4 +167,9 @@ body{
 .ls_h3{
     font-size: 1.1rem;
     font-weight: bold;
+}
+
+.ls_icon_sm{
+    height: 20px;
+    width: 20px;
 }

@@ -53,7 +53,7 @@
             <transition name="el-zoom-in-center">
               <div @click="onClick(link)" class="transition-box">
                 <div v-if="link.icon != null" class="icon">
-                  <img :src="link.icon">
+                  <img :src="link.icon" onerror="javascript:this.src='/static/logo.png'">
                 </div>
                 <div style="padding-top:10px;"><span class="label ls_in_line">{{link.name}}</span></div>
               </div>

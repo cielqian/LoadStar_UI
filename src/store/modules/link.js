@@ -73,8 +73,9 @@ const actions = {
             });
         });
     },
-    visitLink({ commit, state, dispatch }, linkId) {
-        api.visitLink(linkId);
+    visitLink({ commit, state, dispatch }, link) {
+        api.visitLink(link.id);
+        window.open(link.url);
     },
     upLink({ commit, state, dispatch }, linkId){
         return api.up(linkId);

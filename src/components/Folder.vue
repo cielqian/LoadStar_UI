@@ -91,8 +91,7 @@ export default {
   },
   methods: {
     redirect(row) {
-      this.$store.dispatch("visitLink", row.id);
-      window.open(row.url);
+      this.$store.dispatch("visitLink", row);
     },
     renderContent(h, { node, data, store }) {
       return (
@@ -162,7 +161,7 @@ export default {
     },
     removeLink(row) {
       let _this = this;
-      _this.$confirm("" + row.name, "确认删除").then(() => {
+      _this.$confirm("" + row.title, "确认删除").then(() => {
         if (_this.selectedFolderName == "回收站") {
           _this.$store.dispatch("removeLink", row.id).then(() => {
             api.getAllLinksUnderFolder(_this.selectedFolderId).then(res => {
