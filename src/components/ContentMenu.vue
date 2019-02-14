@@ -11,7 +11,16 @@
 
 export default {
     name: "LSContentMenu",
+    data(){
+        return{
+            selectedLink:{}
+        }
+    },
     methods:{
+        show(link, x, y){
+            this.selectedLink = link;
+            this.$refs.contextmenu.show({top:y+10, left:x+10});
+        },
         redirect(link) {
             this.$store.dispatch("visitLink", link);
         },
@@ -22,9 +31,11 @@ export default {
             let _this = this;
             _this.$store.dispatch("addLinkToOften", link.id);
         },
+        removeFromOften(link){
+            
+        }
     },
     mounted(){
-        console.log('e' + this.$refs.contextmenu)
     }
 }
 </script>

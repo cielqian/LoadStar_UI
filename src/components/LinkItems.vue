@@ -48,7 +48,7 @@
       </div>
       <div v-else>
         <el-col class="ls_link_item ls_link_item_card" v-for="link in links" :key="link.id" :xs="24" :sm="11" :md="5">
-          <div v-contextmenu="$refs.contextmenu" v-show="edit" class="operate ls_fg_white">
+          <div v-show="edit" class="operate ls_fg_white">
             <el-col class="operate_btn">
               <i class="el-icon-delete" @click="onRemove(link)"></i>
             </el-col>
@@ -61,11 +61,10 @@
             <el-col class="operate_btn">
               <i class="el-icon-caret-bottom" @click="onDown(link)"></i>
             </el-col>
-            
           </div>
           <el-tooltip class="ls_link_item_content" effect="dark" :open-delay="1000" :content="link.title" placement="top">
             <transition name="el-zoom-in-center">
-              <div @click="onClick(link)" class="transition-box">
+              <div @contextmenu.prevent="openContentMenu(link, $event)"  @click="onClick(link)" class="transition-box">
                 <div v-if="link.icon != null" class="icon">
                   <img :src="link.icon" onerror="javascript:this.src='/static/logo.png'">
                 </div>
@@ -76,7 +75,7 @@
         </el-col>
         <!-- <div style="clear:both"></div>  -->
       </div>
-       <LSContentMenu></LSContentMenu>
+       <LSContentMenu ref="contextmenu"></LSContentMenu>
     </div>
 
 </template>
@@ -96,6 +95,10 @@ export default {
     };
   },
   methods:{
+    openContentMenu(link, vnode){
+      console.log(vnode);
+      this.$refs.contextmenu.show(link, vnode.clientX, vnode.clientY);
+    },
     onClick: function (row) {
       this.$emit('on-click', row);
     },
