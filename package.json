@@ -15,8 +15,10 @@
     "element-ui": "^2.4.11",
     "loadsh": "0.0.3",
     "nprogress": "^0.2.0",
+    "v-contextmenu": "^2.8.0",
     "vue": "^2.5.21",
     "vue-clipboard2": "^0.2.1",
+    "vue-content-loader": "^0.2.1",
     "vue-i18n": "^8.6.0",
     "vue-router": "^3.0.2",
     "vuex": "^3.0.1"

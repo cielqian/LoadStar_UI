@@ -34,10 +34,13 @@
         >
           <el-table-column>
             <template slot-scope="scope">
-              <div draggable="true" class="ls_pointer" @click="redirect(scope.row)" @dragstart="dragStart($event, scope.row.id)">{{scope.row.title}}</div>
+              <div class="icon" v-contextmenu:contextmenu :link="scope.row">
+                  <img class="ls_inline ls_icon_sm" :src="scope.row.icon" onerror="javascript:this.src='/static/logo.png'">
+                  <div draggable="true" class="ls_inline ls_padding_left_5 ls_pointer" @click="redirect(scope.row)" @dragstart="dragStart($event, scope.row.id)">{{scope.row.title}}</div>
+                </div>
             </template>
           </el-table-column>
-          <el-table-column width="50">
+          <!-- <el-table-column width="50">
             <template slot-scope="scope">
               <el-popover placement="bottom" width="50px" trigger="click">
                 <ul class="popover_menu ls_text_center">
@@ -47,7 +50,7 @@
                 <i slot="reference" class="el-icon-more ls_pointer"></i>
               </el-popover>
             </template>
-          </el-table-column>
+          </el-table-column> -->
         </el-table>
         <el-row v-if="links.length > 0 && selectedFolderName == '回收站'">
           <el-col class="ls_padding_left_15">
@@ -56,13 +59,23 @@
         </el-row>
       </el-col>
     </el-row>
+    <v-contextmenu theme="dark" ref="contextmenu"  @contextmenu="handleContextmenu" class="popover_menu ls_text_center">
+      <v-contextmenu-item @click="redirect(selectedLink)">浏览</v-contextmenu-item>
+      <v-contextmenu-item @click="removeLink(selectedLink)">删除</v-contextmenu-item>
+    </v-contextmenu>
   </div>
 </template>
 <script>
+import ContentMenu from 'v-contextmenu'
+import 'v-contextmenu/dist/index.css'
 import { mapGetters, mapState } from "vuex";
 import api from "../api/link";
+
 export default {
   name: "LSFolder",
+  components: {
+    ContentMenu
+  },
   data() {
     return {
       visible1: false,
@@ -81,7 +94,8 @@ export default {
       selectedFolderId: 0,
       selectedFolderName: "",
       firstLoaded: true,
-      links: []
+      links: [],
+      selectedLink:{}
     };
   },
   computed: {
@@ -200,6 +214,9 @@ export default {
     drop(a) {
       console.log(a);
       this.onMove = false;
+    },
+    handleContextmenu(vnode){
+      this.selectedLink = vnode.data.attrs.link;
     }
   },
   mounted() {
@@ -251,7 +268,7 @@ export default {
   padding-left: 0px;
   margin-block-end: 0px;
   margin-block-start: 0px;
-
+  width: 150px;
   li {
     padding: 5px 0px;
     font-size: 0.9rem;

@@ -93,8 +93,8 @@
           @on-down="downLink"
         ></LSTopLink>
         <LinkCardItem
-          v-loading="loading.allLinkLoading"
           :links="links"
+          :loading="loading.allLinkLoading"
           :listType="theme.listTypeEnum"
           @on-click="redirect"
           @on-remove="removeLink"

@@ -1,5 +1,19 @@
 <template>
     <div class="ls_link_list ls_padding_15_1 ls_overflow">
+      <div v-if="links.length == 0 && loading" style="width:100%;height:150px">
+        <el-col class="ls_link_item" :xs="24" :sm="11" :md="5" v-for="n in 4" :key="n">
+          <content-loader class="ls_bg_white"
+            :height="120"
+            :width="400"
+            :speed="2"
+            primaryColor="#f3f3f3"
+            secondaryColor="#ecebeb">
+            <rect x="100" y="50" rx="3" ry="3" :width="120 + n*12" height="12" /> 
+            <rect x="100" y="80" rx="3" ry="3" :width="200 - n*6" height="12" /> 
+            <circle cx="180" cy="20" r="20" />
+          </content-loader>
+        </el-col>
+      </div>
       <!-- <el-col class="title">
         <span class="ls_inline">{{title}}</span>
         <i class="el-icon-edit-outline ls_pull_right ls_pointer" @click="edit = !edit"></i>
@@ -65,9 +79,15 @@
     </div>
 </template>
 <script>
+import { ContentLoader,FacebookLoader } from 'vue-content-loader'
+
 export default {
   name: "LinkItems",
   props: ['links', 'title', 'listType', 'loading'],
+  components: {
+    ContentLoader,
+    FacebookLoader
+  },
   data() {
     return {
       edit: false,
@@ -100,7 +120,7 @@ export default {
 
   .ls_link_item{
     text-align: center;
-    min-height: 70px;
+    height: 130px;
     cursor: pointer;
     margin-top: 20px;
     margin-right: 20px;
@@ -138,7 +158,8 @@ export default {
   }
 
   .ls_link_item_card:hover{
-    font-size: 18px;
+    color: #5e5e5e;
+    background-color: #EEE;
   }
 }
 
