@@ -96,7 +96,6 @@ export default {
   },
   methods:{
     openContentMenu(link, vnode){
-      console.log(vnode);
       this.$refs.contextmenu.show(link, vnode.clientX, vnode.clientY);
     },
     onClick: function (row) {
