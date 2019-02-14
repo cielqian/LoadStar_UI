@@ -22,6 +22,7 @@ export default{
         trash: '/link-service/api/link/trash/{linkId}',
         deleteByFolder: '/link-service/api/folder/{folderId}/link',
         move: '/link-service/api/link/{linkId}/to/{folderId}',
+        addToOften: '/link-service/api/link/{linkId}/addToOften'
     },
     folder: {
         query: '/link-service/api/folder/current',

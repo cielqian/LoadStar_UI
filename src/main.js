@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import axios from 'axios' 
-// import ElementUI from 'element-ui';
+import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import './assets/iconfont.css'
 import './assets/ls_global.css'
@@ -17,6 +17,10 @@ import LangZhCHS from '../static/lang/zhCHS'
 import _ from 'lodash'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import ContentMenu from 'v-contextmenu'
+import 'v-contextmenu/dist/index.css'
+import LSContentMenu from "./components/ContentMenu.vue";
+
 
 Vue.config.productionTip = false;
 axios.defaults.baseURL = apis.baseHost;
@@ -66,7 +70,7 @@ axios.interceptors.response.use(
 Vue.prototype.$http = axios;
 Vue.prototype._ = _;
 
-// Vue.use(ElementUI);
+Vue.use(ElementUI);
 
 Vue.use(VueI18n)
 const i18n = new VueI18n({
@@ -77,7 +81,9 @@ const i18n = new VueI18n({
   }
 })
 
-console.log('version: 1.0.0');
+Vue.use(ContentMenu)
+
+Vue.component('LSContentMenu',LSContentMenu)
 
 new Vue({
   store,

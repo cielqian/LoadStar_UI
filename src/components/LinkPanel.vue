@@ -93,7 +93,7 @@
           @on-down="downLink"
         ></LSTopLink>
         <LinkCardItem
-          :links="links"
+          :links="oftenLinks"
           :loading="loading.allLinkLoading"
           :listType="theme.listTypeEnum"
           @on-click="redirect"
@@ -181,6 +181,7 @@ export default {
         url:''
       },
       edit: false,
+      oftenLinks: [],
       recentLinks: [],
       searchLinks: []
     };
@@ -338,6 +339,10 @@ export default {
       .then(x => (_this.loading.allLinkLoading = false));
     _this.$store.dispatch("getAllFolder");
     _this.$store.dispatch("getAllTag");
+
+    linkApi.getAllLinksUnderTag(-1).then(res => {
+      _this.oftenLinks = res.data;
+    });
 
     document.addEventListener("paste", _this.pasteFn);
 

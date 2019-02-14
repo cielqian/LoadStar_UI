@@ -1,7 +1,7 @@
 <template>
     <div class="ls_link_list ls_padding_15_1 ls_overflow">
       <div v-if="links.length == 0 && loading" style="width:100%;height:150px">
-        <el-col class="ls_link_item" :xs="24" :sm="11" :md="5" v-for="n in 4" :key="n">
+        <el-col  class="ls_link_item" :xs="24" :sm="11" :md="5" v-for="n in 4" :key="n">
           <content-loader class="ls_bg_white"
             :height="120"
             :width="400"
@@ -48,7 +48,7 @@
       </div>
       <div v-else>
         <el-col class="ls_link_item ls_link_item_card" v-for="link in links" :key="link.id" :xs="24" :sm="11" :md="5">
-          <div v-show="edit" class="operate ls_fg_white">
+          <div v-contextmenu="$refs.contextmenu" v-show="edit" class="operate ls_fg_white">
             <el-col class="operate_btn">
               <i class="el-icon-delete" @click="onRemove(link)"></i>
             </el-col>
@@ -76,7 +76,9 @@
         </el-col>
         <!-- <div style="clear:both"></div>  -->
       </div>
+       <LSContentMenu></LSContentMenu>
     </div>
+
 </template>
 <script>
 import { ContentLoader,FacebookLoader } from 'vue-content-loader'

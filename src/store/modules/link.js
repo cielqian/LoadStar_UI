@@ -82,7 +82,11 @@ const actions = {
     },
     downLink({ commit, state, dispatch }, linkId){
         return api.down(linkId);
+    },
+    addLinkToOften({ commit, state, dispatch }, linkId){
+        return api.addToOften(linkId);
     }
+
 }
 
 export default {

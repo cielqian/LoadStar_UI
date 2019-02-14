@@ -119,5 +119,13 @@ export default{
                 resolve(response);
             });
         });
+    },
+    addToOften(linkId){
+        return new Promise((resolve, reject) => {
+            axios.put(utils.replace(apis.link.addToOften,[{key:'{linkId}', val:linkId}]))
+            .then(function(response) {
+                resolve(response);
+            });
+        });
     }
 }

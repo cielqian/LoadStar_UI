@@ -61,21 +61,17 @@
     </el-row>
     <v-contextmenu theme="dark" ref="contextmenu"  @contextmenu="handleContextmenu" class="popover_menu ls_text_center">
       <v-contextmenu-item @click="redirect(selectedLink)">浏览</v-contextmenu-item>
+      <v-contextmenu-item @click="addToOften(selectedLink)">添加至“常用”</v-contextmenu-item>
       <v-contextmenu-item @click="removeLink(selectedLink)">删除</v-contextmenu-item>
     </v-contextmenu>
   </div>
 </template>
 <script>
-import ContentMenu from 'v-contextmenu'
-import 'v-contextmenu/dist/index.css'
 import { mapGetters, mapState } from "vuex";
 import api from "../api/link";
 
 export default {
   name: "LSFolder",
-  components: {
-    ContentMenu
-  },
   data() {
     return {
       visible1: false,
@@ -190,6 +186,10 @@ export default {
           });
         }
       });
+    },
+    addToOften(row) {
+      let _this = this;
+      _this.$store.dispatch("addLinkToOften", row.id);
     },
     deleteByFolder() {
       let _this = this;
