@@ -101,7 +101,7 @@
           @on-up="upLink"
           @on-down="downLink"
         ></LinkCardItem>
-        <div v-if="links.length == 0">
+        <div v-if="oftenLinks.length == 0">
           <el-col class="ls_text_center" style="margin-top:200px;">
             <h2>Try Ctrl+V To Create New Link</h2>
           </el-col>
@@ -181,15 +181,15 @@ export default {
         url:''
       },
       edit: false,
-      oftenLinks: [],
       recentLinks: [],
-      searchLinks: []
+      searchLinks: [],
     };
   },
   computed: {
     ...mapState({
       title: state => state.home.title,
       links: state => state.link.allLink,
+      oftenLinks: state => state.link.oftenLink,
       theme: state => state.setting.theme,
       folders: state => state.folder.allFolder,
       tags: state => state.tag.allTag
@@ -339,11 +339,9 @@ export default {
       .then(x => (_this.loading.allLinkLoading = false));
     _this.$store.dispatch("getAllFolder");
     _this.$store.dispatch("getAllTag");
-
-    linkApi.getAllLinksUnderTag(-1).then(res => {
-      _this.oftenLinks = res.data;
-    });
-
+    _this.$store
+      .dispatch("getOftenLink")
+    
     document.addEventListener("paste", _this.pasteFn);
 
     this.client.htmlHeight = window.screen.availHeight - 180;

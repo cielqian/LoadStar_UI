@@ -91,12 +91,12 @@ export default {
   },
   data() {
     return {
-      edit: false,
+      edit: false
     };
   },
   methods:{
     openContentMenu(link, vnode){
-      this.$refs.contextmenu.show(link, vnode.clientX, vnode.clientY);
+      this.$refs.contextmenu.show(link, vnode.clientX, vnode.clientY, 'view,removeOften');
     },
     onClick: function (row) {
       this.$emit('on-click', row);

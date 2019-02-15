@@ -127,5 +127,13 @@ export default{
                 resolve(response);
             });
         });
+    },
+    removeFromOften(linkId){
+        return new Promise((resolve, reject) => {
+            axios.put(utils.replace(apis.link.removeFromOften,[{key:'{linkId}', val:linkId}]))
+            .then(function(response) {
+                resolve(response);
+            });
+        });
     }
 }

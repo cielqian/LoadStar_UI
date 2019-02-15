@@ -1,9 +1,11 @@
 import api from '../../api/link';
+import _ from 'lodash'
 
 const state = {
     allLink: [],
     topLink: [],
-    recentLink: []
+    recentLink: [],
+    oftenLink: []
 }
 
 // getters
@@ -15,6 +17,9 @@ const mutations = {
     setLinks(state, links) {
         state.allLink = links;
     },
+    setOftenLinks(state, links) {
+        state.oftenLink = links;
+    },
     setTopLinks(state, links){
         state.topLink = links;
     },
@@ -23,6 +28,14 @@ const mutations = {
     },
     putLink(state, link) {
         state.allLink.push(link);
+    },
+    putOftenLink(state, link){
+        state.oftenLink.push(link);
+    },
+    removeOftenLink(state, linkId){
+        state.oftenLink = _.dropWhile(state.oftenLink, (o)=>{
+            return o.id == linkId;
+        })
     }
 }
 
@@ -33,6 +46,16 @@ const actions = {
             api.getAllLinks()
                 .then((response) => {
                     commit('setLinks', response.data.items);
+                    resolve();
+                })
+                .catch((response) => reject());
+        });
+    },
+    getOftenLink({ commit }) {
+        return new Promise((resolve, reject) => {
+            api.getAllLinksUnderTag(-1)
+                .then((response) => {
+                    commit('setOftenLinks', response.data);
                     resolve();
                 })
                 .catch((response) => reject());
@@ -83,10 +106,22 @@ const actions = {
     downLink({ commit, state, dispatch }, linkId){
         return api.down(linkId);
     },
-    addLinkToOften({ commit, state, dispatch }, linkId){
-        return api.addToOften(linkId);
+    addLinkToOften({ commit, state, dispatch }, link){
+        return new Promise((resolve, reject) => {
+            api.addToOften(link.id).then(response => {
+                commit('putOftenLink', link);
+                resolve();
+            });
+        });
+    },
+    removeLinkFromOften({ commit, state, dispatch }, link){
+        return new Promise((resolve, reject) => {
+            api.removeFromOften(link.id).then(response => {
+                commit('removeOftenLink', link.id);
+                resolve();
+            });
+        });
     }
-
 }
 
 export default {

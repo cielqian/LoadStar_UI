@@ -34,7 +34,7 @@
         >
           <el-table-column>
             <template slot-scope="scope">
-              <div class="icon" v-contextmenu:contextmenu :link="scope.row">
+              <div class="icon" @contextmenu.prevent="openContentMenu(scope.row, $event)" :link="scope.row">
                   <img class="ls_inline ls_icon_sm" :src="scope.row.icon" onerror="javascript:this.src='/static/logo.png'">
                   <div draggable="true" class="ls_inline ls_padding_left_5 ls_pointer" @click="redirect(scope.row)" @dragstart="dragStart($event, scope.row.id)">{{scope.row.title}}</div>
                 </div>
@@ -59,11 +59,7 @@
         </el-row>
       </el-col>
     </el-row>
-    <v-contextmenu theme="dark" ref="contextmenu"  @contextmenu="handleContextmenu" class="popover_menu ls_text_center">
-      <v-contextmenu-item @click="redirect(selectedLink)">浏览</v-contextmenu-item>
-      <v-contextmenu-item @click="addToOften(selectedLink)">添加至“常用”</v-contextmenu-item>
-      <v-contextmenu-item @click="removeLink(selectedLink)">删除</v-contextmenu-item>
-    </v-contextmenu>
+    <LSContentMenu ref="contextmenu"></LSContentMenu>
   </div>
 </template>
 <script>
@@ -100,6 +96,9 @@ export default {
     })
   },
   methods: {
+    openContentMenu(link, vnode){
+      this.$refs.contextmenu.show(link, vnode.clientX, vnode.clientY, 'view,addOften,delete');
+    },
     redirect(row) {
       this.$store.dispatch("visitLink", row);
     },

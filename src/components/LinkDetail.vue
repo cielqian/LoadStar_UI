@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row class="ls_text_center" >
+    <el-row>
       <el-col :span="24">
         <el-form label-width="80px">
           <el-form-item label="链接">
@@ -11,6 +11,10 @@
           </el-form-item>
           <el-form-item label="标题">
             <el-input v-model="newLink.title"></el-input>
+          </el-form-item>
+          <el-form-item label="常用">
+            <el-switch v-model="newLink.isOften">
+            </el-switch>
           </el-form-item>
           <el-form-item label="文件夹">
             <el-select
@@ -79,7 +83,8 @@ export default {
         name: "",
         title: "",
         url: "",
-        tags: ""
+        tags: "",
+        isOften: true
       },
       newTag: {
         name: ""
@@ -136,7 +141,8 @@ export default {
         folderId: this.newLink.folderId == "未归档" ? "" : this.newLink.folderId,
         url: this.newLink.url,
         icon: this.newLink.icon,
-        tags: tagsId
+        tags: tagsId,
+        isOften: this.newLink.isOften
       };
 
       this.$store.dispatch("createLink", d).then(res => {
@@ -178,4 +184,11 @@ export default {
   }
 };
 </script>
+<style>
+.el-switch.is-checked .el-switch__core{
+      border-color: #000;
+    background-color: #000;
+}
+</style>
+
 
