@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row>
-      <el-col :span="4">
+      <el-col :span="6" class="ls_padding_right_15">
         <el-input suffix-icon="el-icon-circle-plus-outline"
          v-model="createFolderModel.name" placeholder="输入文件夹名称，并按回车创建" maxlength="8"
          @keyup.enter.native="createFolder">
@@ -25,7 +25,7 @@
           </span>
         </el-tree>
       </el-col>
-      <el-col v-show="visible1" :span="18" class="ls_content ls_bg_white" style="margin-left: 50px">
+      <el-col v-show="visible1" :span="17" class="ls_content ls_bg_white">
         <el-table
           v-loading="loading.linkList"
           :data="links"
@@ -34,23 +34,12 @@
         >
           <el-table-column>
             <template slot-scope="scope">
-              <div class="icon" @contextmenu.prevent="openContentMenu(scope.row, $event)" :link="scope.row">
+              <div class="ls_icon_sm" @contextmenu.prevent="openContentMenu(scope.row, $event)" :link="scope.row">
                   <img class="ls_inline ls_icon_sm" :src="scope.row.icon" onerror="javascript:this.src='/static/logo.png'">
                   <div draggable="true" class="ls_inline ls_padding_left_5 ls_pointer" @click="redirect(scope.row)" @dragstart="dragStart($event, scope.row.id)">{{scope.row.title}}</div>
                 </div>
             </template>
           </el-table-column>
-          <!-- <el-table-column width="50">
-            <template slot-scope="scope">
-              <el-popover placement="bottom" width="50px" trigger="click">
-                <ul class="popover_menu ls_text_center">
-                  <li class="ls_pointer" @click="redirect(scope.row)">浏览</li>
-                  <li class="ls_pointer" @click="removeLink(scope.row)">删除</li>
-                </ul>
-                <i slot="reference" class="el-icon-more ls_pointer"></i>
-              </el-popover>
-            </template>
-          </el-table-column> -->
         </el-table>
         <el-row v-if="links.length > 0 && selectedFolderName == '回收站'">
           <el-col class="ls_padding_left_15">
@@ -59,7 +48,7 @@
         </el-row>
       </el-col>
     </el-row>
-    <LSContentMenu ref="contextmenu"></LSContentMenu>
+    <LSContentMenu ref="contextmenu" @changed="getAllLinksUnderFolder"></LSContentMenu>
   </div>
 </template>
 <script>
@@ -97,7 +86,11 @@ export default {
   },
   methods: {
     openContentMenu(link, vnode){
-      this.$refs.contextmenu.show(link, vnode.clientX, vnode.clientY, 'view,addOften,delete');
+      if (this.selectedFolderName == '回收站') {
+        this.$refs.contextmenu.show(link, vnode.clientX, vnode.clientY, 'view,addOften,delete');
+      }else{
+        this.$refs.contextmenu.show(link, vnode.clientX, vnode.clientY, 'view,addOften,trans');
+      }
     },
     redirect(row) {
       this.$store.dispatch("visitLink", row);
@@ -137,6 +130,12 @@ export default {
             });
           };
         }
+      });
+    },
+    getAllLinksUnderFolder(){
+      let _this = this;
+      api.getAllLinksUnderFolder(_this.selectedFolderId).then(res => {
+        _this.links = res.data;
       });
     },
     nodeClick(node) {
@@ -213,9 +212,6 @@ export default {
     drop(a) {
       console.log(a);
       this.onMove = false;
-    },
-    handleContextmenu(vnode){
-      this.selectedLink = vnode.data.attrs.link;
     }
   },
   mounted() {

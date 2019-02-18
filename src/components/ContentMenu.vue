@@ -4,6 +4,7 @@
             <v-contextmenu-item v-if="menus.indexOf('view') >= 0" @click="redirect(selectedLink)">浏览</v-contextmenu-item>
             <v-contextmenu-item v-if="menus.indexOf('addOften') >= 0" @click="addToOften(selectedLink)">添加至“常用”</v-contextmenu-item>
             <v-contextmenu-item v-if="menus.indexOf('removeOften') >= 0" @click="removeFromOften(selectedLink)">从“常用”移除</v-contextmenu-item>
+            <v-contextmenu-item v-if="menus.indexOf('trans') >= 0" @click="transLink(selectedLink)">删除</v-contextmenu-item>
             <v-contextmenu-item v-if="menus.indexOf('delete') >= 0" @click="removeLink(selectedLink)">删除</v-contextmenu-item>
         </v-contextmenu>
     </div>
@@ -27,22 +28,26 @@ export default {
         redirect(link) {
             this.$store.dispatch("visitLink", link);
         },
+        transLink(link){
+            let _this = this;
+            _this.$confirm("" + link.title, "确认删除").then(() => {
+                _this.$store.dispatch("trashLink", link.id).then(() => {
+                    _this.$emit('changed');
+                    // api.getAllLinksUnderFolder(_this.selectedFolderId).then(res => {
+                    //     _this.links = res.data;
+                    // });
+                });
+            });
+        },
         removeLink(link) {
             let _this = this;
-            _this.$confirm("" + row.title, "确认删除").then(() => {
-                if (_this.selectedFolderName == "回收站") {
-                _this.$store.dispatch("removeLink", row.id).then(() => {
-                    api.getAllLinksUnderFolder(_this.selectedFolderId).then(res => {
-                    _this.links = res.data;
-                    });
+            _this.$confirm("" + link.title, "确认删除").then(() => {
+                _this.$store.dispatch("removeLink", link.id).then(() => {
+                    // api.getAllLinksUnderFolder(_this.selectedFolderId).then(res => {
+                    //     _this.links = res.data;
+                    // });
+                    _this.$emit('changed');
                 });
-                } else {
-                _this.$store.dispatch("trashLink", row.id).then(() => {
-                    api.getAllLinksUnderFolder(_this.selectedFolderId).then(res => {
-                    _this.links = res.data;
-                    });
-                });
-                }
             });
         },
         addToOften(link) {

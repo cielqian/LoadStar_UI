@@ -1,3 +1,4 @@
+// 主页
 <template>
   <div class="ls_container">
     <el-row class="searcher">
@@ -12,9 +13,9 @@
       >
         <el-select v-model="searchType" slot="prepend" placeholder="请选择" class="ls_no_border">
           <el-option label="全部" value="0"></el-option>
-          <el-option label="百度" value="1"></el-option>
+          <!-- <el-option label="百度" value="1"></el-option>
           <el-option label="必应" value="2"></el-option>
-          <el-option label="书签" value="3"></el-option>
+          <el-option label="书签" value="3"></el-option> -->
         </el-select>
       </el-input>
     </el-row>
@@ -71,13 +72,8 @@
       
     </el-row>
     
-    <el-row>
+    <el-row class="ls_padding_15_1">
       <el-col :span="24">
-        <!-- <el-alert
-            :title="$t('global.pasteTitle')"
-            type="info"
-            show-icon>
-        </el-alert>-->
         <LSRecentLink
           v-if="showModule('Recently')"
           @on-click="redirect"
@@ -101,7 +97,7 @@
           @on-up="upLink"
           @on-down="downLink"
         ></LinkCardItem>
-        <div v-if="oftenLinks.length == 0">
+        <div v-show="!loading.allLinkLoading &&  oftenLinks.length == 0">
           <el-col class="ls_text_center" style="margin-top:200px;">
             <h2>Try Ctrl+V To Create New Link</h2>
           </el-col>
@@ -175,7 +171,8 @@ export default {
       },
       visible: {
         inputVisible: false,
-        searchResult: false
+        searchResult: false,
+        pasteInfoVisible: false
       },
       newLink:{
         url:''

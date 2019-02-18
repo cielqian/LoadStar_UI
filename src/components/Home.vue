@@ -1,6 +1,6 @@
 <template>
   <el-container style="height:100%">
-    <el-aside style="width:201px">
+    <el-aside style="width:215px">
       <LSHeader/>
     </el-aside>
     <el-main style="background-color:#f9f9f9">

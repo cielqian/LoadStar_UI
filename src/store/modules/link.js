@@ -80,6 +80,9 @@ const actions = {
         api.createLink(link).then(response => {
             link.id = response.data;
             commit('putLink', link);
+            if (link.isOften) {
+                commit('putOftenLink', link);
+            }
         });
     },
     removeLink({ commit, state, dispatch }, linkId) {

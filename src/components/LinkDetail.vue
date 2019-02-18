@@ -189,6 +189,10 @@ export default {
       border-color: #000;
     background-color: #000;
 }
+
+.el-form-item{
+  margin-bottom: 10px;
+}
 </style>
 
 

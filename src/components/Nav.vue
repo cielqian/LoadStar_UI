@@ -34,7 +34,7 @@
 
 <style>
 .el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
+  width: 214px;
   min-height: 400px;
   height: 100%;
 }
