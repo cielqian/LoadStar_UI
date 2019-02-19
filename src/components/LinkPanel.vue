@@ -91,11 +91,7 @@
         <LinkCardItem
           :links="oftenLinks"
           :loading="loading.allLinkLoading"
-          :listType="theme.listTypeEnum"
-          @on-click="redirect"
-          @on-remove="removeLink"
-          @on-up="upLink"
-          @on-down="downLink"
+          :listType="'List1'"
         ></LinkCardItem>
         <div v-show="!loading.allLinkLoading &&  oftenLinks.length == 0">
           <el-col class="ls_text_center" style="margin-top:200px;">
@@ -110,7 +106,7 @@
       width="40%"
       @close="closeAddLinkDialog"
       @opened="analysisLink">
-      <LinkDetail ref="c1"></LinkDetail>
+      <LSLinkDetail ref="linkDetail" :link="newLink"></LSLinkDetail>
       <span slot="footer">
         <el-button @click="dialog.addLinkDialogVisiable = false">Cancel</el-button>
         <el-button type="primary" @click="createNewLink">Create</el-button>
@@ -131,9 +127,8 @@ import Vue from "vue";
 import _ from "vue";
 import LSRecentLink from "./RecentLink.vue";
 import LSTopLink from "./TopLink.vue";
-import LinkDetail from "./LinkDetail.vue";
 import LinkCardItem from "./LinkItems.vue";
-import Folder from "./Folder.vue";
+import LSLinkDetail from "./LinkDetail.vue";
 import apis from "../assets/repository/apis";
 import tagApi from "../api/tag";
 import linkApi from "../api/link";
@@ -145,7 +140,7 @@ function isUrl(text) {
 
 export default {
   name: "LinkPanel",
-  components: { LSRecentLink, LinkDetail, LSTopLink, LinkCardItem, Folder },
+  components: { LSRecentLink, LSTopLink, LinkCardItem,LSLinkDetail },
   data() {
     return {
       searchType: "0",
@@ -193,15 +188,6 @@ export default {
     })
   },
   methods: {
-    // showInput() {
-    //   this.visible.inputVisible = true;
-    //   this.$nextTick(_ => {
-    //     this.$refs.saveTagInput.$refs.input.focus();
-    //   });
-    // },
-    redirect: function(link) {
-      this.$store.dispatch("visitLink", link);
-    },
     search: function() {
       let _this = this;
       this.visible.searchResult = false;
@@ -261,13 +247,13 @@ export default {
     },
     createNewLink: function () {
       let _this = this;
-      this.$refs.c1.createNewLink(() => {
+      this.$refs.linkDetail.saveLink(() => {
         this.dialog.addLinkDialogVisiable = false;
       });
     },
     analysisLink: function () {
       let _this = this;
-      _this.$refs.c1.analysisLink(_this.newLink.url);
+      _this.$refs.linkDetail.analysisLink(_this.newLink.url);
     },
     getTheme: function() {
       this.$store.dispatch("getTheme");
@@ -329,15 +315,9 @@ export default {
   },
   mounted() {
     let _this = this;
-    _this.dialog.addLinkDialogVisiable = false;
-    _this.loading.allLinkLoading = true;
-    _this.$store
-      .dispatch("getAllLink")
-      .then(x => (_this.loading.allLinkLoading = false));
     _this.$store.dispatch("getAllFolder");
     _this.$store.dispatch("getAllTag");
-    _this.$store
-      .dispatch("getOftenLink")
+    _this.$store.dispatch("getOftenLink").then(x => (_this.loading.allLinkLoading = false));
     
     document.addEventListener("paste", _this.pasteFn);
 

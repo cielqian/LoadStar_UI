@@ -17,6 +17,35 @@
       </el-col>
     </div>
     <div v-if="listType == 'List'">
+      <!-- <el-col
+        class="ls_link_item_list ls_pointer"
+        v-for="link in links"
+        :key="link.id"
+        :xs="24"
+        :sm="12"
+        :md="6"
+      >
+        <el-tooltip
+          class=""
+          effect="dark"
+          :open-delay="1000"
+          :content="link.title"
+          placement="top"
+        >
+          <transition name="el-zoom-in-center">
+            <div
+              @contextmenu.prevent="openContentMenu(link, $event)"
+              @click="onClick(link)"
+              class="transition-box"
+            >
+              <div v-if="!!link.icon" class="ls_text_left" :class="iconClass||'ls_icon_sm'">
+                <img :src="link.icon" onerror="javascript:this.src='/static/logo.png'">
+                 <span class="ls_padding_left_10 label ls_in_line">{{renderTitle(link.name)}}</span>
+              </div>
+            </div>
+          </transition>
+        </el-tooltip>
+      </el-col> -->
       <el-col v-if="links.length > 0" :span="24">
         <el-table
           :data="links"
@@ -41,6 +70,37 @@
         </el-table>
       </el-col>
     </div>
+    <div v-else-if="listType == 'List1'">
+      <el-col
+        class="ls_link_item_list ls_pointer"
+        v-for="link in links"
+        :key="link.id"
+        :xs="24"
+        :sm="12"
+        :md="6"
+      >
+        <el-tooltip
+          class=""
+          effect="dark"
+          :open-delay="1000"
+          :content="link.title"
+          placement="top"
+        >
+          <transition name="el-zoom-in-center">
+            <div
+              @contextmenu.prevent="openContentMenu(link, $event)"
+              @click="onClick(link)"
+              class="transition-box"
+            >
+              <div v-if="!!link.icon" class="ls_text_left" :class="iconClass||'ls_icon_sm'">
+                <img :src="link.icon" onerror="javascript:this.src='/static/logo.png'">
+                 <span class="ls_padding_left_5 label ls_in_line">{{renderTitle(link.name)}}</span>
+              </div>
+            </div>
+          </transition>
+        </el-tooltip>
+      </el-col>
+    </div>
     <div v-else>
       <el-col
         class="ls_link_item ls_link_item_card"
@@ -50,20 +110,6 @@
         :sm="11"
         :md="5"
       >
-        <div v-show="edit" class="operate ls_fg_white">
-          <el-col class="operate_btn">
-            <i class="el-icon-delete" @click="onRemove(link)"></i>
-          </el-col>
-          <el-col class="operate_btn">
-            <i class="el-icon-view"></i>
-          </el-col>
-          <el-col class="operate_btn">
-            <i class="el-icon-caret-top" @click="onUp(link)"></i>
-          </el-col>
-          <el-col class="operate_btn">
-            <i class="el-icon-caret-bottom" @click="onDown(link)"></i>
-          </el-col>
-        </div>
         <el-tooltip
           class="ls_link_item_content"
           effect="dark"
@@ -88,7 +134,7 @@
         </el-tooltip>
       </el-col>
     </div>
-    <LSContentMenu ref="contextmenu"></LSContentMenu>
+    <LSContentMenu ref="contextmenu" @onSaved="onChanged"></LSContentMenu>
   </div>
 </template>
 <script>
@@ -112,20 +158,22 @@ export default {
         link,
         vnode.clientX,
         vnode.clientY,
-        "view,removeOften"
+        "view,removeOften,edit"
       );
     },
-    onClick: function(row) {
-      this.$emit("on-click", row);
+    onChanged(){
+      this.$emit('onChanged');
     },
-    onRemove: function(row) {
-      this.$emit("on-remove", row);
+    onClick(link){
+      this.$store.dispatch("visitLink", link);
     },
-    onUp: function(row) {
-      this.$emit("on-up", row);
-    },
-    onDown: function(row) {
-      this.$emit("on-down", row);
+    renderTitle(title){
+      if (title.length <= 18) {
+        return title;
+      }
+      else{
+        return title.substring(0,18) + '...';
+      }
     }
   }
 };
@@ -178,6 +226,17 @@ export default {
   }
 
   .ls_link_item_card:hover {
+    color: #5e5e5e;
+    background-color: #eee;
+  }
+
+  .ls_link_item_list {
+    font-size: 14px;
+    padding:15px;
+    background-color: #fff;
+  }
+
+  .ls_link_item_list:hover {
     color: #5e5e5e;
     background-color: #eee;
   }

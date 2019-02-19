@@ -32,6 +32,7 @@
           :listType="'List'"
           :iconClass="'ls_icon_sm'"
           @on-click="redirect"
+          @onChanged="nodeClick"
         ></LinkCardItem>
 
         <!-- <el-table highlight-current-row :data="links" :show-header="false">

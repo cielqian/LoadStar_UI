@@ -30,13 +30,15 @@ const mutations = {
         state.allLink.push(link);
     },
     putOftenLink(state, link){
+        link.isOften = true;
         state.oftenLink.push(link);
     },
     removeOftenLink(state, linkId){
-        state.oftenLink = _.dropWhile(state.oftenLink, (o)=>{
-            return o.id == linkId;
+        state.oftenLink = _.filter(state.oftenLink, (o)=>{
+            return o.id != linkId;
         })
-    }
+    },
+    
 }
 
 // actions
@@ -83,6 +85,15 @@ const actions = {
             if (link.isOften) {
                 commit('putOftenLink', link);
             }
+        });
+    },
+    updateLink({ commit }, link) {
+        api.updateLink(link).then(response => {
+            link.id = response.data;
+            // commit('putLink', link);
+            // if (link.isOften) {
+            //     commit('putOftenLink', link);
+            // }
         });
     },
     removeLink({ commit, state, dispatch }, linkId) {

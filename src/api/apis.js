@@ -10,6 +10,7 @@ export default{
     link:{
         analysis: '/link-service/open/link/analysis',
         create: '/link-service/api/link',
+        update: '/link-service/api/link',
         query: '/link-service/api/link',
         delete: '/link-service/api/link',
         visit: '/link-service/api/link/{linkId}/visit',

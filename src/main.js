@@ -20,7 +20,7 @@ import 'nprogress/nprogress.css'
 import ContentMenu from 'v-contextmenu'
 import 'v-contextmenu/dist/index.css'
 import LSContentMenu from "./components/ContentMenu.vue";
-
+//import LSLinkDetail from "./components/LinkDetail.vue";
 
 Vue.config.productionTip = false;
 axios.defaults.baseURL = apis.baseHost;
@@ -84,6 +84,7 @@ const i18n = new VueI18n({
 Vue.use(ContentMenu)
 
 Vue.component('LSContentMenu',LSContentMenu)
+// Vue.component('LSLinkDetail',LSLinkDetail)
 
 new Vue({
   store,

@@ -4,23 +4,22 @@
       <el-col :span="24">
         <el-form label-width="80px">
           <el-form-item label="链接">
-            <el-input ref="newLinkUrl" v-model="newLink.url"></el-input>
+            <el-input ref="linkUrl" v-model="link.url"></el-input>
           </el-form-item>
-          <el-form-item label="名称">
-            <el-input v-model="newLink.name"></el-input>
-          </el-form-item>
+          <!-- <el-form-item label="名称">
+            <el-input v-model="link.name"></el-input>
+          </el-form-item> -->
           <el-form-item label="标题">
-            <el-input v-model="newLink.title"></el-input>
+            <el-input v-model="link.title" :disabled="analysising" :placeholder="analysisHolder"></el-input>
           </el-form-item>
-          <el-form-item label="常用">
-            <el-switch v-model="newLink.isOften">
-            </el-switch>
+          <el-form-item v-if="!link.id" label="常用">
+            <el-switch v-model="link.isOften"></el-switch>
           </el-form-item>
           <el-form-item label="文件夹">
             <el-select
               class="ls_pull_left"
               style="width:50%"
-              v-model="newLink.folderId"
+              v-model="link.folderId"
               filterable
               placeholder="请选择文件夹"
             >
@@ -74,18 +73,21 @@ function isUrl(text) {
 
 import { mapGetters, mapState } from "vuex";
 export default {
-  name: "LSLink",
-  props: ['linkUrl'],
+  name: "LSLinkDetail",
+  props: ["link"],
   data() {
     return {
-      newLink: {
-        folderId: "",
-        name: "",
-        title: "",
-        url: "",
-        tags: "",
-        isOften: true
-      },
+      // newLink: {
+      //   id:'',
+      //   folderId: "",
+      //   name: "",
+      //   title: "",
+      //   url: "",
+      //   tags: "",
+      //   isOften: true
+      // },
+      analysisHolder: '自动解析中...',
+      analysising: false,
       newTag: {
         name: ""
       },
@@ -100,7 +102,7 @@ export default {
     ...mapState({
       folders: state => state.folder.allFolder,
       tags: state => state.tag.allTag
-    })
+    }),
   },
   methods: {
     showInput() {
@@ -109,52 +111,66 @@ export default {
         this.$refs.saveTagInput.$refs.input.focus();
       });
     },
-    analysisLink: function (url) {
+    analysisLink: function(url) {
       var _this = this;
       if (!isUrl(url)) {
         return;
       }
-      _this.newLink.url = url;
+      _this.link.url = url;
 
       var d = {
         url: url
       };
-
+      _this.analysisHolder = '自动解析中...',
+      _this.analysising = true;
       _this.$store.dispatch("analysisLink", d).then(response => {
-        _this.newLink.name = response.data.name;
-        _this.newLink.title = response.data.title;
-        _this.newLink.icon = response.data.icon;
-        _this.newLink.folderId = "未归档";
+        _this.analysising = false;
+        _this.link.name = response.data.name;
+        _this.link.title = response.data.title;
+        if (!_this.link.title) {
+          _this.analysisHolder = '解析失败，请手动完善标题...';
+        }
+        _this.link.icon = response.data.icon;
+        _this.link.folderId = "未归档";
         _this.selectedTag = [];
         _this.unSelectedTag = [..._this.tags];
       });
     },
-    createNewLink: function(cb) {
+    saveLink: function(cb) {
       let tagsId = [];
       this.selectedTag.forEach(element => {
         tagsId.push(element.id);
       });
 
       var d = {
-        name: this.newLink.name,
-        title: this.newLink.title,
-        folderId: this.newLink.folderId == "未归档" ? "" : this.newLink.folderId,
-        url: this.newLink.url,
-        icon: this.newLink.icon,
+        id: this.link.id,
+        name: this.link.name,
+        title: this.link.title,
+        folderId: this.link.folderId == "未归档" ? "" : this.link.folderId,
+        url: this.link.url,
+        icon: this.link.icon,
         tags: tagsId,
-        isOften: this.newLink.isOften
+        isOften: this.link.isOften
       };
 
-      this.$store.dispatch("createLink", d).then(res => {
-        if (!!cb) {
-          cb();
-        }
-      });
+      if (!!this.link.id) {
+        this.$store.dispatch("updateLink", d).then(res => {
+          if (!!cb) {
+            cb();
+          }
+        });
+      } else {
+        this.$store.dispatch("createLink", d).then(res => {
+          if (!!cb) {
+            cb();
+          }
+        });
+      }
 
-      this.newLink.name = "";
-      this.newLink.title = "";
-      this.newLink.url = "";
-      this.newLink.icon = "";
+      this.link.name = "";
+      this.link.title = "";
+      this.link.url = "";
+      this.link.icon = "";
     },
     createTag: function() {
       let _this = this;
@@ -174,6 +190,10 @@ export default {
       });
       this.selectedTag.push(tag);
     },
+    loadTag: function() {
+      this.selectedTag = [];
+      this.unSelectedTag = [...this.tags];
+    },
     unSelectTag: function(tag) {
       this.selectedTag = this._.filter(this.selectedTag, function(n) {
         return n.id != tag.id;
@@ -185,12 +205,12 @@ export default {
 };
 </script>
 <style>
-.el-switch.is-checked .el-switch__core{
-      border-color: #000;
-    background-color: #000;
+.el-switch.is-checked .el-switch__core {
+  border-color: #000;
+  background-color: #000;
 }
 
-.el-form-item{
+.el-form-item {
   margin-bottom: 10px;
 }
 </style>

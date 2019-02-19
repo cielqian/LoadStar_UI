@@ -67,6 +67,14 @@ export default{
             });
         });
     },
+    updateLink(link){
+        return new Promise((resolve, reject) => {
+            axios.put(apis.link.update, link)
+            .then(function(response) {
+                resolve(response);
+            });
+        });
+    },
     removeLink(linkId){
         return new Promise((resolve, reject) => {
             axios.delete(apis.link.delete + '/' + linkId)
