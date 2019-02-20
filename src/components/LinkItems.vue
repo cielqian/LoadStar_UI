@@ -78,14 +78,8 @@
         :xs="24"
         :sm="12"
         :md="6"
+        :title="link.title"
       >
-        <el-tooltip
-          class=""
-          effect="dark"
-          :open-delay="1000"
-          :content="link.title"
-          placement="top"
-        >
           <transition name="el-zoom-in-center">
             <div
               @contextmenu.prevent="openContentMenu(link, $event)"
@@ -94,11 +88,10 @@
             >
               <div v-if="!!link.icon" class="ls_text_left" :class="iconClass||'ls_icon_sm'">
                 <img :src="link.icon" onerror="javascript:this.src='/static/logo.png'">
-                 <span class="ls_padding_left_5 label ls_in_line">{{renderTitle(link.name)}}</span>
+                 <span class="ls_padding_left_5 label ls_in_line">{{renderTitle(link.title)}}</span>
               </div>
             </div>
           </transition>
-        </el-tooltip>
       </el-col>
     </div>
     <div v-else>
@@ -168,11 +161,11 @@ export default {
       this.$store.dispatch("visitLink", link);
     },
     renderTitle(title){
-      if (title.length <= 18) {
+      if (title.length <= 14) {
         return title;
       }
       else{
-        return title.substring(0,18) + '...';
+        return title.substring(0,14) + '...';
       }
     }
   }

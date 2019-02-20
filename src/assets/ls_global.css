@@ -153,6 +153,10 @@ body{
     padding-right: 15px;
 }
 
+.ls_padding_bottom_15{
+    padding-bottom: 15px;
+}
+
 .ls_pointer{
     cursor: pointer;
 }

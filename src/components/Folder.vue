@@ -1,5 +1,8 @@
 <template>
   <div>
+    <!-- <div v-show="tipReadedInfo.drag">
+      <el-alert title="链接可直接拖动到文件夹" type="warning" close-text="知道了" show-icon @close="closeTip"></el-alert>
+    </div> -->
     <el-row>
       <el-col :span="6" class="ls_padding_right_15">
         <el-input suffix-icon="el-icon-circle-plus-outline"
@@ -25,7 +28,9 @@
           </span>
         </el-tree>
       </el-col>
-      <el-col v-show="visible1" :span="17" class="ls_content ls_bg_white">
+      <el-col v-show="visible1" :span="18" class="ls_content ls_bg_white">
+        
+        
         <el-table
           v-loading="loading.linkList"
           :data="links"
@@ -81,10 +86,14 @@ export default {
   },
   computed: {
     ...mapState({
-      folders: state => state.folder.allFolder
+      folders: state => state.folder.allFolder,
+      tipReadedInfo: state => state.auth.tipReadedInfo
     })
   },
   methods: {
+    // closeTip(){
+    //   this.$store.dispatch("readTip", 'drag')
+    // },
     openContentMenu(link, vnode){
       if (this.selectedFolderName == '回收站') {
         this.$refs.contextmenu.show(link, vnode.clientX, vnode.clientY, 'view,addOften,delete');
@@ -135,6 +144,8 @@ export default {
     getAllLinksUnderFolder(){
       let _this = this;
       api.getAllLinksUnderFolder(_this.selectedFolderId).then(res => {
+        _this.loading.linkList = false;
+        _this.visible1 = true;
         _this.links = res.data;
       });
     },
@@ -147,11 +158,7 @@ export default {
       _this.selectedFolderId = node.id;
       _this.selectedFolderName = node.name;
       _this.loading.linkList = true;
-      api.getAllLinksUnderFolder(node.id).then(res => {
-        _this.loading.linkList = false;
-        _this.visible1 = true;
-        _this.links = res.data;
-      });
+      _this.getAllLinksUnderFolder();
     },
     createFolder() {
       let _this = this;
@@ -166,28 +173,6 @@ export default {
             _this.getAllFolder();
           });
       }
-    },
-    removeLink(row) {
-      let _this = this;
-      _this.$confirm("" + row.title, "确认删除").then(() => {
-        if (_this.selectedFolderName == "回收站") {
-          _this.$store.dispatch("removeLink", row.id).then(() => {
-            api.getAllLinksUnderFolder(_this.selectedFolderId).then(res => {
-              _this.links = res.data;
-            });
-          });
-        } else {
-          _this.$store.dispatch("trashLink", row.id).then(() => {
-            api.getAllLinksUnderFolder(_this.selectedFolderId).then(res => {
-              _this.links = res.data;
-            });
-          });
-        }
-      });
-    },
-    addToOften(row) {
-      let _this = this;
-      _this.$store.dispatch("addLinkToOften", row.id);
     },
     deleteByFolder() {
       let _this = this;

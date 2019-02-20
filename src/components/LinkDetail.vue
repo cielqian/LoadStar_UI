@@ -167,10 +167,10 @@ export default {
         });
       }
 
-      this.link.name = "";
-      this.link.title = "";
-      this.link.url = "";
-      this.link.icon = "";
+      // this.link.name = "";
+      // this.link.title = "";
+      // this.link.url = "";
+      // this.link.icon = "";
     },
     createTag: function() {
       let _this = this;

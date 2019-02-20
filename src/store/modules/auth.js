@@ -8,6 +8,9 @@ const state = {
         username:'',
         nickname:'',
         accessToken: ''
+    },
+    tipReadedInfo:{
+        drag:true
     }
 }
 
@@ -28,9 +31,11 @@ const getters = {
             username: state.loginInfo.username,
             nickname: state.loginInfo.nickname
         }
+    },
+    getTipReadInfo: state => {
+        return state.tipReadInfo;
     }
 }
-
 // mutations
 const mutations = {
     setLoginInfo(state,loginInfo){
@@ -47,6 +52,9 @@ const mutations = {
     setUserInfo(state, userInfo){
         state.loginInfo.username = userInfo.username;
         state.loginInfo.nickname = userInfo.nickname;
+    },
+    readTip(state, tip){
+        state.tipReadedInfo[tip] = true;
     }
 }
 
@@ -82,6 +90,9 @@ const actions = {
     signOut({commit}){
         commit('setLoginInfo', {hasLogined:false,accessToken:''});
         router.push('Login');
+    },
+    readTip({commit}, tip){
+        commit('readTip', tip);
     }
 }
 

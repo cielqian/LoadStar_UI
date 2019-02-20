@@ -26,7 +26,7 @@
           </el-tag>
         </el-row>
       </el-col>
-      <el-col v-show="visible1" :span="17" class="ls_content ls_bg_white">
+      <el-col v-show="visible1" :span="18" class="ls_content ls_bg_white">
         <LinkCardItem
           :links="links"
           :listType="'List'"

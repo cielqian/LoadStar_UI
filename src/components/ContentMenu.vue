@@ -38,7 +38,7 @@ export default {
         show(link, x, y, menus){
             this.menus = menus;
             this.selectedLink = link;
-            this.$refs.contextmenu.show({top:y+10, left:x+10});
+            this.$refs.contextmenu.show({top:y-5, left:x});
         },
         redirect(link) {
             this.$store.dispatch("visitLink", link);

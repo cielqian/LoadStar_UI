@@ -296,6 +296,9 @@ export default {
         _this.options4 = res.data;
       });
     },
+    loadOftenLinks(){
+      this.$store.dispatch("getOftenLink")
+    },
     pasteFn: function(event) {
       let _this = this;
       var clipText = event.clipboardData.getData("Text");
