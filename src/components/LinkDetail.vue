@@ -134,6 +134,12 @@ export default {
         _this.link.folderId = "未归档";
         _this.selectedTag = [];
         _this.unSelectedTag = [..._this.tags];
+      }).error(err => {
+          _this.analysising = false;
+          _this.analysisHolder = '解析失败，请手动完善标题...';
+          _this.link.folderId = "未归档";
+          _this.selectedTag = [];
+          _this.unSelectedTag = [..._this.tags];
       });
     },
     saveLink: function(cb) {
