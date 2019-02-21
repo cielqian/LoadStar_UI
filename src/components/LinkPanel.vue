@@ -170,7 +170,8 @@ export default {
         pasteInfoVisible: false
       },
       newLink:{
-        url:''
+        url:'',
+        folderId: ''
       },
       edit: false,
       recentLinks: [],

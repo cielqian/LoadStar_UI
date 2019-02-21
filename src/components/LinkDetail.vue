@@ -117,7 +117,7 @@ export default {
         return;
       }
       _this.link.url = url;
-
+      _this.link.folderId = '';
       var d = {
         url: url
       };
