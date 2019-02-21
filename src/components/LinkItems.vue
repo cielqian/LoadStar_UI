@@ -86,7 +86,7 @@
               @click="onClick(link)"
               class="transition-box"
             >
-              <div v-if="!!link.icon" class="ls_text_left" :class="iconClass||'ls_icon_sm'">
+              <div class="ls_text_left" :class="iconClass||'ls_icon_sm'">
                 <img :src="link.icon" onerror="javascript:this.src='/static/logo.png'">
                  <span class="ls_padding_left_5 label ls_in_line">{{renderTitle(link.title)}}</span>
               </div>

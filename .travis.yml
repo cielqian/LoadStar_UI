@@ -28,3 +28,9 @@ after_success:
   - docker build -t $WEB_CONTAINER:$COMMIT .
   - docker tag $WEB_CONTAINER:$COMMIT $WEB_CONTAINER:$TAG
   - docker push $WEB_CONTAINER
+
+notifications:
+  email:
+    - qianhong91@outlook.com
+  on_success: change
+  on_failure: always
