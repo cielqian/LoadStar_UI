@@ -1,4 +1,3 @@
-console.log(process.env.NODE_ENV)
 export default{
     baseHost: process.env.NODE_ENV == 'production'?  'http://loadstar.top:9080' : 'http://localhost:9080',
     // baseHost:'http://loadstar.top:9080',

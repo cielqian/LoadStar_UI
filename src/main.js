@@ -21,6 +21,9 @@ import ContentMenu from 'v-contextmenu'
 import 'v-contextmenu/dist/index.css'
 import LSContentMenu from "./components/ContentMenu.vue";
 //import LSLinkDetail from "./components/LinkDetail.vue";
+import packageInfo from '../package.json'
+
+console.log('version:' + packageInfo.version)
 
 Vue.config.productionTip = false;
 axios.defaults.baseURL = apis.baseHost;
