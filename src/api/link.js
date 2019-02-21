@@ -56,6 +56,8 @@ export default{
             axios.post(apis.link.analysis, link)
             .then(function(response) {
                 resolve(response);
+            }).catch(err => {
+                reject();
             });
         });
     },
