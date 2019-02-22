@@ -16,7 +16,7 @@
         </content-loader>
       </el-col>
     </div>
-    <div v-if="listType == 'List'">
+    <el-row v-if="listType == 'List'">
       <!-- <el-col
         class="ls_link_item_list ls_pointer"
         v-for="link in links"
@@ -69,15 +69,13 @@
           </el-table-column>
         </el-table>
       </el-col>
-    </div>
-    <div v-else-if="listType == 'List1'">
+    </el-row>
+    <el-row v-else-if="listType == 'List1'">
       <el-col
         class="ls_link_item_list ls_pointer"
         v-for="link in links"
         :key="link.id"
-        :xs="24"
-        :sm="12"
-        :md="6"
+        :span="6"
         :title="link.title"
       >
           <transition name="el-zoom-in-center">
@@ -93,8 +91,9 @@
             </div>
           </transition>
       </el-col>
-    </div>
-    <div v-else>
+      <div class="ls_clear"/>
+    </el-row>
+    <el-row v-else>
       <el-col
         class="ls_link_item ls_link_item_card"
         v-for="link in links"
@@ -126,7 +125,7 @@
           </transition>
         </el-tooltip>
       </el-col>
-    </div>
+    </el-row>
     <LSContentMenu ref="contextmenu" @onSaved="onChanged"></LSContentMenu>
   </div>
 </template>
