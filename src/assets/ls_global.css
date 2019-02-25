@@ -188,3 +188,17 @@ body{
     width: 20px;
     vertical-align: middle;
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #DDD;
+  border-radius: 5px;
+}
+
+.el-table::before{
+    background-color:#FFF;
+}

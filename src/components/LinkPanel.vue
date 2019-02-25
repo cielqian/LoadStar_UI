@@ -63,7 +63,6 @@
               
             </el-col>
           </el-row>
-          
         </el-col>
       </el-row>
       <el-row>
@@ -189,6 +188,9 @@ export default {
     })
   },
   methods: {
+    redirect(link) {
+      this.$store.dispatch("visitLink", link);
+    },
     search: function() {
       let _this = this;
       this.visible.searchResult = false;

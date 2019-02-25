@@ -9,8 +9,7 @@ const state = {
         nickname:'',
         accessToken: ''
     },
-    tipReadedInfo:{
-        drag:true
+    tipInfo:{
     }
 }
 
@@ -32,8 +31,21 @@ const getters = {
             nickname: state.loginInfo.nickname
         }
     },
-    getTipReadInfo: state => {
-        return state.tipReadInfo;
+    getTipInfo: state => {
+        let tipInfo = state.tipInfo;
+        if (!tipInfo.drag) {
+            let storageTipInfo = localStorage.getItem("LS_TIP");
+            if (!storageTipInfo) {
+                return {
+                    drag:false,
+                    trashLink: false
+                }
+            }else{
+                state.tipInfo = JSON.parse(storageTipInfo);
+                tipInfo = state.tipInfo;
+            }
+        }
+        return tipInfo;
     }
 }
 // mutations
@@ -54,7 +66,8 @@ const mutations = {
         state.loginInfo.nickname = userInfo.nickname;
     },
     readTip(state, tip){
-        state.tipReadedInfo[tip] = true;
+        state.tipInfo[tip] = true;
+        localStorage.setItem("LS_TIP", JSON.stringify(state.tipInfo));
     }
 }
 

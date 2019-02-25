@@ -91,7 +91,6 @@
             </div>
           </transition>
       </el-col>
-      <div class="ls_clear"/>
     </el-row>
     <el-row v-else>
       <el-col
@@ -226,11 +225,12 @@ export default {
     font-size: 14px;
     padding:15px;
     background-color: #fff;
+    height: 55px;
   }
 
   .ls_link_item_list:hover {
-    color: #5e5e5e;
-    background-color: #eee;
+    color: #FFF;
+    background-color: #aeaeae;
   }
 
   p {

@@ -19,7 +19,7 @@
       >
       <el-row>
         <el-col>
-          <el-form class="ls_text_left" label-position="top" :model="account" ref="form" label-width="80px">
+          <el-form class="ls_text_left" label-position="top" :disabled="disabled.form" :model="account" ref="form" label-width="80px">
             <el-form-item :label="$t('login.lblUserName')">
               <el-input v-model="account.username" placeholder="Pick a username"></el-input>
             </el-form-item>
@@ -57,7 +57,7 @@
       </el-row>
       <span slot="footer">
         <el-button type="text" @click="openSignUpDialog">{{$t('login.btnSignUp')}}</el-button>
-        <el-button type="primary" @click="signInAccount">{{$t('login.lblSignIn')}}</el-button>
+        <el-button type="primary" :disabled="disabled.form" @click="signInAccount">{{$t('login.lblSignIn')}}</el-button>
       </span>
     </el-dialog>
     </div>
@@ -74,6 +74,9 @@ export default {
         addLinkDialogVisiable: false,
         signUpDialogVisiable: false,
         signInDialogVisiable: false
+      },
+      disabled:{
+        form: false
       },
       account: {
         username: "",
@@ -98,6 +101,7 @@ export default {
     },
     signUpAccount: function() {
       var _this = this;
+      _this.disabled.form = true;
       let d = {
         username: this.account.username,
         password: this.account.password,
@@ -106,6 +110,7 @@ export default {
 
       this.$http.post(apis.auth.signUp, d).then(() => {
         _this.openSignInDialog();
+        _this.disabled.form = false;
       });
     },
     signInAccount: function() {

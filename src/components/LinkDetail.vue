@@ -121,7 +121,7 @@ export default {
       var d = {
         url: url
       };
-      _this.analysisHolder = '自动解析中...',
+      _this.analysisHolder = '解析中...',
       _this.analysising = true;
       _this.$store.dispatch("analysisLink", d).then(response => {
         _this.analysising = false;

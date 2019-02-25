@@ -29,12 +29,22 @@
         </el-tree>
       </el-col>
       <el-col v-show="visible1" :span="18" class="ls_content ls_bg_white">
-        
-        
+        <el-row v-show="!tipInfo.drag">
+          <el-col :span="24">
+            <el-alert title="链接可直接拖动到文件夹" type="warning" close-text="知道了" show-icon @close="$store.dispatch('readTip', 'drag')"></el-alert>
+          </el-col>
+        </el-row>
+        <el-row v-show="!tipInfo.trashLink">
+          <el-col :span="24">
+            <el-alert title="删除的链接可以在回收站中找回" type="warning" close-text="知道了" show-icon @close="$store.dispatch('readTip', 'trashLink')"></el-alert>
+          </el-col>
+        </el-row>
         <el-table
           v-loading="loading.linkList"
           :data="links"
           :show-header="false"
+          max-height="600"
+          empty-text="暂无链接"
           @row-dblclick="redirect"
         >
           <el-table-column>
@@ -87,13 +97,10 @@ export default {
   computed: {
     ...mapState({
       folders: state => state.folder.allFolder,
-      tipReadedInfo: state => state.auth.tipReadedInfo
+      tipInfo: state => state.auth.tipInfo
     })
   },
   methods: {
-    // closeTip(){
-    //   this.$store.dispatch("readTip", 'drag')
-    // },
     openContentMenu(link, vnode){
       if (this.selectedFolderName == '回收站') {
         this.$refs.contextmenu.show(link, vnode.clientX, vnode.clientY, 'view,addOften,delete');
