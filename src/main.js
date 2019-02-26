@@ -54,7 +54,7 @@ axios.interceptors.response.use(
         }
         if (res.status != 200) {
           Vue.prototype.$message.error(res.message);
-          return Promise.reject(res.message);
+          //return Promise.reject(res.message);
         }
       }
       return res;
@@ -75,6 +75,17 @@ Vue.prototype._ = _;
 
 Vue.use(ElementUI);
 
+Vue.use(ContentMenu)
+
+Vue.component('LSContentMenu',LSContentMenu)
+// Vue.component('LSLinkDetail',LSLinkDetail)
+console.log(location.href);
+if (location.href.indexOf('zh') > 0) {
+  store.dispatch('setLanguage', 'zhCHS');
+}else{
+  store.dispatch('setLanguage', 'en');
+}
+
 Vue.use(VueI18n)
 const i18n = new VueI18n({
   locale: store.getters.getLanguage, 
@@ -83,11 +94,6 @@ const i18n = new VueI18n({
     'zhCHS': LangZhCHS
   }
 })
-
-Vue.use(ContentMenu)
-
-Vue.component('LSContentMenu',LSContentMenu)
-// Vue.component('LSLinkDetail',LSLinkDetail)
 
 new Vue({
   store,

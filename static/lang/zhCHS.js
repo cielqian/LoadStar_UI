@@ -1,16 +1,37 @@
 export default{
+    signIn:{
+        lblTitle: '欢迎使用LoadStar'
+    },
     global: {
         title:'云 端 书 签',
         pasteTitle: 'Ctrl+V粘贴 创建新书签'
     },
-    login: {
-        btnSignIn: '登录',
-        btnSignUp: '注册',
-        lblSignIn: '登录',
-        lblSignUp: '注册',
+    nav:{
+        lblLoadStar: '导航',
+        lblFolder: '分类',
+        lblTag: '标签',
+        lblRecent: '最近',
+        lblSetting: '设置'
+    },
+    tip:{
+        lblCreateFolder: '',
+        lblCreateTag: '',
+        lblTipDrag: ''
+    },
+    signIn: {
+        lblDialog: '登录',
         lblUserName: '用户名',
         lblPassword: '密码',
-        lblNickName: '昵称'
+        btnSignIn: '登录',
+        btnChangeToSignUp: '创建账号',
+    },
+    signUp: {
+        lblDialog: '欢迎使用LoadStar',
+        lblUserName: '用户名',
+        lblPassword: '密码',
+        lblNickName: '登录',
+        btnSignUp: '创建',
+        btnChangeToSignIn: '已有账号?'
     },
     menu:{
         lblSetting: '设置',
@@ -24,5 +45,16 @@ export default{
         lblAppearanceCard: '卡片',
         lblLanguage: '语言',
         lblModule: '模块'
+    },
+    detail:{
+        lblDialog: '新链接',
+        lblUrl: '链接',
+        lblTitle: '标题',
+        lblIsOften: '常用',
+        lblFolder: '文件夹',
+        lblTag: '标签',
+        lblNewTag: '新标签',
+        btnSave: '保存',
+        btnCancel: '取消'
     }
 }

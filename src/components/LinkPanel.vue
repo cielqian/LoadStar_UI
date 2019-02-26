@@ -100,15 +100,15 @@
       </el-col>
     </el-row>
     <el-dialog
-      title="New Link"
+      :title="$t('detail.lblDialog')"
       :visible.sync="dialog.addLinkDialogVisiable"
       width="40%"
       @close="closeAddLinkDialog"
       @opened="analysisLink">
       <LSLinkDetail ref="linkDetail" :link="newLink"></LSLinkDetail>
       <span slot="footer">
-        <el-button @click="dialog.addLinkDialogVisiable = false">Cancel</el-button>
-        <el-button type="primary" @click="createNewLink">Create</el-button>
+        <el-button @click="dialog.addLinkDialogVisiable = false">{{$t('detail.btnCancel')}}</el-button>
+        <el-button type="primary" @click="createNewLink">{{$t('detail.btnSave')}}</el-button>
       </span>
     </el-dialog>
     <el-dialog

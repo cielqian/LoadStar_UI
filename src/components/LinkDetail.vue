@@ -3,19 +3,19 @@
     <el-row>
       <el-col :span="24">
         <el-form label-width="80px">
-          <el-form-item label="链接">
+          <el-form-item :label="$t('detail.lblUrl')">
             <el-input ref="linkUrl" v-model="link.url"></el-input>
           </el-form-item>
           <!-- <el-form-item label="名称">
             <el-input v-model="link.name"></el-input>
           </el-form-item> -->
-          <el-form-item label="标题">
+          <el-form-item :label="$t('detail.lblTitle')">
             <el-input v-model="link.title" :disabled="analysising" :placeholder="analysisHolder"></el-input>
           </el-form-item>
-          <el-form-item v-if="!link.id" label="常用">
+          <el-form-item v-if="!link.id" :label="$t('detail.lblIsOften')">
             <el-switch v-model="link.isOften"></el-switch>
           </el-form-item>
-          <el-form-item label="文件夹">
+          <el-form-item :label="$t('detail.lblFolder')">
             <el-select
               class="ls_pull_left"
               style="width:50%"
@@ -26,7 +26,7 @@
               <el-option v-for="item in folders" :key="item.id" :label="item.name" :value="item.id"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="标签">
+          <el-form-item :label="$t('detail.lblTag')">
             <el-row>
               <el-col :span="24" class="ls_text_left">
                 <el-tag
@@ -57,7 +57,7 @@
                   @keyup.enter.native="createTag"
                   @blur="createTag"
                 ></el-input>
-                <el-button v-else class="button-new-tag" size="small" @click="showInput">+ 新标签</el-button>
+                <el-button v-else class="button-new-tag" size="small" @click="showInput">+ {{$t('detail.lblNewTag')}}</el-button>
               </el-col>
             </el-row>
           </el-form-item>

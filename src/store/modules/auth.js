@@ -36,15 +36,15 @@ const getters = {
         if (!tipInfo.drag) {
             let storageTipInfo = localStorage.getItem("LS_TIP");
             if (!storageTipInfo) {
-                return {
+                state.tipInfo = {
                     drag:false,
                     trashLink: false
                 }
             }else{
                 state.tipInfo = JSON.parse(storageTipInfo);
-                tipInfo = state.tipInfo;
             }
         }
+        tipInfo = state.tipInfo;
         return tipInfo;
     }
 }

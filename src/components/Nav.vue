@@ -5,27 +5,27 @@
             active-text-color="#ffd04b" default-active="1" class="el-menu-vertical-demo">
             <el-menu-item index="1"  @click="goTo('/Home')">
                 <template slot="title">
-                    <span class="nav_menu">导航</span>
+                    <span class="nav_menu">{{$t('nav.lblLoadStar')}}</span>
                 </template>
             </el-menu-item>
             <el-menu-item index="2" @click="goTo('/Folder')">
                 <template slot="title">
-                    <span class="nav_menu">分类</span>
+                    <span class="nav_menu">{{$t('nav.lblFolder')}}</span>
                 </template>
             </el-menu-item>
             <el-menu-item index="3" @click="goTo('/Tag')">
                 <template slot="title">
-                    <span class="nav_menu">标签</span>
+                    <span class="nav_menu">{{$t('nav.lblTag')}}</span>
                 </template>
             </el-menu-item>
             <el-menu-item index="4">
                 <template slot="title">
-                    <span class="nav_menu">最近</span>
+                    <span class="nav_menu">{{$t('nav.lblRecent')}}</span>
                 </template>
             </el-menu-item>
             <el-menu-item index="5" @click="goTo('/Setting')">
                 <template slot="title">
-                    <span class="nav_menu">设置</span>
+                    <span class="nav_menu">{{$t('nav.lblSetting')}}</span>
                 </template>
             </el-menu-item>
         </el-menu>

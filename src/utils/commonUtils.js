@@ -16,5 +16,8 @@ export default{
             result = result.replace(element.key, element.val);
         }
         return result;
+    },
+    responseSuccess(res){
+        return res.status == 200;
     }
 }

@@ -1,70 +1,88 @@
 <template>
-    <div class="ls_container">
-        <el-row class="slogan">
-            <el-col>
-                <img class="ls_logo_large" src="../assets/logo.png">
-                <h1>{{ $t("global.title")  }}</h1>
-            </el-col>
-            <el-col>
-                <el-button type="text" @click="openSignInDialog">{{$t('login.btnSignIn')}}</el-button>
-                /
-                <el-button type="text" @click="openSignUpDialog">{{$t('login.btnSignUp')}}</el-button>
-            </el-col>
-        </el-row>
+  <div class="ls_container">
+    <el-row class="slogan">
+      <el-col>
+        <img class="ls_logo_large" src="../assets/logo.png">
+        <h1>{{ $t("global.title") }}</h1>
+      </el-col>
+      <el-col>
+        <el-button type="text" @click="openSignInDialog">{{$t('signIn.btnSignIn')}}</el-button>/
+        <el-button type="text" @click="openSignUpDialog">{{$t('signUp.btnSignUp')}}</el-button>
+      </el-col>
+    </el-row>
 
-        <el-dialog
-      :title="$t('login.lblSignUp')"
+    <el-dialog
+      :title="$t('signUp.lblDialog')"
       :visible.sync="dialog.signUpDialogVisiable"
-      width="25%"
-      >
+      width="500px"
+    >
       <el-row>
         <el-col>
-          <el-form class="ls_text_left" label-position="top" :disabled="disabled.form" :model="account" ref="form" label-width="80px">
-            <el-form-item :label="$t('login.lblUserName')">
+          <el-form
+            class="ls_text_left"
+            label-position="top"
+            :disabled="disabled.form"
+            :model="account"
+            ref="form"
+            label-width="80px"
+          >
+            <el-form-item :label="$t('signUp.lblUserName')">
               <el-input v-model="account.username" placeholder="Pick a username"></el-input>
             </el-form-item>
-            <el-form-item :label="$t('login.lblPassword')">
+            <el-form-item :label="$t('signUp.lblPassword')">
               <el-input type="password" v-model="account.password" placeholder="Create a password"></el-input>
             </el-form-item>
-            <el-form-item :label="$t('login.lblNickName')">
+            <el-form-item :label="$t('signUp.lblNickName')">
               <el-input v-model="account.nickname" placeholder="Pick a nickname"></el-input>
             </el-form-item>
           </el-form>
         </el-col>
       </el-row>
       <span slot="footer">
-        <el-button type="text" @click="openSignInDialog">{{$t('login.btnSignIn')}}</el-button>
-        <el-button type="primary" @click="signUpAccount">{{$t('login.btnSignUp')}}</el-button>
+        <el-button type="text" @click="openSignInDialog">{{$t('signUp.btnChangeToSignIn')}}</el-button>
+        <el-button type="primary" :disabled="disabled.form" @click="signUpAccount">{{$t('signUp.btnSignUp')}}</el-button>
       </span>
     </el-dialog>
 
     <el-dialog
-      :title="$t('login.lblSignIn')"
+      :title="$t('signIn.lblDialog')"
       :visible.sync="dialog.signInDialogVisiable"
-      width="25%"
-      >
+      width="500px"
+    >
       <el-row>
         <el-col>
-          <el-form class="ls_text_left" label-position="top" :model="account" ref="form" label-width="80px">
-            <el-form-item :label="$t('login.lblUserName')">
-              <el-input v-model="account.username" placeholder="Pick a username"></el-input>
+          <el-form
+            class="ls_text_left"
+            label-position="top"
+            :model="account"
+            :disabled="disabled.form"
+            ref="form"
+            label-width="80px"
+          >
+            <el-form-item :label="$t('signIn.lblUserName')">
+              <el-input v-model="account.username" :disabled="disabled.form"  placeholder="Pick a username"></el-input>
             </el-form-item>
-            <el-form-item :label="$t('login.lblPassword')">
-              <el-input type="password" v-model="account.password" placeholder="Create a password"></el-input>
+            <el-form-item :label="$t('signIn.lblPassword')">
+              <el-input type="password" v-model="account.password" :disabled="disabled.form" placeholder="Create a password"></el-input>
             </el-form-item>
           </el-form>
         </el-col>
       </el-row>
       <span slot="footer">
-        <el-button type="text" @click="openSignUpDialog">{{$t('login.btnSignUp')}}</el-button>
-        <el-button type="primary" :disabled="disabled.form" @click="signInAccount">{{$t('login.lblSignIn')}}</el-button>
+        <el-button type="text" @click="openSignUpDialog">{{$t('signIn.btnChangeToSignUp')}}</el-button>
+        <el-button
+          type="primary"
+          :disabled="disabled.form"
+          @click="signInAccount"
+        >{{$t('signIn.btnSignIn')}}</el-button>
       </span>
     </el-dialog>
-    </div>
+  </div>
 </template>
 <script>
 import { mapGetters, mapState } from "vuex";
 import apis from "../assets/repository/apis";
+import utils from "../utils/commonUtils";
 
 export default {
   name: "Login",
@@ -75,7 +93,7 @@ export default {
         signUpDialogVisiable: false,
         signInDialogVisiable: false
       },
-      disabled:{
+      disabled: {
         form: false
       },
       account: {
@@ -108,24 +126,30 @@ export default {
         nickname: this.account.nickname
       };
 
-      this.$http.post(apis.auth.signUp, d).then(() => {
-        _this.openSignInDialog();
+      this.$http.post(apis.auth.signUp, d).then(res => {
         _this.disabled.form = false;
+        if (utils.responseSuccess(res)) {
+          _this.openSignInDialog();
+        }
       });
     },
     signInAccount: function() {
       var _this = this;
+      _this.disabled.form = true;
       let d = {
         username: this.account.username,
         password: this.account.password,
         scope: "ui",
         grant_type: "password"
       };
-      this.$store.dispatch("signIn", this.account)
-      .catch(x => _this.$message.error('用户名或密码不正确'));
+      this.$store
+        .dispatch("signIn", this.account)
+        .catch(x => {
+          _this.disabled.form = false;
+          _this.$message.error("用户名或密码不正确")});
     }
   },
-  mounted(){
+  mounted() {
     // if (this.$store.getters.hasLogined) {
     //   this.$router.push('Home');
     // }
@@ -133,8 +157,8 @@ export default {
 };
 </script>
 <style scoped>
-    .slogan{
-        padding-top:200px;
-        text-align: center;
-    }
+.slogan {
+  padding-top: 200px;
+  text-align: center;
+}
 </style>

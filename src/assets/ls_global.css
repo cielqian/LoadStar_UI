@@ -202,3 +202,11 @@ body{
 .el-table::before{
     background-color:#FFF;
 }
+
+.el-form-item__label{
+    padding-bottom: 0px !important;
+}
+
+.el-dialog__body{
+    padding: 15px 20px !important;
+}

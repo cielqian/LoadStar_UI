@@ -3,14 +3,27 @@ export default{
         title:'Welcome To Your Online Bookmark App!',
         pasteTitle: 'Try Ctrl+V To Create New Link'
     },
-    login: {
-        btnSignIn: 'Sign In',
-        btnSignUp: 'Sign Up',
-        lblSignIn: 'Sign In',
-        lblSignUp: 'Sign Up',
+    nav:{
+        lblLoadStar: 'Load Star',
+        lblFolder: 'Folders',
+        lblTag: 'Tags',
+        lblRecent: 'Recent',
+        lblSetting: 'Setting'
+    },
+    signIn: {
+        lblDialog: 'Sign in with your account',
         lblUserName: 'Username',
         lblPassword: 'Password',
-        lblNickName: 'Nickname'
+        btnSignIn: 'Sign In',
+        btnChangeToSignUp: 'Create Account',
+    },
+    signUp: {
+        lblDialog: 'Welcome to LoadStar',
+        lblUserName: 'Username',
+        lblPassword: 'Password',
+        lblNickName: 'Nickname',
+        btnSignUp: 'Sign Up',
+        btnChangeToSignIn: 'Already have a LoadStar?'
     },
     menu:{
         lblSetting: 'Setting',
@@ -24,5 +37,16 @@ export default{
         lblAppearanceCard: 'Card',
         lblLanguage: 'Language',
         lblModule: 'Modules'
+    },
+    detail:{
+        lblDialog: 'New Link',
+        lblUrl: 'Url',
+        lblTitle: 'Title',
+        lblIsOften: 'Common',
+        lblFolder: 'Folder',
+        lblTag: 'Tags',
+        lblNewTag: 'New Tag',
+        btnSave: 'Save',
+        btnCancel: 'Cancel'
     }
 }
