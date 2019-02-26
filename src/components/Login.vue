@@ -6,7 +6,8 @@
         <h1>{{ $t("global.title") }}</h1>
       </el-col>
       <el-col>
-        <el-button type="text" @click="openSignInDialog">{{$t('signIn.btnSignIn')}}</el-button>/
+        <el-button type="text" @click="openSignInDialog">{{$t('signIn.btnSignIn')}}</el-button>
+        &nbsp;&nbsp;/
         <el-button type="text" @click="openSignUpDialog">{{$t('signUp.btnSignUp')}}</el-button>
       </el-col>
     </el-row>

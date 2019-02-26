@@ -13,7 +13,7 @@
           </div>
           <el-row>
             <el-col>
-              <el-radio v-model="listTypeRadio" label="List">{{$t('setting.lblAppearanceList')}}</el-radio>
+              <el-radio v-model="listTypeRadio" label="List1">{{$t('setting.lblAppearanceList')}}</el-radio>
               <el-radio v-model="listTypeRadio" label="Card">{{$t('setting.lblAppearanceCard')}}</el-radio>
             </el-col>
           </el-row>

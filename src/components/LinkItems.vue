@@ -118,7 +118,7 @@
                 <img :src="link.icon" onerror="javascript:this.src='/static/logo.png'">
               </div>
               <div style="padding-top:10px;">
-                <span class="label ls_in_line">{{link.name}}</span>
+                <span class="label ls_in_line">{{renderTitle(link.title)}}</span>
               </div>
             </div>
           </transition>

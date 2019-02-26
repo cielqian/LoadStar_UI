@@ -79,7 +79,7 @@ Vue.use(ContentMenu)
 
 Vue.component('LSContentMenu',LSContentMenu)
 // Vue.component('LSLinkDetail',LSLinkDetail)
-console.log(location.href);
+
 if (location.href.indexOf('zh') > 0) {
   store.dispatch('setLanguage', 'zhCHS');
 }else{

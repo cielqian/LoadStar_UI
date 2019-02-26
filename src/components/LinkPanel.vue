@@ -35,7 +35,6 @@
             <el-col :span="12"><span class="ls_h3">必应</span>
               <span class="ls_margin_left_15 ls_text_d ls_pointer" @click="jumpSearch('bing')">跳转</span>
             <span class="ls_margin_left_15 ls_text_d ls_pointer" @click="fullScreen('bing')">全屏</span>
-
             </el-col>
           </el-row>
           <iframe id="bingIframe"  width="100%" height="500px" class="searchIframe ls_no_border" src=""></iframe>
@@ -90,7 +89,7 @@
         <LinkCardItem
           :links="oftenLinks"
           :loading="loading.allLinkLoading"
-          :listType="'List1'"
+          :listType="theme.listTypeEnum"
         ></LinkCardItem>
         <div v-show="!loading.allLinkLoading &&  oftenLinks.length == 0">
           <el-col class="ls_text_center" style="margin-top:200px;">

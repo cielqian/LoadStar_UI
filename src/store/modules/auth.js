@@ -38,7 +38,8 @@ const getters = {
             if (!storageTipInfo) {
                 state.tipInfo = {
                     drag:false,
-                    trashLink: false
+                    trashLink: false,
+                    contentMenu: false
                 }
             }else{
                 state.tipInfo = JSON.parse(storageTipInfo);
