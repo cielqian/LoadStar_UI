@@ -8,6 +8,7 @@ export default{
         lblFolder: 'Folders',
         lblTag: 'Tags',
         lblRecent: 'Recent',
+        lblAnalysis: 'Analysis',
         lblSetting: 'Setting'
     },
     signIn: {

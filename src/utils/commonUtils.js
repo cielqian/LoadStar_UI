@@ -19,5 +19,8 @@ export default{
     },
     responseSuccess(res){
         return res.status == 200;
+    },
+    getScreenHeight(){
+        return window.screen.height;
     }
 }

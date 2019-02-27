@@ -43,7 +43,7 @@
           v-loading="loading.linkList"
           :data="links"
           :show-header="false"
-          max-height="600"
+          :max-height="screenHeight"
           empty-text="暂无链接"
           @row-dblclick="redirect"
         >
@@ -91,7 +91,8 @@ export default {
       selectedFolderName: "",
       firstLoaded: true,
       links: [],
-      selectedLink:{}
+      selectedLink:{},
+      screenHeight:600
     };
   },
   computed: {
@@ -202,13 +203,12 @@ export default {
       this.onMove = false;
     },
     drop(a) {
-      console.log(a);
       this.onMove = false;
     }
   },
   mounted() {
     let _this = this;
-
+    _this.screenHeight = document.body.clientHeight - 100;
     this.getAllFolder();
   }
 };

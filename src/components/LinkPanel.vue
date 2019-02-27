@@ -6,58 +6,6 @@
         <LSSearcher></LSSearcher>
       </el-col>
     </el-row>
-    
-    <el-row v-show="visible.searchResult" class="ls_bg_white ls_padding_all_15">
-      <el-row>
-        <el-col :span="8" class="ls_padding_all_15">
-          <el-row>
-            <el-col :span="12"><span class="ls_h3">百度</span>
-            <span class="ls_margin_left_15 ls_text_d ls_pointer" @click="jumpSearch('baidu')">跳转</span>
-            <span class="ls_margin_left_15 ls_text_d ls_pointer" @click="fullScreen('baidu')">全屏</span>
-          </el-col>
-          </el-row>
-          <iframe id="baiduIframe" width="100%" height="500px" class="searchIframe ls_no_border ls_scroll" src=""></iframe>
-        </el-col>
-        <el-col :span="8" class="ls_padding_all_15">
-          <el-row>
-            <el-col :span="12"><span class="ls_h3">必应</span>
-              <span class="ls_margin_left_15 ls_text_d ls_pointer" @click="jumpSearch('bing')">跳转</span>
-            <span class="ls_margin_left_15 ls_text_d ls_pointer" @click="fullScreen('bing')">全屏</span>
-            </el-col>
-          </el-row>
-          <iframe id="bingIframe"  width="100%" height="500px" class="searchIframe ls_no_border" src=""></iframe>
-        </el-col>
-        <!-- <el-col :span="8" class="ls_padding_all_15">
-          <el-row>
-            <el-col :span="12"><span class="ls_h3">禅道</span>
-            <span class="ls_margin_left_15 ls_text_d ls_pointer" @click="jumpSearch('zhihu')">跳转</span></el-col>
-          </el-row>
-          <iframe id="zhihuIframe"  width="100%" height="500px" class="searchIframe ls_no_border" src=""></iframe>
-        </el-col>-->
-        <el-col :span="8"> 
-          <el-row>
-            <el-col :span="12"><span class="ls_h3">书签</span></el-col>
-          </el-row>
-          <el-row>
-            <el-col>
-              <el-table :data="searchLinks">
-                <el-table-column prop="title">
-                  <template slot-scope="scope">
-                    <div class="ls_pointer" v-html="renderTitle(scope.row.title)" @click="redirect(scope.row)"></div>
-                  </template>
-                </el-table-column>
-              </el-table>
-              
-            </el-col>
-          </el-row>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="24" class="ls_text_center ls_pointer" @click.native="hiddenSearch"><i class="el-icon-arrow-up"></i>收起</el-col>
-      </el-row>
-      
-    </el-row>
-    
     <el-row class="link_content ls_padding_15_1">
       <el-col :span="24">
         <LSRecentLink
@@ -98,13 +46,6 @@
         <el-button type="primary" @click="createNewLink">{{$t('detail.btnSave')}}</el-button>
       </span>
     </el-dialog>
-    <el-dialog
-    :visible.sync="dialog.fullIframeDialogVisiable"
-    fullscreen
-    top="0vh"
-    @opened="openFullScreenIFrame">
-      <iframe id="fullScreenIframe"  width="100%" :height="client.htmlHeight" class="searchIframe ls_no_border" src=""></iframe>
-    </el-dialog>
   </div>
 </template>
 
@@ -130,19 +71,8 @@ export default {
   components: { LSRecentLink, LSTopLink, LinkCardItem,LSLinkDetail,LSSearcher },
   data() {
     return {
-      searchType: "0",
-      searchContent: "",
-      searchEngine:{
-        baidu:'https://www.baidu.com/s?wd=',
-        mbaidu:'https://m.baidu.com/s?wd=',
-        bing:'https://bing.com/search?q=',
-        zhihu: 'http://www.zhihu.com/search?type=content&q=',
-        chandao: 'http://ztpm.goldwind.com.cn:9898/pro/search-index.html?words='
-      },
-      currentSearchEngine:'baidu',
       dialog: {
-        addLinkDialogVisiable: false,
-        fullIframeDialogVisiable: false
+        addLinkDialogVisiable: false
       },
       client:{
         htmlHeight:800
@@ -153,7 +83,6 @@ export default {
       },
       visible: {
         inputVisible: false,
-        searchResult: false,
         pasteInfoVisible: false
       },
       newLink:{
@@ -161,8 +90,7 @@ export default {
         folderId: ''
       },
       edit: false,
-      recentLinks: [],
-      searchLinks: [],
+      recentLinks: []
     };
   },
   computed: {
@@ -178,56 +106,6 @@ export default {
   methods: {
     redirect(link) {
       this.$store.dispatch("visitLink", link);
-    },
-    search: function() {
-      let _this = this;
-      this.visible.searchResult = false;
-      if (!!this.searchContent) {
-        switch (this.searchType) {
-          case "0":
-            this.visible.searchResult = true;
-            document.getElementById("baiduIframe").src = this.searchEngine.mbaidu + this.searchContent;
-            document.getElementById("bingIframe").src = this.searchEngine.bing+ this.searchContent;
-            linkApi.queryLinks(this.searchContent).then(res => {_this.searchLinks = res.data.items});
-            break;
-          case "1":
-            window.open(this.searchEngine.baidu + this.searchContent);
-            break;
-          case "2":
-            window.open(this.searchEngine.bing + this.searchContent);
-            break;
-          default:
-            window.open("https://www.baidu.com/s?wd=" + this.searchContent);
-            break;
-        }
-      }
-    },
-    openFullScreenIFrame(){
-      switch (this.currentSearchEngine) {
-        case "baidu":
-          document.getElementById("fullScreenIframe").src = this.searchEngine.baidu + this.searchContent;
-          break;
-        case "bing":
-          document.getElementById("fullScreenIframe").src = this.searchEngine.bing + this.searchContent;
-          break;
-      }
-    },
-    fullScreen: function(t) {
-      this.currentSearchEngine = t;
-      this.dialog.fullIframeDialogVisiable = true;
-    },
-    jumpSearch: function(engine) {
-      window.open(this.searchEngine[engine] + this.searchContent);
-    },
-    renderTitle: function (title) {
-      let titleString = title;
-      let replaceReg = new RegExp(this.searchContent, 'gi');
-      let replaceString = '<span class="highlight">' + this.searchContent + '</span>';
-      titleString = titleString.replace(replaceReg, replaceString);
-      return titleString;
-    },
-    hiddenSearch: function () {
-      this.visible.searchResult = false;
     },
     openAddLinkDialog: function() {
       this.dialog.addLinkDialogVisiable = true;
@@ -249,43 +127,8 @@ export default {
     getTheme: function() {
       this.$store.dispatch("getTheme");
     },
-    removeLink: function(link) {
-      let _this = this;
-      this.loading.allLinkLoading = true;
-      this.$store
-        .dispatch("removeLink", link.id)
-        .finally(x => (_this.loading.allLinkLoading = false));
-    },
-    upLink: function(link) {
-      let _this = this;
-      this.loading.allLinkLoading = true;
-      this.$store
-        .dispatch("upLink", link.id)
-        .then(response => {
-          this.$store.dispatch("getAllLink");
-        })
-        .finally(e => (_this.loading.allLinkLoading = false));
-    },
-    downLink: function(link) {
-      let _this = this;
-      this.loading.allLinkLoading = true;
-      this.$store
-        .dispatch("downLink", link.id)
-        .then(response => {
-          this.$store.dispatch("getAllLink");
-        })
-        .finally(e => (_this.loading.allLinkLoading = false));
-    },
     showModule: function(moduleName) {
       return this.$store.getters.isShowModule(moduleName);
-    },
-    queryTag: function(keyword) {
-      let _this = this;
-      this.loading.tagSearch = true;
-      tagApi.queryTag(keyword).then(res => {
-        _this.loading.tagSearch = false;
-        _this.options4 = res.data;
-      });
     },
     loadOftenLinks(){
       this.$store.dispatch("getOftenLink")
@@ -345,7 +188,7 @@ export default {
 .searcher{
   position: fixed;
   width: calc(100% - 270px);
-  z-index: 9999;
+  z-index: 1999;
 }
 
 .link_content{

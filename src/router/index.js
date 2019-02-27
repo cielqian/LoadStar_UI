@@ -6,6 +6,7 @@ import Login from '@/components/Login'
 import LinkPanel from '@/components/LinkPanel'
 import Tag from '@/components/Tag'
 import Folder from '@/components/Folder'
+import Analysis from '@/components/Analysis'
 import store from '../store';
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -31,6 +32,11 @@ const vueRouter = new Router({
         },
         {
           path: '/Folder', component: Folder, meta: {
+            requireLogin: true
+          }
+        },
+        {
+          path: '/Analysis', component: Analysis, meta: {
             requireLogin: true
           }
         },

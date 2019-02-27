@@ -11,6 +11,7 @@ export default{
         lblFolder: '分类',
         lblTag: '标签',
         lblRecent: '最近',
+        lblAnalysis: '统计',
         lblSetting: '设置'
     },
     tip:{
