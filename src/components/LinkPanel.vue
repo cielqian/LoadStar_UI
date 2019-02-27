@@ -2,23 +2,11 @@
 <template>
   <div class="ls_container">
     <el-row class="searcher">
-      <el-input
-        clearable
-        v-model="searchContent"
-        maxlength="20"
-        @keyup.enter.native="search"
-        ref="searchInputCtrl"
-        placeholder="请输入内容，并按回车确认"
-        class="input-with-select ls_bd_black"
-      >
-        <el-select v-model="searchType" slot="prepend" placeholder="请选择" class="ls_no_border">
-          <el-option label="全部" value="0"></el-option>
-          <!-- <el-option label="百度" value="1"></el-option>
-          <el-option label="必应" value="2"></el-option>
-          <el-option label="书签" value="3"></el-option> -->
-        </el-select>
-      </el-input>
+      <el-col :span="24">
+        <LSSearcher></LSSearcher>
+      </el-col>
     </el-row>
+    
     <el-row v-show="visible.searchResult" class="ls_bg_white ls_padding_all_15">
       <el-row>
         <el-col :span="8" class="ls_padding_all_15">
@@ -70,7 +58,7 @@
       
     </el-row>
     
-    <el-row class="ls_padding_15_1">
+    <el-row class="link_content ls_padding_15_1">
       <el-col :span="24">
         <LSRecentLink
           v-if="showModule('Recently')"
@@ -123,6 +111,7 @@
 <script>
 import Vue from "vue";
 import _ from "vue";
+import LSSearcher from "./Searcher.vue";
 import LSRecentLink from "./RecentLink.vue";
 import LSTopLink from "./TopLink.vue";
 import LinkCardItem from "./LinkItems.vue";
@@ -138,7 +127,7 @@ function isUrl(text) {
 
 export default {
   name: "LinkPanel",
-  components: { LSRecentLink, LSTopLink, LinkCardItem,LSLinkDetail },
+  components: { LSRecentLink, LSTopLink, LinkCardItem,LSLinkDetail,LSSearcher },
   data() {
     return {
       searchType: "0",
@@ -353,7 +342,15 @@ export default {
   background-color: #fff;
 }
 
+.searcher{
+  position: fixed;
+  width: calc(100% - 270px);
+  z-index: 9999;
+}
 
+.link_content{
+  padding-top: 50px;
+}
 
 </style>
 <style>

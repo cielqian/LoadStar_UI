@@ -99,7 +99,7 @@
         :key="link.id"
         :xs="24"
         :sm="11"
-        :md="5"
+        :md="6"
       >
         <el-tooltip
           class="ls_link_item_content"
@@ -182,13 +182,14 @@ export default {
     height: 130px;
     cursor: pointer;
     margin-top: 20px;
-    margin-right: 20px;
+    //margin-right: 20px;
     padding: 20px 15px;
     position: relative;
-    background-color: #fff;
+    
   }
 
   .ls_link_item_card {
+    background-color: #fff;
     .operate {
       position: absolute;
       top: 0px;
