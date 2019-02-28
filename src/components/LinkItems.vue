@@ -109,10 +109,9 @@
           placement="top"
         >
           <transition name="el-zoom-in-center">
-            <div
-              @contextmenu.prevent="openContentMenu(link, $event)"
+            <div class="transition-box"
+            @contextmenu.prevent="openContentMenu(link, $event)"
               @click="onClick(link)"
-              class="transition-box"
             >
               <div v-if="!!link.icon" :class="iconClass||'ls_icon'">
                 <img :src="link.icon" onerror="javascript:this.src='/static/logo.png'">
@@ -217,7 +216,7 @@ export default {
     }
   }
 
-  .ls_link_item_card:hover {
+  .ls_link_item_card:hover,.ls_link_item_card:active {
     color: #5e5e5e;
     background-color: #eee;
   }

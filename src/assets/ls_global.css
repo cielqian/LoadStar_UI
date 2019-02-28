@@ -125,11 +125,15 @@ body{
     margin-left: 30px;
 }
 
-.ls_padding_15{
+.ls_padding_15_l{
     padding: 15px 0px;
 }
 
-.ls_padding_all_15{
+.ls_padding_15_t{
+    padding: 0px 15px;
+}
+
+.ls_padding_15{
     padding: 15px;
 }
 
