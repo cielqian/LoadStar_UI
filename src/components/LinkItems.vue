@@ -70,9 +70,9 @@
         </el-table>
       </el-col>
     </el-row>
-    <el-row v-else-if="listType == 'List1'">
+    <el-row v-else-if="listType == 'List1'" class="ls_link_item_list">
       <el-col
-        class="ls_link_item_list ls_pointer"
+        class="ls_link_item ls_pointer"
         v-for="link in links"
         :key="link.id"
         :span="6"
@@ -94,25 +94,19 @@
     </el-row>
     <el-row v-else>
       <el-col
-        class="ls_link_item ls_link_item_card"
+        class="ls_link_item_card"
         v-for="link in links"
         :key="link.id"
         :xs="24"
         :sm="11"
         :md="6"
+        :title="link.title"
       >
-        <el-tooltip
-          class="ls_link_item_content"
-          effect="dark"
-          :open-delay="1000"
-          :content="link.title"
-          placement="top"
-        >
-          <transition name="el-zoom-in-center">
-            <div class="transition-box"
+        <div class="transition-box ls_link_item"
             @contextmenu.prevent="openContentMenu(link, $event)"
               @click="onClick(link)"
             >
+            <div class="ls_link_item_content_warpper">
               <div v-if="!!link.icon" :class="iconClass||'ls_icon'">
                 <img :src="link.icon" onerror="javascript:this.src='/static/logo.png'">
               </div>
@@ -120,8 +114,7 @@
                 <span class="label ls_in_line">{{renderTitle(link.title)}}</span>
               </div>
             </div>
-          </transition>
-        </el-tooltip>
+            </div>
       </el-col>
     </el-row>
     <LSContentMenu ref="contextmenu" @onSaved="onChanged"></LSContentMenu>
@@ -176,94 +169,31 @@ export default {
     color: #929292;
   }
 
-  .ls_link_item {
-    text-align: center;
-    height: 130px;
-    cursor: pointer;
-    margin-top: 20px;
-    //margin-right: 20px;
-    padding: 20px 15px;
-    position: relative;
-    
-  }
-
+  padding-top: 15px;
+  cursor: pointer;
   .ls_link_item_card {
-    background-color: #fff;
-    .operate {
-      position: absolute;
-      top: 0px;
-      width: 50%;
-      right: 0px;
-      height: 100%;
-      color: #555;
-      background-color: #000;
-      opacity: 0.6;
-      filter: alpha(opacity=60);
-
-      .operate_btn:first-child {
-        margin-top: 5px;
-      }
-
-      .operate_btn {
-        padding: 5px;
-        min-height: 20px;
-      }
-
-      .operate_btn:hover {
-        background-color: #fff;
-        color: #000;
-      }
+    padding: 0px 2px;
+    background-color: rgb(249, 249, 249);
+    .ls_link_item{
+      background-color: #FFF;
+      min-height: 100px;
+      text-align: center;
+      margin-top: 5px;
+      padding:25px 5px 0px 5px;
     }
   }
 
-  .ls_link_item_card:hover,.ls_link_item_card:active {
-    color: #5e5e5e;
-    background-color: #eee;
-  }
-
   .ls_link_item_list {
-    font-size: 14px;
-    padding:15px;
-    background-color: #fff;
-    height: 55px;
+    .ls_link_item{
+      padding: 10px 15px;
+      background-color: #FFF;
+    }
   }
 
-  .ls_link_item_list:hover {
+  .ls_link_item:hover{
+    background-color: #CCC;
     color: #FFF;
-    background-color: #aeaeae;
   }
-
-  p {
-    margin: 0px;
-  }
-}
-
-.ls_link_item_content {
-  min-height: 70px;
-}
-
-.ls_link_item_content:focus {
-  outline: none;
-}
-
-.ls_link_list .ls_link_item .remove {
-  height: 20px;
-  width: 20px;
-  position: absolute;
-  top: -15px;
-  right: -8px;
-  font-size: 24px;
-  color: #c5c5c5;
-}
-
-.ls_link_list .ls_link_item .remove i {
-  font-size: 24px;
-}
-
-.ls_link_list .ls_link_item .title {
-  color: #999;
-  font-size: 16px;
-  margin-top: 5px;
 }
 </style>
 
