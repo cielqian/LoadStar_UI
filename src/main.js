@@ -60,13 +60,22 @@ axios.interceptors.response.use(
       return res;
   },
   function (error) {
-    if (error.response.status == 401) {
-      store.dispatch('signOut');
-      // router.push('Login');
-    }
     NProgress.done();
-    console.log(error);
-    return Promise.reject(error)
+    if (!error.response) {
+      Vue.prototype.$message.error('服务暂时不可用');
+      return Promise.reject(error)
+    }
+    else{
+      if (error.response.status == 400) {
+        Vue.prototype.$message.error(error.response.message);
+        return Promise.reject(error.response)
+      }
+      else if(error.response.status == 401){
+        store.dispatch('signOut');
+        return Promise.reject(error)
+      }
+      return Promise.reject(error)
+    }
   }
 );
 

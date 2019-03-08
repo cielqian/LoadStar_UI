@@ -129,9 +129,9 @@ export default {
 
       this.$http.post(apis.auth.signUp, d).then(res => {
         _this.disabled.form = false;
-        if (utils.responseSuccess(res)) {
-          _this.openSignInDialog();
-        }
+        _this.openSignInDialog();
+      }).catch(x => {
+        _this.disabled.form = false;  
       });
     },
     signInAccount: function() {
@@ -147,7 +147,7 @@ export default {
         .dispatch("signIn", this.account)
         .catch(x => {
           _this.disabled.form = false;
-          _this.$message.error("用户名或密码不正确")});
+          _this.$message.error(x)});
     }
   },
   mounted() {

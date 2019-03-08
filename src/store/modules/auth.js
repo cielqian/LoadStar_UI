@@ -98,7 +98,7 @@ const actions = {
                     dispatch('getUserInfo');
                     router.push('Home');
                     resolve();
-                }).catch((response) => reject());
+                }).catch((response) => reject(response));
         });
     },
     signOut({commit}){
