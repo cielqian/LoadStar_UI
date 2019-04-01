@@ -34,8 +34,9 @@ axios.interceptors.request.use(
         config.headers.Authorization = 'Basic YnJvd3Nlcjo=';
       }else{
         let token = store.getters.getAccessToken;
-        if(token != null && token!= '' && token != 'null')
+        if(!!token){
           config.headers.Authorization = 'Bearer ' + token;
+        }
       }
       return config;
   },
@@ -71,6 +72,9 @@ axios.interceptors.response.use(
         return Promise.reject(error.response)
       }
       else if(error.response.status == 401){
+        if (error.request.responseURL.indexOf("/oauth/token") > 0) {
+          return Promise.reject(error.response);
+        }
         store.dispatch('signOut');
         return Promise.reject(error)
       }

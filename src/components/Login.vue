@@ -147,7 +147,7 @@ export default {
         .dispatch("signIn", this.account)
         .catch(x => {
           _this.disabled.form = false;
-          _this.$message.error(x)});
+          _this.$message.error(x.data.error_description)});
     }
   },
   mounted() {

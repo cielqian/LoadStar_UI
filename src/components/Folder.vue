@@ -7,9 +7,8 @@
       <el-col :span="6" class="ls_padding_right_15">
         <el-input suffix-icon="el-icon-circle-plus-outline"
          v-model="createFolderModel.name" placeholder="输入文件夹名称，并按回车创建" maxlength="8"
-         @keyup.enter.native="createFolder">
+         @keyup.enter.native="createFolder" :disabled="createFolderModel.disabled">
         </el-input>
-
         <el-tree
           class="ls_margin_top_15"
           :class="{'dragarea':onMove}"
@@ -85,7 +84,8 @@ export default {
       },
       onMove: false,
       createFolderModel: {
-        name: ""
+        name: "",
+        disabled: false
       },
       selectedFolderId: 0,
       selectedFolderName: "",
@@ -170,6 +170,8 @@ export default {
     },
     createFolder() {
       let _this = this;
+      _this.createFolderModel.disabled = true;
+
       if (!!this.createFolderModel.name) {
         _this.$store
           .dispatch("createFolder", {
@@ -178,6 +180,7 @@ export default {
           })
           .then(() => {
             _this.createFolderModel.name = "";
+            _this.createFolderModel.disabled = false;
             _this.getAllFolder();
           });
       }

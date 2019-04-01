@@ -71,7 +71,7 @@ const actions = {
     },
     setLanguage({ commit }, language){
         commit('setLanguage', language);
-        api.changeLanguage(language);
+        // api.changeLanguage(language);
     },
     triggerModule({ commit }, module){
         // commit('triggerModule', module);

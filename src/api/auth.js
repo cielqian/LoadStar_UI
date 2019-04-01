@@ -10,7 +10,7 @@ export default{
         form.append("password", account.password);
 
         return new Promise((resolve, reject) => {
-            axios.post(apis.auth.signIn,  form, {
+            axios.post(apis.auth.signIn, form, {
                 headers: {
                       'Content-Type': 'multipart/form-data'
                 },
