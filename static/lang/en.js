@@ -5,6 +5,7 @@ export default{
     },
     nav:{
         lblLoadStar: 'Load Star',
+        lblStart: 'Home',
         lblFolder: 'Folders',
         lblTag: 'Tags',
         lblRecent: 'Recent',

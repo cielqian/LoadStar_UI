@@ -63,12 +63,13 @@ axios.interceptors.response.use(
   function (error) {
     NProgress.done();
     if (!error.response) {
+      store.dispatch('signOut');
       Vue.prototype.$message.error('服务暂时不可用');
       return Promise.reject(error)
     }
     else{
       if (error.response.status == 400) {
-        Vue.prototype.$message.error(error.response.message);
+        Vue.prototype.$message.error(error.response.message||error.response.error_description);
         return Promise.reject(error.response)
       }
       else if(error.response.status == 401){

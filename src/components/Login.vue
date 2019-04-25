@@ -11,7 +11,10 @@
         <el-button type="text" @click="openSignUpDialog">{{$t('signUp.btnSignUp')}}</el-button>
       </el-col>
     </el-row>
-
+    <el-row class="ls_footer">
+      <img class="ls_logo_word_mini" src="../assets/new-logo.png">
+      <span>Copyright ©2019 Ciel.Qian All rights reserved.</span>
+    </el-row>
     <el-dialog
       :title="$t('signUp.lblDialog')"
       :visible.sync="dialog.signUpDialogVisiable"

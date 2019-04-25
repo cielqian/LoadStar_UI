@@ -3,9 +3,12 @@
         <el-menu background-color="#171717"
             text-color="#fff"
             active-text-color="#ffd04b" default-active="1" class="el-menu-vertical-demo">
+            <el-menu-item index="1" @click="goTo('/Home')">
+                <img class="ls_logo_word_mid ls_inline" src="../assets/new-logo2.png">
+            </el-menu-item>
             <el-menu-item index="1"  @click="goTo('/Home')">
                 <template slot="title">
-                    <span class="nav_menu">{{$t('nav.lblLoadStar')}}</span>
+                    <span class="nav_menu">{{$t('nav.lblStart')}}</span>
                 </template>
             </el-menu-item>
             <el-menu-item index="2" @click="goTo('/Folder')">
