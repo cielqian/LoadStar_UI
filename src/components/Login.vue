@@ -18,6 +18,7 @@
     <el-dialog
       :title="$t('signUp.lblDialog')"
       :visible.sync="dialog.signUpDialogVisiable"
+      :close-on-click-modal="false"
       width="500px"
     >
       <el-row>
@@ -51,6 +52,7 @@
     <el-dialog
       :title="$t('signIn.lblDialog')"
       :visible.sync="dialog.signInDialogVisiable"
+      :close-on-click-modal="false"
       width="500px"
     >
       <el-row>

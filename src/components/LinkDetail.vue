@@ -210,7 +210,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .el-switch.is-checked .el-switch__core {
   border-color: #000;
   background-color: #000;

@@ -70,7 +70,7 @@
         </el-table>
       </el-col>
     </el-row>
-    <el-row v-else-if="listType == 'List1'" class="ls_link_item_list">
+    <el-row v-else-if="listType == 'List1'" type="flex" style="flex-wrap:wrap" class="ls_link_item_list">
       <el-col
         class="ls_link_item ls_pointer"
         v-for="link in links"
