@@ -7,7 +7,7 @@
             <h2>{{getUserInfo.username}}({{getUserInfo.nickname}})</h2>
           </el-col>
         </el-row>
-        <el-card class="ls_margin_top_15">
+        <el-card class="ls_margin_top_5">
           <div slot="header" class="clearfix">
             <span>{{$t('setting.lblAppearance')}}</span>
           </div>

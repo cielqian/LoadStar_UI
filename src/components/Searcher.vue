@@ -3,7 +3,7 @@
       <el-input
         clearable
         v-model="searchContent"
-        maxlength="20"
+        maxlength="50"
         @keyup.enter.native="search"
         ref="searchInputCtrl"
         placeholder="请输入内容，并按回车确认"
