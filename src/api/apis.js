@@ -11,6 +11,7 @@ export default{
         create: '/link-service/api/link',
         update: '/link-service/api/link',
         query: '/link-service/api/link',
+        search: '/link-service/api/link/search',
         delete: '/link-service/api/link',
         visit: '/link-service/api/link/{linkId}/visit',
         up: '/link-service/api/link/{linkId}/up',

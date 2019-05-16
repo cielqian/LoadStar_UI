@@ -47,13 +47,13 @@
           <el-table :data="searchLinks" :show-header="false">
                 <el-table-column prop="title">
                   <template slot-scope="scope">
-                    <div class="ls_pointer" v-html="renderTitle(scope.row.title)" @click="redirect(scope.row)"></div>
+                    <div class="ls_pointer highlight1" v-html="renderTitle(scope.row.title)" @click="redirect(scope.row)"></div>
                   </template>
                 </el-table-column>
               </el-table>
         </el-col>
       </el-row>
-      <el-row>
+      <el-row class="ls_padding_5_l">
         <el-col :span="24" class="ls_text_center ls_pointer" @click.native="hiddenSearch"><i class="el-icon-arrow-up"></i>收起</el-col>
       </el-row>
       
@@ -94,7 +94,7 @@ export default {
                     this.visible.searchResult = true;
                     // document.getElementById("baiduIframe").src = this.searchEngine.mbaidu + this.searchContent;
                     // document.getElementById("bingIframe").src = this.searchEngine.bing+ this.searchContent;
-                    linkApi.queryLinks(this.searchContent).then(res => {_this.searchLinks = res.data.items});
+                    linkApi.fullTextSearchLinks(this.searchContent).then(res => {_this.searchLinks = res.data.items});
                     break;
                 // case "1":
                 //     window.open(this.searchEngine.baidu + this.searchContent);
@@ -113,10 +113,10 @@ export default {
         },
         renderTitle(title) {
             let titleString = title;
-            let replaceReg = new RegExp(this.searchContent, 'gi');
-            let replaceString = '<span class="highlight">' + this.searchContent + '</span>';
-            titleString = titleString.replace(replaceReg, replaceString);
-            return titleString;
+            // let replaceReg = new RegExp(this.searchContent, 'gi');
+            // let replaceString = '<span class="highlight">' + this.searchContent + '</span>';
+            // titleString = titleString.replace(replaceReg, replaceString);
+            return title;
         },
         hiddenSearch: function () {
             this.visible.searchResult = false;

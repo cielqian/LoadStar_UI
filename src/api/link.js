@@ -19,6 +19,14 @@ export default{
             });
         });
     },
+    fullTextSearchLinks(keyword){
+        return new Promise((resolve, reject) => {
+            axios.get(apis.link.search, {params:{ keyword:keyword}})
+            .then((response) => {
+                resolve(response);
+            });
+        });
+    },
     getAllLinksUnderFolder(folderId){
         return new Promise((resolve, reject) => {
             axios.get(utils.replace(apis.link.underFolder,[{key:'{folderId}', val:folderId}]))
