@@ -47,6 +47,10 @@
           <img class="ls_logo_word_mini" src="../assets/new-logo.png">
           <span>Copyright ©2019 Ciel.Qian All rights reserved.</span>
         </el-row>
+        <el-row class="ls_text_center ls_text_mini ls_padding_5_l">
+          <span>web version {{webVersion}} ,</span>
+          <span>api version {{apiVersion}}</span>
+        </el-row>
         <el-row class="ls_margin_top_15 ">
             <el-col class="ls_text_center">
               <el-button style="width:300px" type="danger" @click="signOutAccount">{{$t('menu.lblSignOut ')}}</el-button>
@@ -61,11 +65,14 @@
 <script>
 import LSHeader from './Header.vue';
 import { mapGetters, mapState, mapActions } from "vuex";
+import packageInfo from '../../package.json'
 
 export default {
   name: "Setting",
   data() {
     return {
+      webVersion: packageInfo.version,
+      apiVersion: '1.0.1'
     };
   },
   computed:{
