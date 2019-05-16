@@ -68,6 +68,7 @@
 <script>
 import { mapGetters, mapState } from "vuex";
 import api from "../api/link";
+import userApi from "../api/user";
 
 export default {
   name: "LSFolder",
@@ -213,6 +214,7 @@ export default {
     let _this = this;
     _this.screenHeight = document.body.clientHeight - 100;
     this.getAllFolder();
+    userApi.getAllTips();
   }
 };
 </script>

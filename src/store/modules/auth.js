@@ -1,4 +1,5 @@
 import api from '../../api/auth';
+import userApi from '../../api/user';
 import utils from "../../utils/commonUtils";
 import router from '../../router';
 
@@ -68,7 +69,8 @@ const mutations = {
     },
     readTip(state, tip){
         state.tipInfo[tip] = true;
-        localStorage.setItem("LS_TIP", JSON.stringify(state.tipInfo));
+        userApi.readTip({tip:tip});
+        // localStorage.setItem("LS_TIP", JSON.stringify(state.tipInfo));
     }
 }
 

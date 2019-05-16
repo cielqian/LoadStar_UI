@@ -42,5 +42,9 @@ export default{
         updateListType: '/user-service/api/theme/listType',
         changeLanguage: '/user-service/api/theme/language',
         triggerModule: '/user-service/api/theme/modules/{moduleName}'
+    },
+    tip:{
+        query: '/user-service/api/tip/current',
+        read: '/user-service/api/tip/read'
     }
 }
