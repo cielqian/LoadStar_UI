@@ -27,13 +27,22 @@
         </el-row>
       </el-col>
       <el-col v-show="visible1" :span="18" class="ls_content ls_bg_white">
-        <LinkCardItem
-          :links="links"
-          :listType="'List'"
-          :iconClass="'ls_icon_sm'"
-          @on-click="redirect"
-          @onChanged="nodeClick"
-        ></LinkCardItem>
+        <el-table
+          :data="links"
+          :show-header="false"
+          :max-height="screenHeight"
+          empty-text="暂无链接"
+          @row-dblclick="redirect"
+        >
+          <el-table-column>
+            <template slot-scope="scope">
+              <div class="ls_icon_sm" :link="scope.row">
+                  <img class="ls_inline ls_icon_sm" :src="scope.row.icon" onerror="javascript:this.src='/static/logo.png'">
+                  <div draggable="true" class="ls_inline ls_padding_left_5 ls_pointer" @click="redirect(scope.row)">{{scope.row.title}}</div>
+                </div>
+            </template>
+          </el-table-column>
+        </el-table>
 
         <!-- <el-table highlight-current-row :data="links" :show-header="false">
           <el-table-column>
@@ -78,7 +87,8 @@ export default {
       newTagName: "",
       selectedTagId: 0,
       visible1: false,
-      links: []
+      links: [],
+      screenHeight:600
     };
   },
   components: { LinkCardItem },
