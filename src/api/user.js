@@ -1,6 +1,5 @@
 import axios from 'axios';
 import apis from './apis';
-import utils from '../utils/commonUtils'
 
 export default{
     getAllTips(){

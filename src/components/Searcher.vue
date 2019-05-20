@@ -54,7 +54,7 @@
         </el-col>
       </el-row>
       <el-row class="ls_padding_5_l">
-        <el-col :span="24" class="ls_text_center ls_pointer" @click.native="hiddenSearch"><i class="el-icon-arrow-up"></i>收起</el-col>
+        <el-col :span="24" class="ls_text_center ls_pointer" @keyup.esc.native="hiddenSearch" @click.native="hiddenSearch"><i class="el-icon-arrow-up"></i>收起<small>（按ESC）</small></el-col>
       </el-row>
       
     </el-row>
@@ -87,6 +87,7 @@ export default {
     methods:{
         search: function() {
             let _this = this;
+            _this.searchLinks = [];
             this.visible.searchResult = false;
             if (!!this.searchContent) {
                 switch (this.searchType) {
@@ -120,7 +121,18 @@ export default {
         },
         hiddenSearch: function () {
             this.visible.searchResult = false;
-        },
+        }
+    },
+    created(){
+      let _this = this;
+
+      document.onkeydown = function(event){   
+          var e = event || window.event || arguments.callee.caller.arguments[0];   
+          if(e && e.keyCode==27){ // 按 Esc    
+              //要做的事情   
+              _this.hiddenSearch(); 
+          }
+      };
     }
 }
 </script>

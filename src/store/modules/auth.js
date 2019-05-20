@@ -9,8 +9,6 @@ const state = {
         username:'',
         nickname:'',
         accessToken: ''
-    },
-    tipInfo:{
     }
 }
 
@@ -31,23 +29,6 @@ const getters = {
             username: state.loginInfo.username,
             nickname: state.loginInfo.nickname
         }
-    },
-    getTipInfo: state => {
-        let tipInfo = state.tipInfo;
-        if (!tipInfo.drag) {
-            let storageTipInfo = localStorage.getItem("LS_TIP");
-            if (!storageTipInfo) {
-                state.tipInfo = {
-                    drag:false,
-                    trashLink: false,
-                    contentMenu: false
-                }
-            }else{
-                state.tipInfo = JSON.parse(storageTipInfo);
-            }
-        }
-        tipInfo = state.tipInfo;
-        return tipInfo;
     }
 }
 // mutations
@@ -66,11 +47,6 @@ const mutations = {
     setUserInfo(state, userInfo){
         state.loginInfo.username = userInfo.username;
         state.loginInfo.nickname = userInfo.nickname;
-    },
-    readTip(state, tip){
-        state.tipInfo[tip] = true;
-        userApi.readTip({tip:tip});
-        // localStorage.setItem("LS_TIP", JSON.stringify(state.tipInfo));
     }
 }
 
@@ -106,9 +82,6 @@ const actions = {
     signOut({commit}){
         commit('setLoginInfo', {hasLogined:false,accessToken:''});
         router.push('Login');
-    },
-    readTip({commit}, tip){
-        commit('readTip', tip);
     }
 }
 

@@ -24,6 +24,7 @@ export default {
   name: "Home",
   components:{LSHeader},
   mounted(){
+    
   }
 };
 </script>

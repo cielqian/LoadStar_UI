@@ -6,6 +6,7 @@ import link from './modules/link'
 import folder from './modules/folder'
 import setting from './modules/setting'
 import tag from './modules/tag'
+import user from './modules/user'
 
 Vue.use(Vuex)
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
         link,
         folder,
         setting,
-        tag
+        tag,
+        user
     }
 })
