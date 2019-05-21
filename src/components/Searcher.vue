@@ -1,5 +1,9 @@
 <template>
     <el-row class="searcher">
+      <el-button-group>
+        <el-button type="primary" @click="searchType = '1'" :class="(searchType == '1') ? 'ls_bg_black': 'ls_bg_white ls_bd_black ls_fg_black'">百度</el-button>
+        <el-button type="primary" @click="searchType = '0'" :class="(searchType == '0') ? 'ls_bg_black': 'ls_bg_white ls_bd_black ls_fg_black'">书签</el-button>
+      </el-button-group> 
       <el-input
         clearable
         v-model="searchContent"
@@ -8,15 +12,14 @@
         ref="searchInputCtrl"
         placeholder="请输入内容，并按回车确认"
         class="input-with-select ls_bd_black"
-      >
-        <el-select v-model="searchType" slot="prepend" placeholder="请选择" class="ls_no_border">
-          <!-- <el-option label="全部" value="0"></el-option> -->
+        style="width:450px;"
+      > 
+        <!-- <el-select v-model="searchType" slot="prepend" placeholder="请选择" class="ls_no_border">
           <el-option label="百度" value="1"></el-option>
-          <!-- <el-option label="必应" value="2"></el-option> -->
           <el-option label="书签" value="0"></el-option>
-        </el-select>
+        </el-select> -->
       </el-input>
-      <el-row v-show="visible.searchResult" class="ls_bg_white ls_padding_all_15 ls_bd_black">
+      <el-row v-show="visible.searchResult" class="ls_bg_white ls_padding_5 ls_bd_black">
       <el-row>
         <!-- <el-col :span="8" class="ls_padding_all_15">
           <el-row>
@@ -136,4 +139,10 @@ export default {
     }
 }
 </script>
+<style scoped>
+.el-button{
+  padding: 13px 12px !important;
+}
+</style>
+
 

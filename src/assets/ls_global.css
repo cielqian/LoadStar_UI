@@ -134,6 +134,14 @@ body{
 .ls_bg_white{
     background-color: #FFF;
 }
+.ls_bg_white:hover{
+    background-color: #FFF !important;
+}
+
+.ls_bg_black{
+    background: #171717 !important;
+    color: #FFF;
+}
 
 .ls_margin_top_10{
     margin-top: 10px;
@@ -153,6 +161,10 @@ body{
 
 .ls_margin_left_30{
     margin-left: 30px;
+}
+
+.ls_padding_5{
+    padding: 5px;
 }
 
 .ls_padding_15_l{
