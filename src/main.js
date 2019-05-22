@@ -25,6 +25,7 @@ import packageInfo from '../package.json'
 
 console.log('version:' + packageInfo.version)
 
+NProgress.configure({ showSpinner: false });
 Vue.config.productionTip = false;
 axios.defaults.baseURL = apis.baseHost;
 axios.interceptors.request.use(
@@ -62,6 +63,9 @@ axios.interceptors.response.use(
   },
   function (error) {
     NProgress.done();
+    if (error.config.url.indexOf('bird.ioliu.cn') > -1) {
+      return;
+    }
     if (!error.response) {
       store.dispatch('signOut');
       Vue.prototype.$message.error('服务暂时不可用');
@@ -108,11 +112,14 @@ const i18n = new VueI18n({
     'zhCHS': LangZhCHS
   }
 })
-
-new Vue({
+var vueCtx = new Vue({
   store,
   router,
   i18n,
   components: {App},
   template: '<App/>'
 }).$mount('#app');
+
+console.log(vueCtx)
+
+export default vueCtx;

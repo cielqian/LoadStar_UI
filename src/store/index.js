@@ -7,6 +7,7 @@ import folder from './modules/folder'
 import setting from './modules/setting'
 import tag from './modules/tag'
 import user from './modules/user'
+import plugin from './modules/plugin'
 
 Vue.use(Vuex)
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
         folder,
         setting,
         tag,
-        user
+        user,
+        plugin
     }
 })

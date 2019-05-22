@@ -4,10 +4,12 @@ export default{
     },
     global: {
         title:'云 端 书 签',
-        pasteTitle: 'Ctrl+V粘贴 创建新书签'
+        pasteTitle: 'Ctrl+V粘贴 创建新书签',
+        lblNoData: 'No Data'
     },
     nav:{
         lblLoadStar: '导航',
+        lblStart: '主页',
         lblFolder: '分类',
         lblTag: '标签',
         lblRecent: '最近',
@@ -57,5 +59,11 @@ export default{
         lblNewTag: '新标签',
         btnSave: '保存',
         btnCancel: '取消'
+    },
+    searcher:{
+        lblClose: '收起',
+        lblClose2: '或按ESC',
+        lblBookmark: '书签',
+        lblBaidu: '百度'
     }
 }

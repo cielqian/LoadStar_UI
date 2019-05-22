@@ -1,10 +1,14 @@
 // 主页
 <template>
   <div class="ls_container">
-    <el-row class="searcher">
-      <el-col :span="24">
+    <el-row class="searcher_block">
+      <el-col :span="22">
         <LSSearcher></LSSearcher>
       </el-col>
+      <el-col :span="2">
+        <LSPluginMarket></LSPluginMarket>
+      </el-col>
+      
     </el-row>
     <el-row class="link_content ls_padding_15_1">
       <el-col :span="24">
@@ -57,6 +61,7 @@ import LSRecentLink from "./RecentLink.vue";
 import LSTopLink from "./TopLink.vue";
 import LinkCardItem from "./LinkItems.vue";
 import LSLinkDetail from "./LinkDetail.vue";
+import LSPluginMarket from "./PluginMarket.vue";
 import apis from "../assets/repository/apis";
 import tagApi from "../api/tag";
 import linkApi from "../api/link";
@@ -68,7 +73,7 @@ function isUrl(text) {
 
 export default {
   name: "LinkPanel",
-  components: { LSRecentLink, LSTopLink, LinkCardItem,LSLinkDetail,LSSearcher },
+  components: { LSRecentLink, LSTopLink, LinkCardItem,LSLinkDetail,LSSearcher,LSPluginMarket },
   data() {
     return {
       dialog: {
@@ -185,7 +190,7 @@ export default {
   background-color: #fff;
 }
 
-.searcher{
+.searcher_block{
   position: fixed;
   width: calc(100% - 270px);
   z-index: 1999;

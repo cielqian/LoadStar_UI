@@ -46,5 +46,8 @@ export default{
     tip:{
         query: '/user-service/api/tip/current',
         read: '/user-service/api/tip/read'
+    },
+    plugin:{
+        query: '/user-service/api/plugin',
     }
 }

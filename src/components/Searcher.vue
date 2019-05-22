@@ -1,25 +1,27 @@
 <template>
     <el-row class="searcher">
-      <el-button-group>
-        <el-button type="primary" @click="searchType = '1'" :class="(searchType == '1') ? 'ls_bg_black': 'ls_bg_white ls_bd_black ls_fg_black'">百度</el-button>
-        <el-button type="primary" @click="searchType = '0'" :class="(searchType == '0') ? 'ls_bg_black': 'ls_bg_white ls_bd_black ls_fg_black'">书签</el-button>
+      <el-button-group class="tab">
+        <el-button type="primary" @click="searchType = '1'" :class="(searchType == '1') ? 'ls_bg_black': 'ls_bg_white ls_bd_black ls_fg_black'">{{$t('searcher.lblBaidu')}}</el-button>
+        <el-button type="primary" @click="searchType = '0'" :class="(searchType == '0') ? 'ls_bg_black': 'ls_bg_white ls_bd_black ls_fg_black'">{{$t('searcher.lblBookmark')}}</el-button>
       </el-button-group> 
       <el-input
         clearable
         v-model="searchContent"
-        maxlength="50"
+        maxlength="150"
+        @focus="()=>{focusSearch=true}"
+        @blur="()=>{focusSearch=visible.searchResult}"
         @keyup.enter.native="search"
         ref="searchInputCtrl"
-        placeholder="请输入内容，并按回车确认"
+        placeholder="请输入内容，并按Enter搜索"
         class="input-with-select ls_bd_black"
-        style="width:450px;"
+        :class="focusSearch?'max_width':'min_width'"
       > 
         <!-- <el-select v-model="searchType" slot="prepend" placeholder="请选择" class="ls_no_border">
           <el-option label="百度" value="1"></el-option>
           <el-option label="书签" value="0"></el-option>
         </el-select> -->
       </el-input>
-      <el-row v-show="visible.searchResult" class="ls_bg_white ls_padding_5 ls_bd_black">
+      <el-row v-show="visible.searchResult" class="ls_bg_white ls_padding_5 ls_bd_black" style="border-top: none !important">
       <el-row>
         <!-- <el-col :span="8" class="ls_padding_all_15">
           <el-row>
@@ -47,7 +49,7 @@
           <iframe id="zhihuIframe"  width="100%" height="500px" class="searchIframe ls_no_border" src=""></iframe>
         </el-col>-->
         <el-col :span="24"> 
-          <el-table :data="searchLinks" :show-header="false">
+          <el-table :data="searchLinks" :show-header="false" v-loading="loading">
                 <el-table-column prop="title">
                   <template slot-scope="scope">
                     <div class="ls_pointer highlight1" v-html="renderTitle(scope.row.title)" @click="redirect(scope.row)"></div>
@@ -57,9 +59,8 @@
         </el-col>
       </el-row>
       <el-row class="ls_padding_5_l">
-        <el-col :span="24" class="ls_text_center ls_pointer" @keyup.esc.native="hiddenSearch" @click.native="hiddenSearch"><i class="el-icon-arrow-up"></i>收起<small>（按ESC）</small></el-col>
+        <el-col :span="24" class="ls_text_center ls_pointer" @keyup.esc.native="hiddenSearch" @click.native="hiddenSearch"><i class="el-icon-arrow-up"></i> {{ $t('searcher.lblClose')}}<small>({{$t('searcher.lblClose2')}})</small></el-col>
       </el-row>
-      
     </el-row>
     </el-row>
 </template>
@@ -84,6 +85,8 @@ export default {
             visible: {
                 searchResult: false
             },
+            loading: false,
+            focusSearch: false,
             searchLinks: []
         }
     },
@@ -92,13 +95,14 @@ export default {
             let _this = this;
             _this.searchLinks = [];
             this.visible.searchResult = false;
+            this.loading = true;
             if (!!this.searchContent) {
                 switch (this.searchType) {
                 case "0":
                     this.visible.searchResult = true;
                     // document.getElementById("baiduIframe").src = this.searchEngine.mbaidu + this.searchContent;
                     // document.getElementById("bingIframe").src = this.searchEngine.bing+ this.searchContent;
-                    linkApi.fullTextSearchLinks(this.searchContent).then(res => {_this.searchLinks = res.data.items});
+                    linkApi.fullTextSearchLinks(this.searchContent).then(res => {_this.searchLinks = res.data.items;_this.loading = false;});
                     break;
                 // case "1":
                 //     window.open(this.searchEngine.baidu + this.searchContent);
@@ -124,6 +128,7 @@ export default {
         },
         hiddenSearch: function () {
             this.visible.searchResult = false;
+            this.focusSearch = false;
         }
     },
     created(){
@@ -131,18 +136,41 @@ export default {
 
       document.onkeydown = function(event){   
           var e = event || window.event || arguments.callee.caller.arguments[0];   
-          if(e && e.keyCode==27){ // 按 Esc    
-              //要做的事情   
+          if(e && e.keyCode==27){
               _this.hiddenSearch(); 
           }
       };
     }
 }
 </script>
-<style scoped>
+<style lang="scss" scoped>
+$tabWidth:130px;
+$tabWidth2:132px;
+
 .el-button{
-  padding: 13px 12px !important;
+  padding: 12px 12px !important;
 }
+
+.searcher{
+  
+  .tab{
+    float: left;
+    width: $tabWidth;
+  }
+  .max_width{
+    margin-left: $tabWidth;
+    width: calc(100% - 132px);
+    display: inherit !important;
+  }
+  
+  .min_width{
+    margin-left: $tabWidth;
+    width: 250px;
+    display: inherit !important;
+  }
+}
+
+
 </style>
 
 

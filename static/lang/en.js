@@ -1,7 +1,8 @@
 export default{
     global: {
         title:'Welcome To Your Online Bookmark App!',
-        pasteTitle: 'Try Ctrl+V To Create New Link'
+        pasteTitle: 'Try Ctrl+V To Create New Link',
+        lblNoData: 'No Data'
     },
     nav:{
         lblLoadStar: 'Load Star',
@@ -50,5 +51,11 @@ export default{
         lblNewTag: 'New Tag',
         btnSave: 'Save',
         btnCancel: 'Cancel'
+    },
+    searcher:{
+        lblClose: 'Close',
+        lblClose2: 'Press ESC',
+        lblBookmark: 'InSite',
+        lblBaidu: 'Baidu'
     }
 }
