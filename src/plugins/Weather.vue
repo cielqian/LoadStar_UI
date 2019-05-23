@@ -15,7 +15,7 @@
         {{tomorrow.low}} ~ {{tomorrow.high}}℃
       </el-col>
       <el-col>
-          <span v-if="tomorrow.high > today.high">
+          <span v-if="highToToday">
                 (比今天热)
           </span>
           <span v-else>
@@ -45,6 +45,18 @@ export default {
             txt: ''
         }
     };
+  },
+  computed:{
+      highToToday: function(){
+          if (this.tomorrow.high > this.today.high) {
+              return true;
+          }else{
+              if(this.tomorrow.low > this.today.low){
+                  return true;
+              }
+              return false;
+          }
+      }
   },
   created(){
       let _this = this;

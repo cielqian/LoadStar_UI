@@ -1,9 +1,13 @@
 <template>
     <el-row class="searcher">
-      <el-button-group class="tab">
+      <el-radio-group v-model="searchType" class="tab">
+        <el-radio-button label="1">{{$t('searcher.lblBaidu')}}</el-radio-button>
+        <el-radio-button label="0">{{$t('searcher.lblBookmark')}}</el-radio-button>
+      </el-radio-group>
+      <!-- <el-button-group class="tab">
         <el-button type="primary" @click="searchType = '1'" :class="(searchType == '1') ? 'ls_bg_black': 'ls_bg_white ls_bd_black ls_fg_black'">{{$t('searcher.lblBaidu')}}</el-button>
         <el-button type="primary" @click="searchType = '0'" :class="(searchType == '0') ? 'ls_bg_black': 'ls_bg_white ls_bd_black ls_fg_black'">{{$t('searcher.lblBookmark')}}</el-button>
-      </el-button-group> 
+      </el-button-group>  -->
       <el-input
         clearable
         v-model="searchContent"
@@ -13,7 +17,7 @@
         @keyup.enter.native="search"
         ref="searchInputCtrl"
         placeholder="请输入内容，并按Enter搜索"
-        class="input-with-select ls_bd_black"
+        class="input-with-select"
         :class="focusSearch?'max_width':'min_width'"
       > 
         <!-- <el-select v-model="searchType" slot="prepend" placeholder="请选择" class="ls_no_border">
@@ -21,7 +25,7 @@
           <el-option label="书签" value="0"></el-option>
         </el-select> -->
       </el-input>
-      <el-row v-show="visible.searchResult" class="ls_bg_white ls_padding_5 ls_bd_black" style="border-top: none !important">
+      <el-row v-show="visible.searchResult" class="result_list ls_bg_white ls_padding_5" style="border-top: none !important">
       <el-row>
         <!-- <el-col :span="8" class="ls_padding_all_15">
           <el-row>
@@ -144,12 +148,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-$tabWidth:130px;
-$tabWidth2:132px;
-
-.el-button{
-  padding: 12px 12px !important;
-}
+@import "../assets/base.scss";
+$tabWidth:131px;
 
 .searcher{
   
@@ -157,9 +157,14 @@ $tabWidth2:132px;
     float: left;
     width: $tabWidth;
   }
+
+  .result_list{
+    border: 1px solid $primaryGrey;
+  }
+
   .max_width{
     margin-left: $tabWidth;
-    width: calc(100% - 132px);
+    width: calc(100% - 131px);
     display: inherit !important;
   }
   
@@ -169,8 +174,15 @@ $tabWidth2:132px;
     display: inherit !important;
   }
 }
-
-
+</style>
+<style lang="scss">
+.searcher{
+  .tab{
+    span{
+      padding: 12px 12px !important;
+    }
+  }
+}
 </style>
 
 

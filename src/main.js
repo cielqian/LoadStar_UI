@@ -8,6 +8,7 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import './assets/iconfont.css'
 import './assets/ls_global.css'
+import './assets/element-ext.scss'
 import apis from './api/apis'
 // import store from "./assets/store/store";
 import store from "./store";

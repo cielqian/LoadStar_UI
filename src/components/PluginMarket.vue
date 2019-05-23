@@ -4,7 +4,7 @@
       <el-row>
         <el-row :key="plugin.code" v-for="plugin in plugins">
           <el-col>
-            <el-divider content-position="center">有道词典</el-divider>
+            <el-divider content-position="center">{{plugin.name}}</el-divider>
             <div :is="plugin.code"></div>
           </el-col>
         </el-row>
@@ -30,9 +30,10 @@ import vueCtx from "../main";
 import Vue from "Vue";
 import { mapGetters, mapState } from "vuex";
 import pyoudao from '../plugins/YoudaoDict';
+import pweather from '../plugins/Weather';
 export default {
   name: "PluginMarket",
-  components:{pyoudao},
+  components:{pyoudao, pweather},
   data() {
     return {
       visible: false,

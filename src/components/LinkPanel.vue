@@ -186,10 +186,6 @@ export default {
   font-size: 12px;
 }
 
-.input-with-select .el-input-group__prepend {
-  background-color: #fff;
-}
-
 .searcher_block{
   position: fixed;
   width: calc(100% - 270px);
@@ -204,14 +200,6 @@ export default {
 <style>
 .highlight{
   color: #c00;
-}
-
-.searcher .el-select .el-input {
-  width: 130px;
-}
-
-.el-input__inner:focus {
-  border: 1px solid #dcdfe6;
 }
 
 .el-tag {
