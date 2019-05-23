@@ -226,22 +226,6 @@ export default {
   border: 1px solid #000;
 }
 
-.el-tree-node:focus > .el-tree-node__content,
-.is-current {
-  background-color: #000 !important;
-  color: #fff;
-}
-
-.is-current > .el-tree-node__content:hover {
-  background-color: #000 !important;
-  color: #fff;
-}
-
-.el-tree-node__content:hover {
-  background-color: #fff;
-  color: #ccc;
-}
-
 .el-tree-node__content {
   padding: 3px;
 }

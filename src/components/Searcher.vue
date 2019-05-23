@@ -18,7 +18,7 @@
         ref="searchInputCtrl"
         placeholder="请输入内容，并按Enter搜索"
         class="input-with-select"
-        :class="focusSearch?'max_width':'min_width'"
+        :class="focusSearch?'max_width':'max_width'"
       > 
         <!-- <el-select v-model="searchType" slot="prepend" placeholder="请选择" class="ls_no_border">
           <el-option label="百度" value="1"></el-option>
@@ -149,7 +149,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../assets/base.scss";
-$tabWidth:131px;
+$tabWidth:132px;
 
 .searcher{
   
@@ -164,7 +164,7 @@ $tabWidth:131px;
 
   .max_width{
     margin-left: $tabWidth;
-    width: calc(100% - 131px);
+    width: calc(100% - 132px);
     display: inherit !important;
   }
   

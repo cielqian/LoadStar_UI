@@ -1,19 +1,13 @@
 <template>
   <div class="ls_text_right">
     <el-popover placement="right" width="300" trigger="manual" v-model="visible">
-      <el-row>
-        <el-row :key="plugin.code" v-for="plugin in plugins">
+      <el-row class="plugin_container">
+        <el-row class="plugin_item" :key="plugin.code" v-for="plugin in plugins">
           <el-col>
             <el-divider content-position="center">{{plugin.name}}</el-divider>
             <div :is="plugin.code"></div>
           </el-col>
         </el-row>
-        <!-- <el-row>
-          <el-col>
-            <el-divider content-position="center">天气</el-divider>
-            <p-weather></p-weather>
-          </el-col>
-        </el-row> -->
       </el-row>
       <el-button
         slot="reference"
@@ -59,5 +53,12 @@ export default {
 </script>
 
 <style scoped>
+  .plugin_container{
+    padding: 0px 0px 10px 0px;
+  }
+
+  .plugin_item{
+    padding: 0px 10px;
+  }
 </style>
 

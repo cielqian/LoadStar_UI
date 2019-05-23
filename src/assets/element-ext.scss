@@ -54,10 +54,11 @@
     background-color: $primaryBlue;
 }
 
-.is-focusable:hover{
+.is-current{
     background-color: $primaryLight !important;
     color: $primaryBlack !important;
 }
+
 .el-tree-node__content:hover{
-    background-color: $primaryLight !important;
+    background-color: inherit;
 }
