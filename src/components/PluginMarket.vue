@@ -20,8 +20,6 @@
 </template>
 
 <script>
-import vueCtx from "../main";
-import Vue from "Vue";
 import { mapGetters, mapState } from "vuex";
 import pyoudao from '../plugins/YoudaoDict';
 import pweather from '../plugins/Weather';
@@ -38,15 +36,10 @@ export default {
   methods: {},
   created() {
     let _this = this;
-    console.log(vueCtx);
-    // Vue.component('pyoudao', () => import("../plugins/YoudaoDict"))
     this.$store.dispatch("getAllPlugin").then(res => {
       res.data.forEach(item => {
-        console.log(item.code);
-        
         _this.plugins.push(item);
       });
-      console.log(_this);
     });
   }
 };
