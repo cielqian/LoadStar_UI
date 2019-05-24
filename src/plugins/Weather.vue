@@ -6,12 +6,12 @@
       </el-col>
       <el-col>
           今天
-        {{today.txt}}
+        {{today.txt}} <i :class="today.icon"></i> 
         {{today.low}} ~ {{today.high}}℃
       </el-col>
       <el-col>
           明天
-        {{tomorrow.txt}}
+        {{tomorrow.txt}} <i :class="tomorrow.icon"></i> 
         {{tomorrow.low}} ~ {{tomorrow.high}}℃
       </el-col>
       <el-col>
@@ -50,7 +50,10 @@ export default {
       highToToday: function(){
           if (this.tomorrow.high > this.today.high) {
               return true;
-          }else{
+          }else if(this.tomorrow.high < this.today.high){
+              return false;
+          }
+          else{
               if(this.tomorrow.low > this.today.low){
                   return true;
               }
@@ -81,12 +84,33 @@ export default {
                 txt: today.cond.txt_d
             };
 
+            if (_this.today.txt.indexOf('云') > -1 || _this.today.txt.indexOf('阴') > -1) {
+                _this.today.icon = 'el-icon-cloudy-and-sunny'
+            }
+            if (_this.today.txt.indexOf('雨') > -1) {
+                _this.today.icon = 'el-icon-heavy-rain'
+            }
+            if (_this.today.txt.indexOf('晴') > -1) {
+                _this.today.icon = 'el-icon-sunny'
+            }
+
             let tomorrow = res.data.daily_forecast[1];
             _this.tomorrow = {
                 low:tomorrow.tmp.min,
                 high:tomorrow.tmp.max,
                 txt: tomorrow.cond.txt_d
             };
+            if (_this.tomorrow.txt.indexOf('云') > -1 || _this.tomorrow.txt.indexOf('阴') > -1) {
+                _this.tomorrow.icon = 'el-icon-cloudy-and-sunny'
+            }
+            if (_this.tomorrow.txt.indexOf('雨') > -1) {
+                _this.tomorrow.icon = 'el-icon-heavy-rain'
+            }
+            if (_this.tomorrow.txt.indexOf('晴') > -1) {
+                _this.tomorrow.icon = 'el-icon-sunny'
+            }
+
+            
         })
         .catch(function(err){
             console.log(err);

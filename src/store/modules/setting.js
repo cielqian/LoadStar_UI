@@ -3,7 +3,7 @@ import commonUtils from '../../utils/commonUtils';
 
 const state = {
     theme: {
-        listTypeEnum:'Card',
+        listTypeEnum:'List1',
         language: 'en',
         modules: [{ module: "Recently", show: false }, { module: "Top", show: false }]
     }
@@ -33,10 +33,11 @@ const getters = {
 // mutations
 const mutations = {
     setTheme(state, theme){
+        theme.listTypeEnum = 'List1';
         state.theme = theme;
     },
     setListTypeEnum(state, listTypeEnum){
-        state.theme.listTypeEnum = listTypeEnum;
+        // state.theme.listTypeEnum = listTypeEnum;
     },
     setLanguage(state, language){
         state.theme.language = language;

@@ -1,9 +1,5 @@
 <template>
-  <div>
-    <!-- <div v-show="tipReadedInfo.drag">
-      <el-alert title="链接可直接拖动到文件夹" type="warning" close-text="知道了" show-icon @close="closeTip"></el-alert>
-    </div> -->
-    <el-row>
+  <el-row class="folder_link">
       <el-col :span="6" class="ls_padding_right_15">
         <el-input suffix-icon="el-icon-circle-plus-outline"
          v-model="createFolderModel.name" placeholder="输入文件夹名称，并按回车创建" maxlength="8"
@@ -16,8 +12,7 @@
           :data="folders"
           node-Key="id"
           :props="folderProps"
-          @node-click="nodeClick"
-        >
+          @node-click="nodeClick">
           <span class="custom-tree-node ls_padding_right_15" style="width:100%" slot-scope="{ node, data }">
             <i v-if="data.name == '回收站'" class="el-icon-delete"/>
             <i v-else-if="data.name == '未归档'" class="el-icon-tickets"/>
@@ -27,7 +22,7 @@
           </span>
         </el-tree>
       </el-col>
-      <el-col v-show="visible1" :span="18" class="ls_content ls_bg_white">
+      <el-col v-show="visible1" :span="18" class="link_content ls_content ls_bg_white">
         <el-row v-show="!tipInfo.drag">
           <el-col :span="24">
             <el-alert title="链接可直接拖动到文件夹" type="warning" close-text="知道了" show-icon @close="$store.dispatch('readTip', 'drag')"></el-alert>
@@ -42,10 +37,8 @@
           v-loading="loading.linkList"
           :data="links"
           :show-header="false"
-          :max-height="screenHeight"
           empty-text="暂无链接"
-          @row-dblclick="redirect"
-        >
+          @row-dblclick="redirect">
           <el-table-column>
             <template slot-scope="scope">
               <div class="ls_icon_sm" @contextmenu.prevent="openContentMenu(scope.row, $event)" :link="scope.row">
@@ -61,9 +54,8 @@
           </el-col>
         </el-row>
       </el-col>
-    </el-row>
     <LSContentMenu ref="contextmenu" @changed="getAllLinksUnderFolder"></LSContentMenu>
-  </div>
+  </el-row>
 </template>
 <script>
 import { mapGetters, mapState } from "vuex";
@@ -224,6 +216,14 @@ export default {
 
 .dragarea{
   border: 1px solid #000;
+}
+
+.folder_link{
+  height: 100%;
+  .link_content{
+    overflow: scroll;
+    height: 100%;
+  }
 }
 
 .el-tree-node__content {

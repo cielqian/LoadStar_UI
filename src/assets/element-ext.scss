@@ -4,19 +4,23 @@
   span{
     color: #000;
     border-radius: 0px !important;
-    border: 1px solid $primaryGrey !important;
+    border: 1px solid $primaryBlack !important;
     width: 65px;
   }
   .el-radio-button__orig-radio:checked+.el-radio-button__inner{
-    background-color: $primaryGrey;
+    background-color: $primaryBlack;
     -webkit-box-shadow: none;
     box-shadow: none;
   }
 }
 
+.el-radio{
+    color: $primaryGrey;
+}
+
 .el-radio__input.is-checked .el-radio__inner{
-    background-color: $primaryGrey;
-    border-color: $primaryGrey;
+    background-color: $primaryBlack;
+    border-color: $primaryBlack;
 }
 
 .el-radio__input.is-checked+.el-radio__label{
@@ -25,6 +29,14 @@
 
 .el-radio-button__inner:hover{
     color: $blackColor;
+}
+
+.el-switch__label{
+    color: $primaryGrey;
+}
+
+.el-switch__label.is-active{
+    color: $primaryBlack;
 }
 
 .el-input__inner{
@@ -44,8 +56,20 @@
 }
 
 .el-button--primary, .el-button--primary:hover{
-    border: 1px solid $primaryBlue;
-    background-color: $primaryBlue;
+    border: 1px solid $primaryBlue !important;
+    background-color: $primaryBlue !important;
+    color: #FFF !important;
+    border-radius: 0px;
+}
+
+.el-button--default, .el-button--default:hover{
+    border: 1px solid $primaryGrey;
+    background-color: #FFF;
+    // border-radius: 0px;
+    color: $primaryBlack;
+}
+
+.el-button{
     border-radius: 0px;
 }
 
@@ -61,4 +85,9 @@
 
 .el-tree-node__content:hover{
     background-color: inherit;
+}
+
+.el-switch.is-checked .el-switch__core{
+    border-color: $primaryBlack;
+    background-color: $primaryBlack;
 }

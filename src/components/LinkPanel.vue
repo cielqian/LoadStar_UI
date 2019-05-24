@@ -43,7 +43,8 @@
       :visible.sync="dialog.addLinkDialogVisiable"
       width="40%"
       @close="closeAddLinkDialog"
-      @opened="analysisLink">
+      @opened="analysisLink"
+      :close-on-click-modal="false">
       <LSLinkDetail ref="linkDetail" :link="newLink"></LSLinkDetail>
       <span slot="footer">
         <el-button @click="dialog.addLinkDialogVisiable = false">{{$t('detail.btnCancel')}}</el-button>

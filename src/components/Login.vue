@@ -83,9 +83,11 @@
         >{{$t('signIn.btnSignIn')}}</el-button>
       </span>
     </el-dialog>
+    
   </div>
 </template>
 <script>
+import "../js/ribbon";
 import { mapGetters, mapState } from "vuex";
 import apis from "../assets/repository/apis";
 import utils from "../utils/commonUtils";
@@ -140,6 +142,7 @@ export default {
       });
     },
     signInAccount: function() {
+      window.RibbonsInstance._clear();
       var _this = this;
       _this.disabled.form = true;
       let d = {
@@ -159,6 +162,7 @@ export default {
     // if (this.$store.getters.hasLogined) {
     //   this.$router.push('Home');
     // }
+    window.RibbonsInstance = new Ribbons();
   }
 };
 </script>

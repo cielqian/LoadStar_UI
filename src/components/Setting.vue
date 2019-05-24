@@ -7,7 +7,7 @@
             <h2>{{getUserInfo.username}}({{getUserInfo.nickname}})</h2>
           </el-col>
         </el-row>
-        <el-card class="ls_margin_top_5">
+        <!-- <el-card class="ls_margin_top_5">
           <div slot="header" class="clearfix">
             <span>{{$t('setting.lblAppearance')}}</span>
           </div>
@@ -17,7 +17,7 @@
               <el-radio v-model="listTypeRadio" label="Card">{{$t('setting.lblAppearanceCard')}}</el-radio>
             </el-col>
           </el-row>
-        </el-card>
+        </el-card> -->
         <el-card class="ls_margin_top_15">
           <div slot="header" class="clearfix">
             <span>{{$t('setting.lblLanguage')}}</span>
