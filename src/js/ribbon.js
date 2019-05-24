@@ -442,10 +442,13 @@
           this._ribbons = []; 
           this._stop = true;
           var canvas = document.getElementsByTagName("canvas")[0];
-          canvas.parentNode.removeChild(canvas);
+          if (!!canvas) {
+            canvas.parentNode.removeChild(canvas);              
+          }
           var audio = document.getElementsByTagName("audio")[0];
-          audio.parentNode.removeChild(audio);
-          
+          if (!!audio) {
+            audio.parentNode.removeChild(audio);              
+          }
         },
         // Update container size info
         _onScroll: function (e)
