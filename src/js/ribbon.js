@@ -208,7 +208,7 @@
                 this._canvas.style["border"] = "0";
                 this._canvas.style["outline"] = "0";
                 this._canvas.style["left"] = "0";
-               	this._canvas.style["top"] = "300px";
+               	this._canvas.style["top"] = "200px";
                	this._canvas.style["width"] = "100%";
                	this._canvas.style["height"] = "100%";
                 this._canvas.style["z-index"] = "-1";

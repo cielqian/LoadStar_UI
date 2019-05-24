@@ -2,13 +2,14 @@
   <div class="ls_container">
     <el-row class="slogan">
       <el-col>
-        <img class="ls_logo_large" src="../assets/logo.png">
-        <h1>{{ $t("global.title") }}</h1>
+        <img class="logo ls_logo_large" src="../assets/logo.png">
+        <span class="title">{{ $t("global.title") }}</span>
       </el-col>
       <el-col>
-        <el-button type="text" @click="openSignInDialog">{{$t('signIn.btnSignIn')}}</el-button>
-        &nbsp;&nbsp;/
-        <el-button type="text" @click="openSignUpDialog">{{$t('signUp.btnSignUp')}}</el-button>
+        <el-link type="primary" @click="openSignInDialog">{{$t('signIn.btnSignIn')}}</el-link>
+        <!-- <el-button type="text" @click="openSignInDialog">{{$t('signIn.btnSignIn')}}</el-button> -->
+        &nbsp;&nbsp;/&nbsp;&nbsp;
+        <el-link type="primary" @click="openSignUpDialog">{{$t('signUp.btnSignUp')}}</el-link>
       </el-col>
     </el-row>
     <el-row class="ls_footer">
@@ -166,9 +167,19 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
+@import "../assets/base.scss";
 .slogan {
   padding-top: 200px;
   text-align: center;
+
+  .logo{
+  }
+
+  .title{
+    padding: 15px 0px;
+    display: block;
+    font-size: 2rem;
+  }
 }
 </style>
