@@ -14,7 +14,7 @@ const actions = {
             api.getAllFolders()
                 .then((response) => {
                     commit('setFolders', response.data);
-                    resolve();
+                    resolve(response);
                 })
                 .catch((response) => reject());
         });
@@ -26,6 +26,7 @@ const actions = {
             });
         });
     },
+    
 }
 
 // mutations

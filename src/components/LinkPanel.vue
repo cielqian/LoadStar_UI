@@ -1,4 +1,3 @@
-// 主页
 <template>
   <div class="ls_container">
     <el-row class="searcher_block">
@@ -8,10 +7,9 @@
       <el-col :span="2">
         <LSPluginMarket></LSPluginMarket>
       </el-col>
-      
     </el-row>
     <el-row class="link_content ls_padding_15_1">
-      <el-col :span="24">
+      <el-col :span="24" data-intro="常用书签" style="min-height:200px;">
         <LSRecentLink
           v-if="showModule('Recently')"
           @on-click="redirect"
@@ -44,7 +42,8 @@
       width="40%"
       @close="closeAddLinkDialog"
       @opened="analysisLink"
-      :close-on-click-modal="false">
+      :close-on-click-modal="false"
+    >
       <LSLinkDetail ref="linkDetail" :link="newLink"></LSLinkDetail>
       <span slot="footer">
         <el-button @click="dialog.addLinkDialogVisiable = false">{{$t('detail.btnCancel')}}</el-button>
@@ -53,7 +52,8 @@
     </el-dialog>
   </div>
 </template>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.js">
+</script>
 <script>
 import Vue from "vue";
 import _ from "vue";
@@ -67,21 +67,28 @@ import apis from "../assets/repository/apis";
 import tagApi from "../api/tag";
 import linkApi from "../api/link";
 import { mapGetters, mapState } from "vuex";
-
+import introJs from "intro.js";
 function isUrl(text) {
   return text.indexOf("http") >= 0 || text.indexOf("https") >= 0;
 }
 
 export default {
   name: "LinkPanel",
-  components: { LSRecentLink, LSTopLink, LinkCardItem,LSLinkDetail,LSSearcher,LSPluginMarket },
+  components: {
+    LSRecentLink,
+    LSTopLink,
+    LinkCardItem,
+    LSLinkDetail,
+    LSSearcher,
+    LSPluginMarket
+  },
   data() {
     return {
       dialog: {
         addLinkDialogVisiable: false
       },
-      client:{
-        htmlHeight:800
+      client: {
+        htmlHeight: 800
       },
       loading: {
         allLinkLoading: false,
@@ -91,9 +98,9 @@ export default {
         inputVisible: false,
         pasteInfoVisible: false
       },
-      newLink:{
-        url:'',
-        folderId: ''
+      newLink: {
+        url: "",
+        folderId: ""
       },
       edit: false,
       recentLinks: []
@@ -106,7 +113,8 @@ export default {
       oftenLinks: state => state.link.oftenLink,
       theme: state => state.setting.theme,
       folders: state => state.folder.allFolder,
-      tags: state => state.tag.allTag
+      tags: state => state.tag.allTag,
+      intro: state => state.sample.intro.home
     })
   },
   methods: {
@@ -116,17 +124,17 @@ export default {
     openAddLinkDialog: function() {
       this.dialog.addLinkDialogVisiable = true;
     },
-    closeAddLinkDialog: function () {
-      this.dialog.addLinkDialogVisiable = false
+    closeAddLinkDialog: function() {
+      this.dialog.addLinkDialogVisiable = false;
       document.addEventListener("paste", this.pasteFn);
     },
-    createNewLink: function () {
+    createNewLink: function() {
       let _this = this;
       this.$refs.linkDetail.saveLink(() => {
         this.dialog.addLinkDialogVisiable = false;
       });
     },
-    analysisLink: function () {
+    analysisLink: function() {
       let _this = this;
       _this.$refs.linkDetail.analysisLink(_this.newLink.url);
     },
@@ -136,23 +144,22 @@ export default {
     showModule: function(moduleName) {
       return this.$store.getters.isShowModule(moduleName);
     },
-    loadOftenLinks(){
-      this.$store.dispatch("getOftenLink")
+    loadOftenLinks() {
+      this.$store.dispatch("getOftenLink");
     },
     pasteFn: function(event) {
       let _this = this;
       var clipText = event.clipboardData.getData("Text");
       if (!isUrl(clipText)) {
         // _this.$message.error("不是有效的链接格式");
-        _this.searchContent = '';
+        _this.searchContent = "";
         _this.searchContent = clipText;
         _this.$refs.searchInputCtrl.focus();
-
       } else {
         _this.newLink.url = clipText;
-        
+
         _this.openAddLinkDialog();
-        document.removeEventListener('paste', _this.pasteFn)
+        document.removeEventListener("paste", _this.pasteFn);
       }
     }
   },
@@ -160,8 +167,25 @@ export default {
     let _this = this;
     _this.$store.dispatch("getAllFolder");
     _this.$store.dispatch("getAllTag");
-    _this.$store.dispatch("getOftenLink").then(x => (_this.loading.allLinkLoading = false));
-    
+    _this.$store
+      .dispatch("getOftenLink")
+      .then(x => (_this.loading.allLinkLoading = false));
+    _this.$store.dispatch("loadAllTipInfo").then(x => {
+      if (_this.intro) {
+        introJs()
+          .setOptions({
+            exitOnOverlayClick: false,
+            skipLabel: "跳过",
+            nextLabel: "下一步",
+            prevLabel: "上一步",
+            doneLabel: "知道了"
+          })
+          .onexit(() => {
+            _this.$store.dispatch("finishSample", "home");
+          })
+          .start();
+      }
+    });
     document.addEventListener("paste", _this.pasteFn);
 
     this.client.htmlHeight = window.screen.availHeight - 180;
@@ -187,19 +211,19 @@ export default {
   font-size: 12px;
 }
 
-.searcher_block{
-  position: fixed;
+.searcher_block {
+  position: absolute;
   width: calc(100% - 270px);
   z-index: 1999;
 }
 
-.link_content{
+.link_content {
   padding-top: 50px;
+  min-height: 450px;
 }
-
 </style>
 <style>
-.highlight{
+.highlight {
   color: #c00;
 }
 

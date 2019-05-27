@@ -19,13 +19,14 @@ export default{
         lblPassword: 'Password',
         btnSignIn: 'Sign In',
         btnChangeToSignUp: 'Create Account',
+        lblRememberMe: 'Remember Me'
     },
     signUp: {
         lblDialog: 'Welcome to LoadStar',
         lblUserName: 'Username',
         lblPassword: 'Password',
         lblNickName: 'Nickname',
-        btnSignUp: 'Sign Up',
+        btnSignUp: 'Register',
         btnChangeToSignIn: 'Already have a LoadStar?'
     },
     menu:{

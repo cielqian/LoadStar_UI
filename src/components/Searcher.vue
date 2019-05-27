@@ -1,5 +1,5 @@
 <template>
-    <el-row class="searcher">
+    <el-row class="searcher" data-intro="切换百度搜索或者搜索书签">
       <el-radio-group v-model="searchType" class="tab">
         <el-radio-button label="1">{{$t('searcher.lblBaidu')}}</el-radio-button>
         <el-radio-button label="0">{{$t('searcher.lblBookmark')}}</el-radio-button>
@@ -71,7 +71,7 @@
 <script>
 import linkApi from "../api/link";
 import { mapGetters, mapState } from "vuex";
-
+// import 'intro.js/introjs.css';
 export default {
     name: "Searcher",
     data() {
@@ -137,7 +137,6 @@ export default {
     },
     created(){
       let _this = this;
-
       document.onkeydown = function(event){   
           var e = event || window.event || arguments.callee.caller.arguments[0];   
           if(e && e.keyCode==27){

@@ -13,7 +13,7 @@
         slot="reference"
         :icon="visible ? 'el-icon-close':'el-icon-s-opportunity'"
         circle
-        @click="visible = !visible"
+        @click="visible = !visible" data-intro="常用插件功能"
       ></el-button>
     </el-popover>
   </div>

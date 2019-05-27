@@ -3,7 +3,8 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import axios from 'axios' 
+import axios from 'axios'
+import 'intro.js/introjs.css';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import './assets/iconfont.css'
@@ -57,7 +58,7 @@ axios.interceptors.response.use(
         }
         if (res.status != 200) {
           Vue.prototype.$message.error(res.message);
-          //return Promise.reject(res.message);
+          return Promise.reject(res.message);
         }
       }
       return res;
@@ -73,8 +74,12 @@ axios.interceptors.response.use(
       return Promise.reject(error)
     }
     else{
+      var res = error.response.data;
       if (error.response.status == 400) {
-        Vue.prototype.$message.error(error.response.message||error.response.error_description);
+        //oauth 
+        if (!res.error) {
+          Vue.prototype.$message.error(res.message||res.error_description);
+        }
         return Promise.reject(error.response)
       }
       else if(error.response.status == 401){
@@ -93,9 +98,7 @@ Vue.prototype.$http = axios;
 Vue.prototype._ = _;
 
 Vue.use(ElementUI);
-
 Vue.use(ContentMenu)
-
 Vue.component('LSContentMenu',LSContentMenu)
 // Vue.component('LSLinkDetail',LSLinkDetail)
 
@@ -118,9 +121,7 @@ var vueCtx = new Vue({
   router,
   i18n,
   components: {App},
-  template: '<App/>'
+  template: '<App/>',
 }).$mount('#app');
-
-console.log(vueCtx)
 
 export default vueCtx;

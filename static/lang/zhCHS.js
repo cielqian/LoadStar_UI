@@ -27,6 +27,7 @@ export default{
         lblPassword: '密码',
         btnSignIn: '登录',
         btnChangeToSignUp: '创建账号',
+        lblRememberMe: '记住账户'
     },
     signUp: {
         lblDialog: '欢迎使用LoadStar',

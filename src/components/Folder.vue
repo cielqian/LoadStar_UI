@@ -1,66 +1,86 @@
 <template>
   <el-row class="folder_link">
-      <el-col :span="6" class="ls_padding_right_15">
-        <el-input suffix-icon="el-icon-circle-plus-outline"
-         v-model="createFolderModel.name" placeholder="输入文件夹名称，并按回车创建" maxlength="8"
-         @keyup.enter.native="createFolder" :disabled="createFolderModel.disabled">
-        </el-input>
-        <el-tree
-          class="ls_margin_top_15"
-          :class="{'dragarea':onMove}"
-          ref="folderTree"
-          :data="folders"
-          node-Key="id"
-          :props="folderProps"
-          @node-click="nodeClick">
-          <span class="custom-tree-node ls_padding_right_15" style="width:100%" slot-scope="{ node, data }">
+    <el-col :span="6" class="ls_padding_right_15">
+      <el-input
+        suffix-icon="el-icon-circle-plus-outline"
+        v-model="createFolderModel.name"
+        placeholder="输入文件夹名称，并按回车创建"
+        maxlength="8"
+        @keyup.enter.native="createFolder"
+        :disabled="createFolderModel.disabled"
+        data-intro="创建文件夹"
+      ></el-input>
+      <el-tree
+        class="ls_margin_top_15"
+        :class="{'dragarea':onMove}"
+        ref="folderTree"
+        :data="folders"
+        node-Key="id"
+        :props="folderProps"
+        @node-click="nodeClick"
+        data-intro="已删除的书签可以在回收站找回"
+      >
+        <div slot-scope="{ node, data }">
+          <span class="custom-tree-node ls_padding_right_15" style="width:100%">
             <i v-if="data.name == '回收站'" class="el-icon-delete"/>
             <i v-else-if="data.name == '未归档'" class="el-icon-tickets"/>
             <i v-else class="el-icon-news"/>
             <span :id="data.id">{{node.label}}</span>
             <i v-if="!data.system" class="el-icon-close ls_pull_right"></i>
           </span>
-        </el-tree>
-      </el-col>
-      <el-col v-show="visible1" :span="18" class="link_content ls_content ls_bg_white">
-        <el-row v-show="!tipInfo.drag">
-          <el-col :span="24">
-            <el-alert title="链接可直接拖动到文件夹" type="warning" close-text="知道了" show-icon @close="$store.dispatch('readTip', 'drag')"></el-alert>
-          </el-col>
-        </el-row>
-        <el-row v-show="!tipInfo.trashLink">
-          <el-col :span="24">
-            <el-alert title="删除的链接可以在回收站中找回" type="warning" close-text="知道了" show-icon @close="$store.dispatch('readTip', 'trashLink')"></el-alert>
-          </el-col>
-        </el-row>
-        <el-table
-          v-loading="loading.linkList"
-          :data="links"
-          :show-header="false"
-          empty-text="暂无链接"
-          @row-dblclick="redirect">
-          <el-table-column>
-            <template slot-scope="scope">
-              <div class="ls_icon_sm" @contextmenu.prevent="openContentMenu(scope.row, $event)" :link="scope.row">
-                  <img class="ls_inline ls_icon_sm" :src="scope.row.icon" onerror="javascript:this.src='/static/logo.png'">
-                  <div draggable="true" class="ls_inline ls_padding_left_5 ls_pointer" @click="redirect(scope.row)" @dragstart="dragStart($event, scope.row.id)">{{scope.row.title}}</div>
-                </div>
-            </template>
-          </el-table-column>
-        </el-table>
-        <el-row v-if="links.length > 0 && selectedFolderName == '回收站'">
-          <el-col class="ls_padding_left_15">
-            <el-button type="text" @click="deleteByFolder" class="ls_fg_blue">清空</el-button>
-          </el-col>
-        </el-row>
-      </el-col>
+        </div>
+      </el-tree>
+    </el-col>
+    <el-col
+      v-show="visible1"
+      :span="18"
+      class="link_content ls_content ls_bg_white"
+      data-intro="1. 书签可以直接拖动至文件夹 <br/>2.右击书签更多功能"
+    >
+      <el-table
+        v-loading="loading.linkList"
+        :data="links"
+        :show-header="false"
+        empty-text="暂无书签"
+        @row-dblclick="redirect"
+      >
+        <el-table-column>
+          <template slot-scope="scope">
+            <div
+              class="ls_icon_sm"
+              @contextmenu.prevent="openContentMenu(scope.row, $event)"
+              :link="scope.row"
+            >
+              <img
+                class="ls_inline ls_icon_sm"
+                :src="scope.row.icon"
+                onerror="javascript:this.src='/static/logo.png'"
+              >
+              <div
+                draggable="true"
+                class="ls_inline ls_padding_left_5 ls_pointer"
+                @click="redirect(scope.row)"
+                @dragstart="dragStart($event, scope.row.id)"
+              >{{scope.row.title}}</div>
+            </div>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-row v-if="links.length > 0 && selectedFolderName == '回收站'">
+        <el-col class="ls_padding_left_15">
+          <el-button type="text" @click="deleteByFolder" class="ls_fg_blue">清空</el-button>
+        </el-col>
+      </el-row>
+    </el-col>
     <LSContentMenu ref="contextmenu" @changed="getAllLinksUnderFolder"></LSContentMenu>
   </el-row>
 </template>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intro.js/2.9.3/intro.js">
+</script>
+
 <script>
 import { mapGetters, mapState } from "vuex";
 import api from "../api/link";
-
 export default {
   name: "LSFolder",
   data() {
@@ -71,7 +91,7 @@ export default {
         label: "name"
       },
       loading: {
-        linkList: true,
+        linkList: false,
         folderTree: true
       },
       onMove: false,
@@ -83,22 +103,34 @@ export default {
       selectedFolderName: "",
       firstLoaded: true,
       links: [],
-      selectedLink:{},
-      screenHeight:600
+      selectedLink: {},
+      screenHeight: 600
     };
   },
   computed: {
     ...mapState({
       folders: state => state.folder.allFolder,
-      tipInfo: state => state.user.tipInfo
+      intro: state => state.sample.intro.folder,
+      linkSamples: state => state.sample.linkSamples,
+      folderSamples: state => state.sample.folderSamples
     })
   },
   methods: {
-    openContentMenu(link, vnode){
-      if (this.selectedFolderName == '回收站') {
-        this.$refs.contextmenu.show(link, vnode.clientX, vnode.clientY, 'view,addOften,delete');
-      }else{
-        this.$refs.contextmenu.show(link, vnode.clientX, vnode.clientY, 'view,addOften,trans');
+    openContentMenu(link, vnode) {
+      if (this.selectedFolderName == "回收站") {
+        this.$refs.contextmenu.show(
+          link,
+          vnode.clientX,
+          vnode.clientY,
+          "view,addOften,delete"
+        );
+      } else {
+        this.$refs.contextmenu.show(
+          link,
+          vnode.clientX,
+          vnode.clientY,
+          "view,addOften,trans"
+        );
       }
     },
     redirect(row) {
@@ -116,11 +148,12 @@ export default {
     getAllFolder() {
       let _this = this;
       _this.loading.folderTree = true;
-      _this.$store.dispatch("getAllFolder").then(() => {
+      _this.$store.dispatch("getAllFolder").then(res => {
         _this.loading.folderTree = false;
         if (_this.firstLoaded) {
           _this.firstLoaded = false;
         }
+
         let nodes = document.getElementsByClassName("custom-tree-node");
         for (let node of nodes) {
           node.ondragover = function(e) {
@@ -141,7 +174,7 @@ export default {
         }
       });
     },
-    getAllLinksUnderFolder(){
+    getAllLinksUnderFolder() {
       let _this = this;
       api.getAllLinksUnderFolder(_this.selectedFolderId).then(res => {
         _this.loading.linkList = false;
@@ -204,8 +237,30 @@ export default {
   mounted() {
     let _this = this;
     _this.screenHeight = document.body.clientHeight - 100;
-    this.getAllFolder();
-    this.$store.dispatch('loadAllTipInfo');
+
+    if (_this.intro) {
+      _this.visible1 = true;
+      _this.links = _this.linkSamples;
+      _this.$store.commit("setFolders", _this.folderSamples);
+
+      introJs()
+        .setOptions({
+          exitOnOverlayClick: false,
+          skipLabel: "跳过",
+          nextLabel: "下一步",
+          prevLabel: "上一步",
+          doneLabel: "知道了"
+        })
+        .onexit(() => {
+          _this.visible1 = false;
+          _this.links = [];
+          _this.getAllFolder();
+          _this.$store.dispatch("finishSample", "folder");
+        })
+        .start();
+    } else {
+      _this.getAllFolder();
+    }
   }
 };
 </script>
@@ -214,13 +269,13 @@ export default {
   padding: 3px;
 }
 
-.dragarea{
+.dragarea {
   border: 1px solid #000;
 }
 
-.folder_link{
+.folder_link {
   height: 100%;
-  .link_content{
+  .link_content {
     overflow: scroll;
     height: 100%;
   }

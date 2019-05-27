@@ -91,3 +91,13 @@
     border-color: $primaryBlack;
     background-color: $primaryBlack;
 }
+
+.el-checkbox__input.is-checked+.el-checkbox__label{
+    color: $primaryBlack;
+}
+
+.el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+    color: $primaryBlack;
+    border-color: $primaryBlack;
+    background-color: $primaryBlack;
+}

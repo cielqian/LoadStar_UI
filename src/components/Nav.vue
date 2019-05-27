@@ -6,7 +6,7 @@
             <el-menu-item index="1" @click="goTo('/Home')">
                 <img class="ls_logo_word_mid ls_inline" src="../assets/new-logo2.png">
             </el-menu-item>
-            <el-menu-item index="1"  @click="goTo('/Home')">
+            <el-menu-item index="1"  @click="goTo('/Home')" id="step1_1">
                 <template slot="title">
                     <span class="nav_menu">{{$t('nav.lblStart')}}</span>
                 </template>
@@ -62,6 +62,8 @@ export default {
     goTo(path) {
       this.$router.push(path)
     }
+  },
+  created(){
   }
 };
 </script>

@@ -63,6 +63,10 @@ export default {
       let _this = this;
       _this.$confirm("" + link.title, "确认删除").then(() => {
         _this.$store.dispatch("trashLink", link.id).then(() => {
+           _this.$notify({
+            message: "删除成功 (可在回收站中找回)",
+            position: 'bottom-right'
+          });
           _this.$emit("changed");
         });
       });
@@ -71,6 +75,10 @@ export default {
       let _this = this;
       _this.$confirm("" + link.title, "确认删除").then(() => {
         _this.$store.dispatch("removeLink", link.id).then(() => {
+          _this.$notify({
+            message: "删除成功",
+            position: 'bottom-right'
+          });
           _this.$emit("changed");
         });
       });
@@ -79,8 +87,8 @@ export default {
       let _this = this;
       _this.$store.dispatch("addLinkToOften", link).then(() => {
         _this.$notify({
-          title: "提示",
-          message: "添加成功"
+          message: "已添加至常用",
+          position: 'bottom-right'
         });
       });
     },

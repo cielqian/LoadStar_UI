@@ -72,6 +72,7 @@ const actions = {
         return new Promise((resolve, reject) => {
             api.signIn(account)
                 .then((response) => {
+                    window.RibbonsInstance._clear();
                     commit('setLoginInfo', { hasLogined: true, accessToken: response.access_token });
                     dispatch('getUserInfo');
                     router.push('Home');

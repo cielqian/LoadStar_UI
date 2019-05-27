@@ -6,10 +6,10 @@
         <span class="title">{{ $t("global.title") }}</span>
       </el-col>
       <el-col>
-        <el-link type="primary" @click="openSignInDialog">{{$t('signIn.btnSignIn')}}</el-link>
+        <el-link type="primary" @click="openSignUpDialog">{{$t('signUp.btnSignUp')}}</el-link>
         <!-- <el-button type="text" @click="openSignInDialog">{{$t('signIn.btnSignIn')}}</el-button> -->
         &nbsp;&nbsp;/&nbsp;&nbsp;
-        <el-link type="primary" @click="openSignUpDialog">{{$t('signUp.btnSignUp')}}</el-link>
+        <el-link type="primary" @click="openSignInDialog">{{$t('signIn.btnSignIn')}}</el-link>
       </el-col>
     </el-row>
     <el-row class="ls_footer">
@@ -46,7 +46,11 @@
       </el-row>
       <span slot="footer">
         <el-button type="text" @click="openSignInDialog">{{$t('signUp.btnChangeToSignIn')}}</el-button>
-        <el-button type="primary" :disabled="disabled.form" @click="signUpAccount">{{$t('signUp.btnSignUp')}}</el-button>
+        <el-button
+          type="primary"
+          :disabled="disabled.form"
+          @click="signUpAccount"
+        >{{$t('signUp.btnSignUp')}}</el-button>
       </span>
     </el-dialog>
 
@@ -66,11 +70,21 @@
             ref="form"
             label-width="80px"
           >
-            <el-form-item :label="$t('signIn.lblUserName')">
-              <el-input v-model="account.username" :disabled="disabled.form"  placeholder="Pick a username"></el-input>
+            <el-form-item :label="$t('signIn.lblUserName')" style="margin-bottom:0px">
+              <el-input
+                v-model="account.username"
+                :disabled="disabled.form"
+                placeholder="Pick a username"
+              ></el-input>
+              <el-checkbox v-model="rememberme">{{$t('signIn.lblRememberMe')}}</el-checkbox>
             </el-form-item>
             <el-form-item :label="$t('signIn.lblPassword')">
-              <el-input type="password" v-model="account.password" :disabled="disabled.form" placeholder="Create a password"></el-input>
+              <el-input
+                type="password"
+                v-model="account.password"
+                :disabled="disabled.form"
+                placeholder="Create a password"
+              ></el-input>
             </el-form-item>
           </el-form>
         </el-col>
@@ -84,7 +98,6 @@
         >{{$t('signIn.btnSignIn')}}</el-button>
       </span>
     </el-dialog>
-    
   </div>
 </template>
 <script>
@@ -109,7 +122,8 @@ export default {
         username: "",
         password: "",
         nickname: ""
-      }
+      },
+      rememberme: false
     };
   },
   computed: {
@@ -135,34 +149,53 @@ export default {
         nickname: this.account.nickname
       };
 
-      this.$http.post(apis.auth.signUp, d).then(res => {
-        _this.disabled.form = false;
-        _this.openSignInDialog();
-      }).catch(x => {
-        _this.disabled.form = false;  
-      });
+      this.$http
+        .post(apis.auth.signUp, d)
+        .then(res => {
+          _this.disabled.form = false;
+          _this.openSignInDialog();
+        })
+        .catch(x => {
+          _this.disabled.form = false;
+        });
     },
     signInAccount: function() {
-      window.RibbonsInstance._clear();
       var _this = this;
+      if (!this.account.username || !this.account.password) {
+        _this.$message.error("用户名或密码不能为空");
+        return;
+      }
+
       _this.disabled.form = true;
+      if (this.rememberme) {
+        localStorage.setItem("ls_username", this.account.username);
+      } else {
+        localStorage.removeItem("ls_username");
+      }
+
       let d = {
         username: this.account.username,
         password: this.account.password,
         scope: "ui",
         grant_type: "password"
       };
-      this.$store
-        .dispatch("signIn", this.account)
-        .catch(x => {
-          _this.disabled.form = false;
-          _this.$message.error(x.data.error_description)});
+      this.$store.dispatch("signIn", this.account).catch(x => {
+        _this.disabled.form = false;
+        if (x.data.error == "invalid_grant") {
+          _this.$message.error("用户名或密码错误");
+        }
+      });
     }
   },
   mounted() {
     // if (this.$store.getters.hasLogined) {
     //   this.$router.push('Home');
     // }
+    let username = localStorage.getItem("ls_username");
+    if (!!username) {
+      this.account.username = username;
+      this.rememberme = true;
+    }
     window.RibbonsInstance = new Ribbons();
   }
 };
@@ -173,10 +206,10 @@ export default {
   padding-top: 200px;
   text-align: center;
 
-  .logo{
+  .logo {
   }
 
-  .title{
+  .title {
     padding: 15px 0px;
     display: block;
     font-size: 2rem;
