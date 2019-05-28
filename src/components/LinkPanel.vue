@@ -44,7 +44,7 @@
       @opened="analysisLink"
       :close-on-click-modal="false"
     >
-      <LSLinkDetail ref="linkDetail" :link="newLink"></LSLinkDetail>
+      <LSLinkDetail ref="linkDetail"></LSLinkDetail>
       <span slot="footer">
         <el-button @click="dialog.addLinkDialogVisiable = false">{{$t('detail.btnCancel')}}</el-button>
         <el-button type="primary" @click="createNewLink">{{$t('detail.btnSave')}}</el-button>

@@ -4,22 +4,22 @@
       <el-col :span="24">
         <el-form label-width="80px">
           <el-form-item :label="$t('detail.lblUrl')">
-            <el-input ref="linkUrl" v-model="link.url"></el-input>
+            <el-input ref="linkUrl" v-model="newLink.url"></el-input>
           </el-form-item>
           <!-- <el-form-item label="名称">
             <el-input v-model="link.name"></el-input>
           </el-form-item> -->
           <el-form-item :label="$t('detail.lblTitle')">
-            <el-input v-model="link.title" :disabled="analysising" :placeholder="analysisHolder"></el-input>
+            <el-input v-model="newLink.title" :disabled="analysising" :placeholder="analysisHolder"></el-input>
           </el-form-item>
-          <el-form-item v-if="!link.id" :label="$t('detail.lblIsOften')">
-            <el-switch v-model="link.isOften"></el-switch>
+          <el-form-item v-if="!newLink.id" :label="$t('detail.lblIsOften')">
+            <el-switch v-model="newLink.isOften"></el-switch>
           </el-form-item>
           <el-form-item :label="$t('detail.lblFolder')">
             <el-select
               class="ls_pull_left"
               style="width:50%"
-              v-model="link.folderId"
+              v-model="newLink.folderId"
               filterable
               placeholder="请选择文件夹"
             >
@@ -38,7 +38,6 @@
                 >{{item.name}}</el-tag>
               </el-col>
             </el-row>
-
             <el-row>
               <el-col :span="24" class="ls_text_left">
                 <el-tag
@@ -77,15 +76,15 @@ export default {
   props: ["link"],
   data() {
     return {
-      // newLink: {
-      //   id:'',
-      //   folderId: "",
-      //   name: "",
-      //   title: "",
-      //   url: "",
-      //   tags: "",
-      //   isOften: true
-      // },
+      newLink: {
+        id:'',
+        folderId: "",
+        name: "",
+        title: "",
+        url: "",
+        tags: "",
+        isOften: true
+      },
       analysisHolder: '自动解析中...',
       analysising: false,
       newTag: {
@@ -108,7 +107,7 @@ export default {
     showInput() {
       this.visible.inputVisible = true;
       this.$nextTick(_ => {
-        this.$refs.saveTagInput.$refs.input.focus();
+        this.$refs.saveTagInput.focus();
       });
     },
     analysisLink: function(url) {
@@ -116,8 +115,8 @@ export default {
       if (!isUrl(url)) {
         return;
       }
-      _this.link.url = url;
-      _this.link.folderId = '';
+      _this.newLink.url = url;
+      _this.newLink.folderId = '';
       var d = {
         url: url
       };
@@ -125,44 +124,46 @@ export default {
       _this.analysising = true;
       _this.$store.dispatch("analysisLink", d).then(response => {
         _this.analysising = false;
-        _this.link.name = response.data.name;
-        _this.link.title = response.data.title;
-        if (!_this.link.title) {
+        _this.newLink.name = response.data.name;
+        _this.newLink.title = response.data.title;
+        if (!_this.newLink.title) {
           _this.analysisHolder = '解析失败，请手动完善标题...';
         }
-        _this.link.icon = response.data.icon;
-        _this.link.folderId = "未归档";
+        _this.newLink.icon = response.data.icon;
+        _this.newLink.folderId = "未归档";
         _this.selectedTag = [];
         _this.unSelectedTag = [..._this.tags];
       }).catch(err => {
           _this.analysising = false;
           _this.analysisHolder = '解析失败，请手动完善标题...';
-          _this.link.folderId = "未归档";
+          _this.newLink.folderId = "未归档";
           _this.selectedTag = [];
           _this.unSelectedTag = [..._this.tags];
       });
     },
     saveLink: function(cb) {
+      var _this = this;
       let tagsId = [];
       this.selectedTag.forEach(element => {
         tagsId.push(element.id);
       });
 
       var d = {
-        id: this.link.id,
-        name: this.link.name,
-        title: this.link.title,
-        folderId: this.link.folderId == "未归档" ? "" : this.link.folderId,
-        url: this.link.url,
-        icon: this.link.icon,
+        id: this.newLink.id,
+        name: this.newLink.name,
+        title: this.newLink.title,
+        folderId: this.newLink.folderId == "未归档" ? "" : this.newLink.folderId,
+        url: this.newLink.url,
+        icon: this.newLink.icon,
         tags: tagsId,
-        isOften: this.link.isOften
+        isOften: this.newLink.isOften
       };
 
-      if (!!this.link.id) {
+      if (!!this.newLink.id) {
         this.$store.dispatch("updateLink", d).then(res => {
           if (!!cb) {
             cb();
+            _this.$emit('update:link', _this.newLink);
           }
         });
       } else {
@@ -173,10 +174,10 @@ export default {
         });
       }
 
-      // this.link.name = "";
-      // this.link.title = "";
-      // this.link.url = "";
-      // this.link.icon = "";
+      // this.newLink.name = "";
+      // this.newLink.title = "";
+      // this.newLink.url = "";
+      // this.newLink.icon = "";
     },
     createTag: function() {
       let _this = this;
@@ -206,6 +207,21 @@ export default {
       });
 
       this.unSelectedTag.push(tag);
+    }
+  },
+  created(){
+    if (!!this.link.id) {
+      this.newLink = this.link;
+    }else{
+      this.newLink = {
+        id:'',
+        folderId: "",
+        name: "",
+        title: "",
+        url: "",
+        tags: "",
+        isOften: true
+      }
     }
   }
 };

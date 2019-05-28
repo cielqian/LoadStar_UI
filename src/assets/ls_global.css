@@ -211,6 +211,10 @@ body{
     cursor: pointer;
 }
 
+.ls_cursor_default{
+    cursor: default;
+}
+
 .ls_text_d{
     text-decoration-line: underline;
 }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="ls_cursor_default">
     <v-contextmenu theme="dark" ref="contextmenu">
       <v-contextmenu-item v-if="menus.indexOf('view') >= 0" @click="redirect(selectedLink)">浏览</v-contextmenu-item>
       <v-contextmenu-item v-if="menus.indexOf('edit') >= 0" @click="edit(selectedLink)">编辑</v-contextmenu-item>
@@ -15,7 +15,7 @@
       <v-contextmenu-item v-if="menus.indexOf('delete') >= 0" @click="removeLink(selectedLink)">删除</v-contextmenu-item>
     </v-contextmenu>
     <el-dialog title="Edit Link" :visible.sync="dialog.addLinkDialogVisiable" width="40%">
-      <LSLinkDetail ref="linkDetail" :link="selectedLink"></LSLinkDetail>
+      <LSLinkDetail ref="linkDetail" :link.sync="selectedLink"></LSLinkDetail>
       <span slot="footer">
         <el-button @click="dialog.addLinkDialogVisiable = false">Cancel</el-button>
         <el-button type="primary" @click="saveLink">Create</el-button>
