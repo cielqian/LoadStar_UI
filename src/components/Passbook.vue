@@ -118,7 +118,11 @@ export default {
     },
     getAll() {
       let _this = this;
-      passbookApi.getAll(_this.pagination).then(res => {
+      let filter = _this.pagination;
+      if (!!_this.filter.text) {
+          filter = Object.assign(filter, {note: _this.filter.text})
+      }
+      passbookApi.getAll(filter).then(res => {
         _this.passbooks = res.data.items;
         _this.pagination.total = parseInt(res.data.total);
       });
