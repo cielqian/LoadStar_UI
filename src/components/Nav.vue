@@ -21,6 +21,11 @@
                     <span class="nav_menu">{{$t('nav.lblTag')}}</span>
                 </template>
             </el-menu-item>
+            <el-menu-item index="4" @click="goTo('/Passbook')">
+                <template slot="title">
+                    <span class="nav_menu">Passbook</span>
+                </template>
+            </el-menu-item>
             <!-- <el-menu-item index="4" @click="goTo('/Analysis')">
                 <template slot="title">
                     <span class="nav_menu">{{$t('nav.lblAnalysis')}}</span>

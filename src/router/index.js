@@ -7,6 +7,7 @@ import LinkPanel from '@/components/LinkPanel'
 import Tag from '@/components/Tag'
 import Folder from '@/components/Folder'
 import Analysis from '@/components/Analysis'
+import Passbook from '@/components/Passbook'
 import store from '../store';
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -44,6 +45,14 @@ const vueRouter = new Router({
           path: '/Setting',
           name: 'Setting',
           component: Setting,
+          meta: {
+            requireLogin: true
+          }
+        },
+        {
+          path: '/Passbook',
+          name: 'Passbook',
+          component: Passbook,
           meta: {
             requireLogin: true
           }

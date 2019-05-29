@@ -49,5 +49,9 @@ export default{
     },
     plugin:{
         query: '/user-service/api/plugin',
+    },
+    passbook:{
+        create: '/user-service/api/passbook',
+        all: '/user-service/api/passbook'
     }
 }

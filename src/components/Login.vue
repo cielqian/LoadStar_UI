@@ -181,7 +181,7 @@ export default {
       };
       this.$store.dispatch("signIn", this.account).catch(x => {
         _this.disabled.form = false;
-        if (x.data.error == "invalid_grant") {
+        if (x.data.error == "invalid_grant" || x.data.error == 'unauthorized') {
           _this.$message.error("用户名或密码错误");
         }
       });
