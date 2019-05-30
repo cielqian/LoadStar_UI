@@ -52,6 +52,7 @@ export default{
     },
     passbook:{
         create: '/user-service/api/passbook',
+        delete: '/user-service/api/passbook/{id}',
         all: '/user-service/api/passbook'
     }
 }

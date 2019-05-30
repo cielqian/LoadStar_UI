@@ -2,14 +2,37 @@
   <el-row class="container passbook_container">
     <el-col>
       <el-button icon="el-icon-plus" circle @click="visiable.passbookDetail = true"></el-button>
-      <el-input v-show="visiable.search" class="search_input" v-model="filter.text" clearable placeholder="按回车搜索">
-          <el-button slot="append" icon="el-icon-d-arrow-left" @click="visiable.search = false;"></el-button>
+      <el-input
+        v-show="visiable.search"
+        @keyup.enter.native="search"
+        @clear="getAll"
+        class="search_input"
+        v-model="filter.text"
+        clearable
+        placeholder="按回车搜索"
+        ref="searchInput"
+      >
+        <el-button slot="append" icon="el-icon-d-arrow-left" @click="visiable.search = false;"></el-button>
       </el-input>
-      <el-button v-show="!visiable.search" icon="el-icon-search" circle @click="visiable.search = true;"></el-button>
+      <el-button
+        v-show="!visiable.search"
+        icon="el-icon-search"
+        circle
+        @click="visiable.search = true;"
+      ></el-button>
     </el-col>
 
     <el-col>
       <el-table :data="passbooks" stripe>
+        <el-table-column prop="note" label width="80">
+          <template slot-scope="scope">
+            <i
+              class="el-icon-document-copy ls_pointer"
+              @click="doCopy(scope.row.note + '，账号：' + scope.row.username + '，密码：' + scope.row.password)"
+            ></i>
+            <i class="el-icon-delete ls_pointer ls_padding_left_5" @click="remove(scope.row)"></i>
+          </template>
+        </el-table-column>
         <el-table-column prop="note" label="备注" width="200"></el-table-column>
 
         <el-table-column label="账号" width="200" align="center">
@@ -116,16 +139,31 @@ export default {
         _this.getAll();
       });
     },
+    remove(row) {
+      let _this = this;
+      this.$confirm("确定删除 "+ row.note +" ？").then(
+        () => {
+          passbookApi.remove(row.id).then(() => {
+            _this.getAll();
+          });
+        }
+      );
+    },
     getAll() {
       let _this = this;
-      let filter = _this.pagination;
+      let filter = Object.assign({}, _this.pagination);
       if (!!_this.filter.text) {
-          filter = Object.assign(filter, {note: _this.filter.text})
+        filter = Object.assign({}, filter, { note: _this.filter.text });
       }
       passbookApi.getAll(filter).then(res => {
         _this.passbooks = res.data.items;
         _this.pagination.total = parseInt(res.data.total);
       });
+    },
+    search() {
+      let _this = this;
+      this.pagination.current = 1;
+      this.getAll();
     }
   },
   created() {
@@ -134,10 +172,10 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.passbook_container{
-    .search_input{
-        width: 250px;
-    }
+.passbook_container {
+  .search_input {
+    width: 250px;
+  }
 }
 </style>
 

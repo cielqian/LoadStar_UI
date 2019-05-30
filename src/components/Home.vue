@@ -24,7 +24,9 @@ export default {
   name: "Home",
   components: { LSHeader },
   created(){
-    window.RibbonsInstance._clear();
+    if (!!window.RibbonsInstance) {
+      window.RibbonsInstance._clear();
+    }
   }
 };
 </script>
