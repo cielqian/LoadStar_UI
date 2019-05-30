@@ -26,5 +26,13 @@ export default{
                 resolve(response);
             });
         });
+    },
+    update(id, passbook){
+        return new Promise((resolve, reject) => {
+            axios.put(utils.replace(apis.passbook.update,[{key:'{id}', val:id}]), passbook)
+            .then((response) => {
+                resolve(response);
+            });
+        }); 
     }
 }
