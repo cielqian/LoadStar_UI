@@ -71,29 +71,29 @@
     </el-col>
 
     <el-dialog
-      title="Passbook"
+      :title="$t('passbook.lblPassbook')"
       :visible.sync="visiable.passbookDetail"
       width="30%"
       :closeOnClickModal="false"
       @close="reset"
     >
       <el-form label-width="80px">
-        <el-form-item label="Username">
+        <el-form-item :label="$t('passbook.lblUsername')">
           <el-input v-model="passbook.username"></el-input>
         </el-form-item>
-        <el-form-item label="Password">
+        <el-form-item :label="$t('passbook.lblPassword')">
           <el-input v-model="passbook.password" show-password></el-input>
         </el-form-item>
-        <el-form-item label="Note">
+        <el-form-item :label="$t('passbook.lblNote')">
           <el-input v-model="passbook.note"></el-input>
         </el-form-item>
-        <el-form-item label="Link">
+        <el-form-item :label="$t('passbook.lblLink')">
           <el-input v-model="passbook.link"></el-input>
         </el-form-item>
       </el-form>
       <span slot="footer">
-        <el-button @click="visiable.passbookDetail = false">Cancel</el-button>
-        <el-button type="primary" @click="save">Save</el-button>
+        <el-button @click="visiable.passbookDetail = false">{{$t('passbook.btnCancel')}}</el-button>
+        <el-button type="primary" @click="save">{{$t('passbook.btnSave')}}</el-button>
       </span>
     </el-dialog>
   </el-row>

@@ -23,7 +23,7 @@
             </el-menu-item>
             <el-menu-item index="4" @click="goTo('/Passbook')">
                 <template slot="title">
-                    <span class="nav_menu">Passbook</span>
+                    <span class="nav_menu">{{$t('nav.lblPassbook')}}</span>
                 </template>
             </el-menu-item>
             <!-- <el-menu-item index="4" @click="goTo('/Analysis')">

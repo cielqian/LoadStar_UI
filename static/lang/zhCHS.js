@@ -13,6 +13,7 @@ export default{
         lblFolder: '分类',
         lblTag: '标签',
         lblRecent: '最近',
+        lblPassbook: '账户',
         lblAnalysis: '统计',
         lblSetting: '设置'
     },
@@ -66,5 +67,14 @@ export default{
         lblClose2: '或按ESC',
         lblBookmark: '书签',
         lblBaidu: '百度'
+    },
+    passbook:{
+        lblPassbook: '账户',
+        lblUsername: '用户名',
+        lblPassword: '密码',
+        lblNote: '备注',
+        lblLink: '网址',
+        btnSave:'保存',
+        btnCancel: '取消'
     }
 }

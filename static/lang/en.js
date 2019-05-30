@@ -11,6 +11,7 @@ export default{
         lblTag: 'Tags',
         lblRecent: 'Recent',
         lblAnalysis: 'Analysis',
+        lblPassbook: 'Passbook',
         lblSetting: 'Setting'
     },
     signIn: {
@@ -58,5 +59,14 @@ export default{
         lblClose2: 'Press ESC',
         lblBookmark: 'InSite',
         lblBaidu: 'Baidu'
+    },
+    passbook:{
+        lblPassbook: 'Passbook',
+        lblUserName: 'Username',
+        lblPassword: 'Password',
+        lblNote: 'Note',
+        lblLink: 'Link',
+        btnSave:'Save',
+        btnCancel: 'Cancel'
     }
 }
