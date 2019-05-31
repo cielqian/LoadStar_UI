@@ -1,5 +1,5 @@
 export default{
-    baseHost: process.env.NODE_ENV == 'production'?  'http://139.9.234.51:9080' : 'http://localhost:9080',
+    baseHost: process.env.NODE_ENV == 'production'?  'https://loadstar.top' : 'http://localhost:9080',
     // baseHost:'http://loadstar.top:9080',
     auth:{
         signUp:'/user-service/api/account',
