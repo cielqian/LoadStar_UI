@@ -234,7 +234,7 @@ export default {
       this.onMove = false;
     }
   },
-  mounted() {
+  created() {
     let _this = this;
     _this.screenHeight = document.body.clientHeight - 100;
 

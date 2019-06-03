@@ -152,7 +152,7 @@ export default {
         id: this.newLink.id,
         name: this.newLink.name,
         title: this.newLink.title,
-        folderId: this.newLink.folderId == "未归档" ? "" : this.newLink.folderId,
+        folderId: this.newLink.folderId == "未归档" ? "0" : this.newLink.folderId,
         url: this.newLink.url,
         icon: this.newLink.icon,
         tags: tagsId,

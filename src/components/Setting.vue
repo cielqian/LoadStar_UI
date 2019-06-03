@@ -29,7 +29,7 @@
             </el-col>
           </el-row>
         </el-card>
-        <el-card class="ls_margin_top_15">
+        <!-- <el-card class="ls_margin_top_15">
           <div slot="header" class="clearfix">
             <span>{{$t('setting.lblModule')}}</span>
           </div>
@@ -42,7 +42,7 @@
               </el-switch>
             </el-col>
           </el-row>
-        </el-card>
+        </el-card> -->
         <el-row class="ls_margin_top_45 ls_text_center ls_text_mini ls_padding_5_l">
           <img class="ls_logo_word_mini" src="../assets/new-logo.png">
           <span>Copyright ©2019 Ciel.Qian All rights reserved.</span>

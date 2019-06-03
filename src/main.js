@@ -11,7 +11,6 @@ import './assets/iconfont.css'
 import './assets/ls_global.css'
 import './assets/element-ext.scss'
 import apis from './api/apis'
-// import store from "./assets/store/store";
 import store from "./store";
 import VueI18n from 'vue-i18n';
 import LangEn from '../static/lang/en'
@@ -22,8 +21,8 @@ import 'nprogress/nprogress.css'
 import ContentMenu from 'v-contextmenu'
 import 'v-contextmenu/dist/index.css'
 import LSContentMenu from "./components/ContentMenu.vue";
-//import LSLinkDetail from "./components/LinkDetail.vue";
 import packageInfo from '../package.json'
+import utils from './utils/commonUtils'
 
 console.log('version:' + packageInfo.version)
 
@@ -100,14 +99,12 @@ Vue.prototype._ = _;
 Vue.use(ElementUI);
 Vue.use(ContentMenu)
 Vue.component('LSContentMenu',LSContentMenu)
-// Vue.component('LSLinkDetail',LSLinkDetail)
 
-if (location.href.indexOf('zh') > 0) {
-  store.dispatch('setLanguage', 'zhCHS');
-}else{
-  store.dispatch('setLanguage', 'en');
+let lang = utils.getQueryString('lang');
+if (!!lang) {
+  store.dispatch('setLanguage', lang);
 }
-
+console.log('lang: ' + lang);
 Vue.use(VueI18n)
 const i18n = new VueI18n({
   locale: store.getters.getLanguage, 
