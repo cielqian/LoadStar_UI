@@ -62,7 +62,7 @@ export default{
     },
     passbook:{
         lblPassbook: 'Passbook',
-        lblUserName: 'Username',
+        lblUsername: 'Username',
         lblPassword: 'Password',
         lblNote: 'Note',
         lblLink: 'Link',
