@@ -20,8 +20,8 @@
         @node-click="nodeClick"
         data-intro="已删除的书签可以在回收站找回"
       >
-        <div slot-scope="{ node, data }">
-          <span class="custom-tree-node ls_padding_right_15" style="width:100%">
+        <div slot-scope="{ node, data }" style="width:100%">
+          <span class="custom-tree-node ls_padding_right_15">
             <i v-if="data.name == '回收站'" class="el-icon-delete"/>
             <i v-else-if="data.name == '未归档'" class="el-icon-tickets"/>
             <i v-else class="el-icon-news"/>
@@ -267,6 +267,7 @@ export default {
 <style lang="scss">
 .el-tree-node {
   padding: 3px;
+
 }
 
 .dragarea {
