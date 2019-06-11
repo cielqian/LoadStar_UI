@@ -29,7 +29,6 @@
       <el-table
         :data="links"
         :show-header="false"
-        :max-height="screenHeight"
         empty-text="暂无链接"
         @row-dblclick="redirect"
       >
