@@ -44,7 +44,7 @@ const actions = {
 const mutations = {
     setTags(state, tags) {
         tags.forEach(element => {
-            let ran = Math.floor((Math.random()*5)+1);
+            let ran = element.id % 5;//Math.floor((Math.random()*5)+1);
             switch (ran) {
                     case 1:
                     element.type = 'info';

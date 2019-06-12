@@ -1,24 +1,29 @@
 <template>
-  <el-row class="folder_link">
-    <el-col :span="6" class="ls_padding_right_15">
+  <el-row class="tag_link">
+    <el-col :span="dyspan" class="ls_padding_right_15">
       <el-row>
-        <el-col :span="24">
-          <el-input
-            placeholder="输入标签名称，并按回车创建"
-            suffix-icon="el-icon-circle-plus-outline"
-            v-model="newTagName"
-            @keyup.enter.native="createTag"
-          ></el-input>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-tag class="ls_pointer" @click.native="nodeClick()">全部</el-tag>
+        <el-input
+          v-if="visible.inputVisible"
+          v-model="newTag.name"
+          class="input-new-tag"
+          ref="saveTagInput"
+          size="small"
+          placeholder="回车创建"
+          @keyup.enter.native="createTag"
+          @blur="triggerInput"
+        ></el-input>
+        <el-button
+          v-else
+          class="button-new-tag"
+          size="small"
+          @click="triggerInput"
+        >+ {{$t('detail.lblNewTag')}}</el-button>
         <el-tag
           :key="tag.id"
           v-for="tag in tags"
           :type="tag.type"
+          effect="plain"
           closable
-          :disable-transitions="false"
           @close="handleClose(tag)"
         >
           <span @click="nodeClick(tag)" class="ls_pointer">{{tag.name}}&nbsp;({{tag.linkCount}})</span>
@@ -26,12 +31,7 @@
       </el-row>
     </el-col>
     <el-col v-show="visible1" :span="18" class="link_content ls_content ls_bg_white">
-      <el-table
-        :data="links"
-        :show-header="false"
-        empty-text="暂无链接"
-        @row-dblclick="redirect"
-      >
+      <el-table :data="links" :show-header="false" empty-text="Nothing more" @row-dblclick="redirect">
         <el-table-column>
           <template slot-scope="scope">
             <div class="ls_icon_sm" :link="scope.row">
@@ -53,6 +53,7 @@
   </el-row>
 </template>
 <script>
+import keyListener from "../utils/keyListener";
 import LinkCardItem from "./LinkItems.vue";
 import { mapGetters, mapState } from "vuex";
 import api from "../api/link";
@@ -62,20 +63,39 @@ export default {
     return {
       newTagName: "",
       selectedTagId: 0,
+      selectedTag:{},
       visible1: false,
+      visible: {
+        inputVisible: false
+      },
+      dyspan: 20,
       links: [],
+      newTag: {
+        name: ""
+      },
       screenHeight: 600
     };
   },
   components: { LinkCardItem },
   methods: {
+    triggerInput() {
+      this.visible.inputVisible = !this.visible.inputVisible;
+      if (this.visible.inputVisible) {
+        this.$nextTick(_ => {
+          this.$refs.saveTagInput.focus();
+        });
+      }
+    },
     createTag() {
-      if (!this.newTagName) {
+      let _this = this;
+      this.visible.inputVisible = false;
+      if (!this.newTag.name) {
         return;
       }
-      let d = { name: this.newTagName };
+      let d = { name: this.newTag.name };
       this.$store.dispatch("createTag", d);
-      this.newTagName = "";
+      this.newTag.name = "";
+      this.$refs.saveTagInput.blur();
     },
     handleClose(tag) {
       let _this = this;
@@ -91,20 +111,16 @@ export default {
     },
     nodeClick(node) {
       let _this = this;
-      if (!!node) {
-        if (_this.selectedTagId == node.id) {
-          return;
-        }
-        _this.selectedTagId = node.id;
-        api.getAllLinksUnderTag(node.id).then(res => {
-          _this.visible1 = true;
-          _this.links = res.data;
-        });
-      } else {
-        _this.selectedTagId = 0;
-        _this.visible1 = true;
-        _this.links = [..._this.$store.state.link.allLink];
+      _this.dyspan = 6;
+      if (_this.selectedTagId == node.id) {
+        return;
       }
+      _this.selectedTagId = node.id;
+      _this.selectedTag= node;
+      api.getAllLinksUnderTag(node.id).then(res => {
+        _this.visible1 = true;
+        _this.links = res.data;
+      });
     },
     redirect(row) {
       this.$store.dispatch("visitLink", row);
@@ -125,8 +141,11 @@ export default {
   },
   mounted() {
     let _this = this;
-
     _this.$store.dispatch("getAllTag");
+    keyListener.init();
+    keyListener.listen("17+40", () => {
+      _this.triggerInput();
+    });
   }
 };
 </script>
@@ -139,18 +158,23 @@ export default {
   margin-left: 10px;
   height: 32px;
   line-height: 30px;
+  margin-top: 10px;
+  padding-top: 0;
+  padding-bottom: 0;
+  width: 100px;
+}
+.input-new-tag {
+  width: 150px;
+  margin-left: 10px;
+  vertical-align: bottom;
+  margin-top: 10px;
   padding-top: 0;
   padding-bottom: 0;
 }
-.input-new-tag {
-  width: 90px;
-  margin-left: 10px;
-  vertical-align: bottom;
-}
 
-.folder_link{
+.tag_link {
   height: 100%;
-  .link_content{
+  .link_content {
     overflow: scroll;
     height: 100%;
   }

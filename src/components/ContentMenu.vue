@@ -18,7 +18,7 @@
       <LSLinkDetail ref="linkDetail" :link.sync="selectedLink"></LSLinkDetail>
       <span slot="footer">
         <el-button @click="dialog.addLinkDialogVisiable = false">Cancel</el-button>
-        <el-button type="primary" @click="saveLink">Create</el-button>
+        <el-button type="primary" @click="saveLink">Save</el-button>
       </span>
     </el-dialog>
   </div>

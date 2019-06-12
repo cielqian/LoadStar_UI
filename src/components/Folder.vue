@@ -11,7 +11,7 @@
         data-intro="创建文件夹"
       ></el-input>
       <el-tree
-        class="ls_margin_top_15"
+      class="ls_margin_top_10"
         :class="{'dragarea':onMove}"
         ref="folderTree"
         :data="folders"
@@ -34,14 +34,15 @@
     <el-col
       v-show="visible1"
       :span="18"
-      class="link_content ls_content ls_bg_white"
+      class="link_content ls_bg_white"
       data-intro="1. 书签可以直接拖动至文件夹 <br/>2.右击书签更多功能"
     >
+    <!-- <el-input v-model="filter.keyword" @keyup.enter.native="getAllLinksUnderFolder" placeholder="过滤" clearable></el-input> -->
       <el-table
         v-loading="loading.linkList"
         :data="links"
         :show-header="false"
-        empty-text="暂无书签"
+        empty-text="Nothing more"
         @row-dblclick="redirect"
       >
         <el-table-column>
@@ -104,7 +105,10 @@ export default {
       firstLoaded: true,
       links: [],
       selectedLink: {},
-      screenHeight: 600
+      screenHeight: 600,
+      filter:{
+        keyword:''
+      }
     };
   },
   computed: {
@@ -195,9 +199,8 @@ export default {
     },
     createFolder() {
       let _this = this;
-      _this.createFolderModel.disabled = true;
-
       if (!!this.createFolderModel.name) {
+        _this.createFolderModel.disabled = true;
         _this.$store
           .dispatch("createFolder", {
             name: _this.createFolderModel.name,

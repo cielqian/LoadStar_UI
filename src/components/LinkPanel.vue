@@ -68,6 +68,7 @@ import tagApi from "../api/tag";
 import linkApi from "../api/link";
 import { mapGetters, mapState } from "vuex";
 import introJs from "intro.js";
+import keyListener from '../utils/keyListener';
 function isUrl(text) {
   return text.indexOf("http") >= 0 || text.indexOf("https") >= 0;
 }
@@ -150,17 +151,11 @@ export default {
     pasteFn: function(event) {
       let _this = this;
       var clipText = event.clipboardData.getData("Text");
-      if (!isUrl(clipText)) {
-        // _this.$message.error("不是有效的链接格式");
-        _this.searchContent = "";
-        _this.searchContent = clipText;
-        _this.$refs.searchInputCtrl.focus();
-      } else {
+      if (isUrl(clipText)) {
         _this.newLink.url = clipText;
-
         _this.openAddLinkDialog();
-        document.removeEventListener("paste", _this.pasteFn);
-      }
+        keyListener.cancel('paste',_this.pasteFn);
+      } 
     }
   },
   mounted() {
@@ -186,7 +181,10 @@ export default {
           .start();
       }
     });
-    document.addEventListener("paste", _this.pasteFn);
+    keyListener.init();
+    keyListener.listen('paste',_this.pasteFn);
+    
+    // document.addEventListener("paste", _this.pasteFn);
 
     this.client.htmlHeight = window.screen.availHeight - 180;
   }
