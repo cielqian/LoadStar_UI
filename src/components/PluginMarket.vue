@@ -23,9 +23,10 @@
 import { mapGetters, mapState } from "vuex";
 import pyoudao from '../plugins/YoudaoDict';
 import pweather from '../plugins/Weather';
+import palarmclock from '../plugins/AlarmClock';
 export default {
   name: "PluginMarket",
-  components:{pyoudao, pweather},
+  components:{pyoudao, pweather,palarmclock},
   data() {
     return {
       visible: false,
