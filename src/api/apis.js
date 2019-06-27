@@ -55,5 +55,10 @@ export default{
         update: '/user-service/api/passbook/{id}',
         delete: '/user-service/api/passbook/{id}',
         all: '/user-service/api/passbook'
+    },
+    alarmClock:{
+        create: '/user-service/api/clock',
+        delete: '/user-service/api/clock/{id}',
+        all: '/user-service/api/clock'
     }
 }

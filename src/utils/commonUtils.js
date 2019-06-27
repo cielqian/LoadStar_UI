@@ -28,5 +28,6 @@ export default {
         let idx = window.location.href.indexOf("?") + 1;
         var r = window.location.href.substr(idx).match(reg);
         if (r != null) return unescape(r[2]); return null;
-    }
+    },
+    format(){}
 }

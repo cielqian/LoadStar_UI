@@ -19,14 +19,20 @@
 import LSHeader from "./Nav.vue";
 import apis from "../assets/repository/apis";
 import { mapGetters, mapState } from "vuex";
-
+import SockJS from "sockjs-client";
 export default {
   name: "Home",
   components: { LSHeader },
-  created(){
+  created() {
     if (!!window.RibbonsInstance) {
       window.RibbonsInstance._clear();
     }
+    // let notification = new Notification('123')
+    var sock = new SockJS("http://localhost:9080/notify");
+    sock.onopen = function() {
+      console.log("open");
+      sock.send("test");
+    };
   }
 };
 </script>
