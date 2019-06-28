@@ -14,25 +14,45 @@
     </el-container>
   </el-container>
 </template>
-
 <script>
 import LSHeader from "./Nav.vue";
 import apis from "../assets/repository/apis";
 import { mapGetters, mapState } from "vuex";
 import SockJS from "sockjs-client";
+// import Stomp from "@stomp/stompjs";
 export default {
   name: "Home",
   components: { LSHeader },
+  computed: {
+    ...mapState({
+      accountId: state => state.auth.loginInfo.accountId
+    })
+  },
   created() {
     if (!!window.RibbonsInstance) {
       window.RibbonsInstance._clear();
     }
+    let _this = this;
+    _this.$store.dispatch("getUserInfo").then(() => {
+      var sock = new SockJS("http://ws.loadstar.com/gs-guide-websocket");
+
+      let stompClient = Stomp.over(sock);
+      // stompClient.debug = function(){};
+      stompClient.connect({name: _this.accountId}, function(frame) {
+        // setConnected(true);
+        stompClient.subscribe("/user/queue/greetings", function(greeting) {
+          let clock = JSON.parse(greeting.body);
+          console.log(JSON.parse(greeting.body));
+          let notification = new Notification('123');
+          _this.$store.dispatch("removeAlarmClock", clock.id);
+        });
+        stompClient.subscribe("/topic/greetings", function(greeting) {
+          console.log(JSON.parse(greeting.body));
+        });
+        // stompClient.send("/app/hello", {}, "123");
+      });
+    });
     // let notification = new Notification('123')
-    var sock = new SockJS("http://localhost:9080/notify");
-    sock.onopen = function() {
-      console.log("open");
-      sock.send("test");
-    };
   }
 };
 </script>

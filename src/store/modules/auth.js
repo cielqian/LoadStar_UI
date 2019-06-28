@@ -8,6 +8,7 @@ const state = {
         hasLogined: false,
         username:'',
         nickname:'',
+        accountId:'',
         accessToken: ''
     }
 }
@@ -47,6 +48,7 @@ const mutations = {
     setUserInfo(state, userInfo){
         state.loginInfo.username = userInfo.username;
         state.loginInfo.nickname = userInfo.nickname;
+        state.loginInfo.accountId = userInfo.accountId;
     }
 }
 
@@ -66,7 +68,10 @@ const actions = {
         }
     },
     getUserInfo({ commit}){
-        api.userInfo((response) => commit('setUserInfo', response.data))
+        return new Promise((resolve, reject) => {
+            api.userInfo((response) => {commit('setUserInfo', response.data);resolve();})
+            
+        });
     },
     signIn({ commit, dispatch }, account) {
         return new Promise((resolve, reject) => {
@@ -74,7 +79,7 @@ const actions = {
                 .then((response) => {
                     window.RibbonsInstance._clear();
                     commit('setLoginInfo', { hasLogined: true, accessToken: response.value });
-                    dispatch('getUserInfo');
+                    // dispatch('getUserInfo');
                     router.push('Home');
                     resolve();
                 }).catch((response) => reject(response));
