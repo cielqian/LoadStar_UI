@@ -19,7 +19,7 @@ import LSHeader from "./Nav.vue";
 import apis from "../assets/repository/apis";
 import { mapGetters, mapState } from "vuex";
 import SockJS from "sockjs-client";
-// import Stomp from "@stomp/stompjs";
+import utils from '../utils/commonUtils';
 export default {
   name: "Home",
   components: { LSHeader },
@@ -34,25 +34,25 @@ export default {
     }
     let _this = this;
     _this.$store.dispatch("getUserInfo").then(() => {
-      var sock = new SockJS("http://ws.loadstar.com/gs-guide-websocket");
+      var sock = new SockJS("http://ws.loadstar.com/ls-notify");
 
       let stompClient = Stomp.over(sock);
       // stompClient.debug = function(){};
       stompClient.connect({name: _this.accountId}, function(frame) {
-        // setConnected(true);
-        stompClient.subscribe("/user/queue/greetings", function(greeting) {
-          let clock = JSON.parse(greeting.body);
-          console.log(JSON.parse(greeting.body));
-          let notification = new Notification('123');
-          _this.$store.dispatch("removeAlarmClock", clock.id);
+        stompClient.subscribe("/user/queue/notify", function(socketMsg) {
+          let message = JSON.parse(socketMsg.body);
+          console.log(message);
+          if (message.type == 'CLOCK') {
+            let clock = message.data;
+            let notification = new Notification('LoadStar', {body:utils.UTC2Format(clock.alarmTime, 'HH:mm')+'-'+clock.comment,icon:'/static/logo.png'});
+            _this.$store.dispatch("removeAlarmClock", clock.id);
+          }
         });
         stompClient.subscribe("/topic/greetings", function(greeting) {
           console.log(JSON.parse(greeting.body));
         });
-        // stompClient.send("/app/hello", {}, "123");
       });
     });
-    // let notification = new Notification('123')
   }
 };
 </script>

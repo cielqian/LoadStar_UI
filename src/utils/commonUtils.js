@@ -1,3 +1,4 @@
+import moment from 'moment';
 export default {
     isNotEmpty(obj) {
         return obj != undefined
@@ -29,5 +30,7 @@ export default {
         var r = window.location.href.substr(idx).match(reg);
         if (r != null) return unescape(r[2]); return null;
     },
-    format(){}
+    UTC2Format(utcTime, format){
+        return moment.utc(utcTime).utcOffset(8).format(format)
+    }
 }
