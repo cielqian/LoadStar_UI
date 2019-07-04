@@ -32,9 +32,10 @@ export default {
     if (!!window.RibbonsInstance) {
       window.RibbonsInstance._clear();
     }
+    let notifyServer = process.env.NOTIFY_SERVER;
     let _this = this;
     _this.$store.dispatch("getUserInfo").then(() => {
-      var sock = new SockJS("http://ws.loadstar.com/ls-notify");
+      var sock = new SockJS(notifyServer);
 
       let stompClient = Stomp.over(sock);
       // stompClient.debug = function(){};
