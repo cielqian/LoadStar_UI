@@ -12,6 +12,7 @@ export default{
         lblRecent: 'Recent',
         lblAnalysis: 'Analysis',
         lblPassbook: 'Passbook',
+        lblCalendar: 'Calendar',
         lblSetting: 'Setting'
     },
     signIn: {

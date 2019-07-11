@@ -153,5 +153,13 @@ export default{
                 resolve(response);
             });
         });
+    },
+    getCalendar(day){
+        return new Promise((resolve, reject) => {
+            axios.get(utils.replace(apis.calendar.visitCalendar,[{key:'{day}', val:day}]))
+            .then(function(response) {
+                resolve(response);
+            });
+        });
     }
 }

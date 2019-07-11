@@ -5,7 +5,10 @@ const state = {
     allLink: [],
     topLink: [],
     recentLink: [],
-    oftenLink: []
+    oftenLink: [],
+    calendar: {
+        visit: []
+    }
 }
 
 // getters
@@ -133,6 +136,13 @@ const actions = {
             api.removeFromOften(link.id).then(response => {
                 commit('removeOftenLink', link.id);
                 resolve();
+            });
+        });
+    },
+    getCalendar({commit}, day){
+        return new Promise((resolve, reject) => {
+            api.getCalendar(day).then(response => {
+                resolve(response);
             });
         });
     }

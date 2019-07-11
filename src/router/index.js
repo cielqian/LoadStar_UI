@@ -8,6 +8,7 @@ import Tag from '@/components/Tag'
 import Folder from '@/components/Folder'
 import Analysis from '@/components/Analysis'
 import Passbook from '@/components/Passbook'
+import Calendar from '@/components/Calendar'
 import store from '../store';
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -38,6 +39,11 @@ const vueRouter = new Router({
         },
         {
           path: '/Analysis', component: Analysis, meta: {
+            requireLogin: true
+          }
+        },
+        {
+          path: '/Calendar', component: Calendar, meta: {
             requireLogin: true
           }
         },

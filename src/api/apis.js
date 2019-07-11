@@ -60,5 +60,8 @@ export default{
         create: '/user-service/api/clock',
         delete: '/user-service/api/clock/{id}',
         all: '/user-service/api/clock'
+    },
+    calendar: {
+        visitCalendar: '/link-service/api/link/calendar/visit/{day}'
     }
 }

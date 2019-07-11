@@ -26,6 +26,11 @@
                     <span class="nav_menu">{{$t('nav.lblPassbook')}}</span>
                 </template>
             </el-menu-item>
+            <el-menu-item index="5" @click="goTo('/Calendar')">
+                <template slot="title">
+                    <span class="nav_menu">{{$t('nav.lblCalendar')}}</span>
+                </template>
+            </el-menu-item>
             <!-- <el-menu-item index="4" @click="goTo('/Analysis')">
                 <template slot="title">
                     <span class="nav_menu">{{$t('nav.lblAnalysis')}}</span>
@@ -36,7 +41,7 @@
                     <span class="nav_menu">{{$t('nav.lblRecent')}}</span>
                 </template>
             </el-menu-item> -->
-            <el-menu-item index="5" @click="goTo('/Setting')">
+            <el-menu-item index="6" @click="goTo('/Setting')">
                 <template slot="title">
                     <span class="nav_menu">{{$t('nav.lblSetting')}}</span>
                 </template>

@@ -15,6 +15,7 @@ export default{
         lblRecent: '最近',
         lblPassbook: '账户',
         lblAnalysis: '统计',
+        lblCalendar: '日历',
         lblSetting: '设置'
     },
     tip:{
