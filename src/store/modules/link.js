@@ -145,6 +145,13 @@ const actions = {
                 resolve(response);
             });
         });
+    },
+    getVisitList({commit}, day){
+        return new Promise((resolve, reject) => {
+            api.getVisitList(day).then(response => {
+                resolve(response);
+            });
+        });
     }
 }
 

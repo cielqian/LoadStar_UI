@@ -161,5 +161,13 @@ export default{
                 resolve(response);
             });
         });
+    },
+    getVisitList(day){
+        return new Promise((resolve, reject) => {
+            axios.get(utils.replace(apis.calendar.visitDay,[{key:'{day}', val:day}]))
+            .then(function(response) {
+                resolve(response);
+            });
+        });
     }
 }

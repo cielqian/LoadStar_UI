@@ -6,13 +6,13 @@
           <el-calendar v-model="value">
             <template slot="dateCell" slot-scope="{date, data}">
               <el-popover trigger="click">
-                <el-table :data="visitList" border stripe>
+                <!-- <el-table :data="visitList" border stripe>
                   <el-table-column
                     :prop="id"
                     :key="id"
                     :label="label">
                   </el-table-column>
-                </el-table>
+                </el-table> -->
                 <div
                   slot="reference"
                   style="height:100%; width:100%; position:relative;"

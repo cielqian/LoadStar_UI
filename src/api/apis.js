@@ -62,6 +62,7 @@ export default{
         all: '/user-service/api/clock'
     },
     calendar: {
-        visitCalendar: '/link-service/api/link/calendar/visit/{day}'
+        visitCalendar: '/link-service/api/link/calendar/visit/month/{day}',
+        visitDay: '/link-service/api/link/calendar/visit/day/{day}',
     }
 }
