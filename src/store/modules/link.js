@@ -58,7 +58,7 @@ const actions = {
     },
     getOftenLink({ commit }) {
         return new Promise((resolve, reject) => {
-            api.getAllLinksUnderTag(-1)
+            api.getAllLinksUnderTag(1)
                 .then((response) => {
                     commit('setOftenLinks', response.data);
                     resolve();

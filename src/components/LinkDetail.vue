@@ -78,11 +78,10 @@ export default {
     return {
       newLink: {
         id:'',
-        folderId: "",
+        folderId: "1",
         name: "",
         title: "",
         url: "",
-        tags: "",
         isOften: true
       },
       analysisHolder: '自动解析中...',
@@ -116,7 +115,6 @@ export default {
         return;
       }
       _this.newLink.url = url;
-      _this.newLink.folderId = '';
       var d = {
         url: url
       };
@@ -126,17 +124,16 @@ export default {
         _this.analysising = false;
         _this.newLink.name = response.data.name;
         _this.newLink.title = response.data.title;
+        _this.newLink.folderId = "1";
         if (!_this.newLink.title) {
           _this.analysisHolder = '解析失败，请手动完善标题...';
         }
         _this.newLink.icon = response.data.icon;
-        _this.newLink.folderId = "未归档";
         _this.selectedTag = [];
         _this.unSelectedTag = [..._this.tags];
       }).catch(err => {
           _this.analysising = false;
           _this.analysisHolder = '解析失败，请手动完善标题...';
-          _this.newLink.folderId = "未归档";
           _this.selectedTag = [];
           _this.unSelectedTag = [..._this.tags];
       });
@@ -152,7 +149,7 @@ export default {
         id: this.newLink.id,
         name: this.newLink.name,
         title: this.newLink.title,
-        folderId: this.newLink.folderId == "未归档" ? "0" : this.newLink.folderId,
+        folderId: this.newLink.folderId,
         url: this.newLink.url,
         icon: this.newLink.icon,
         tags: tagsId,
@@ -210,16 +207,15 @@ export default {
     }
   },
   created(){
-    if (!!this.link.id) {
+    if (!!this.link) {
       this.newLink = this.link;
     }else{
       this.newLink = {
         id:'',
-        folderId: "",
+        folderId: "1",
         name: "",
         title: "",
         url: "",
-        tags: "",
         isOften: true
       }
     }

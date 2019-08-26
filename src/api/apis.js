@@ -23,8 +23,8 @@ export default{
         trash: '/link-service/api/link/trash/{linkId}',
         deleteByFolder: '/link-service/api/folder/{folderId}/link',
         move: '/link-service/api/link/{linkId}/to/{folderId}',
-        addToOften: '/link-service/api/link/{linkId}/addToOften',
-        removeFromOften: '/link-service/api/link/{linkId}/removeFromOften'
+        addToOften: '/link-service/api/link/{linkId}/addToDash',
+        removeFromOften: '/link-service/api/link/{linkId}/removeFromDash'
     },
     folder: {
         query: '/link-service/api/folder/current',
