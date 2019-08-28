@@ -26,7 +26,11 @@ const vueRouter = new Router({
         requireLogin: true
       },
       children: [
-        { path: '', component: LinkPanel },
+        {
+          path: '', component: LinkPanel, meta: {
+            requireLogin: true
+          }
+        },
         {
           path: '/Tag', component: Tag, meta: {
             requireLogin: true

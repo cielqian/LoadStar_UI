@@ -34,26 +34,26 @@ export default {
     }
     let notifyServer = process.env.NOTIFY_SERVER;
     let _this = this;
-    _this.$store.dispatch("getUserInfo").then(() => {
-      var sock = new SockJS(notifyServer);
+    // _this.$store.dispatch("getUserInfo").then(() => {
+      // var sock = new SockJS(notifyServer);
 
-      let stompClient = Stomp.over(sock);
-      // stompClient.debug = function(){};
-      stompClient.connect({name: _this.accountId}, function(frame) {
-        stompClient.subscribe("/user/queue/notify", function(socketMsg) {
-          let message = JSON.parse(socketMsg.body);
-          console.log(message);
-          if (message.type == 'CLOCK') {
-            let clock = message.data;
-            let notification = new Notification('LoadStar', {body:utils.UTC2Format(clock.alarmTime, 'HH:mm')+'-'+clock.comment,icon:'/static/logo.png'});
-            _this.$store.dispatch("removeAlarmClock", clock.id);
-          }
-        });
-        stompClient.subscribe("/topic/greetings", function(greeting) {
-          console.log(JSON.parse(greeting.body));
-        });
-      });
-    });
+      // let stompClient = Stomp.over(sock);
+      // // stompClient.debug = function(){};
+      // stompClient.connect({name: _this.accountId}, function(frame) {
+      //   stompClient.subscribe("/user/queue/notify", function(socketMsg) {
+      //     let message = JSON.parse(socketMsg.body);
+      //     console.log(message);
+      //     if (message.type == 'CLOCK') {
+      //       let clock = message.data;
+      //       let notification = new Notification('LoadStar', {body:utils.UTC2Format(clock.alarmTime, 'HH:mm')+'-'+clock.comment,icon:'/static/logo.png'});
+      //       _this.$store.dispatch("removeAlarmClock", clock.id);
+      //     }
+      //   });
+      //   stompClient.subscribe("/topic/greetings", function(greeting) {
+      //     console.log(JSON.parse(greeting.body));
+      //   });
+      // });
+    // });
   }
 };
 </script>

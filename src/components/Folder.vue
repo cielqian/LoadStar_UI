@@ -32,7 +32,7 @@
       </el-tree>
     </el-col>
     <el-col
-      v-show="visible1"
+      v-show="visible"
       :span="18"
       class="link_content ls_bg_white"
       data-intro="1. 书签可以直接拖动至文件夹 <br/>2.右击书签更多功能"
@@ -86,7 +86,7 @@ export default {
   name: "LSFolder",
   data() {
     return {
-      visible1: false,
+      visible: false,
       folderProps: {
         children: "childs",
         label: "name"

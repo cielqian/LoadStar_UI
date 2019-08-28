@@ -1,5 +1,4 @@
 import api from '../../api/auth';
-import userApi from '../../api/user';
 import utils from "../../utils/commonUtils";
 import router from '../../router';
 
@@ -60,7 +59,7 @@ const actions = {
             commit('setLoginInfo', {hasLogined:true,accessToken:token});
             if(utils.isEmpty(state.loginInfo.username)){
                 dispatch('getUserInfo');
-                dispatch('getTheme')
+                // dispatch('getTheme');
             }
         }else{
             commit('setLoginInfo', {hasLogined:false,accessToken:''});
@@ -69,8 +68,11 @@ const actions = {
     },
     getUserInfo({ commit}){
         return new Promise((resolve, reject) => {
-            api.userInfo((response) => {commit('setUserInfo', response.data);resolve();})
-            
+            api.userInfo((response) => {
+                commit('setUserInfo', response.data);
+                resolve(response);
+            }).catch(err => {
+            });
         });
     },
     signIn({ commit, dispatch }, account) {

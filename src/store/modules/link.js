@@ -2,10 +2,10 @@ import api from '../../api/link';
 import _ from 'lodash'
 
 const state = {
-    allLink: [],
-    topLink: [],
-    recentLink: [],
-    oftenLink: [],
+    allLink: [],//所有书签
+    topLink: [],//置顶书签
+    recentLink: [],//最近访问
+    dashLink: [],//首页书签
     calendar: {
         visit: []
     }
@@ -20,8 +20,8 @@ const mutations = {
     setLinks(state, links) {
         state.allLink = links;
     },
-    setOftenLinks(state, links) {
-        state.oftenLink = links;
+    setDashLinks(state, links) {
+        state.dashLink = links;
     },
     setTopLinks(state, links){
         state.topLink = links;
@@ -32,16 +32,15 @@ const mutations = {
     putLink(state, link) {
         state.allLink.push(link);
     },
-    putOftenLink(state, link){
+    putDashLink(state, link){
         link.isOften = true;
-        state.oftenLink.push(link);
+        state.dashLink.push(link);
     },
-    removeOftenLink(state, linkId){
-        state.oftenLink = _.filter(state.oftenLink, (o)=>{
+    removeDashLink(state, linkId){
+        state.dashLink = _.filter(state.dashLink, (o)=>{
             return o.id != linkId;
-        })
-    },
-    
+        });
+    }
 }
 
 // actions
@@ -56,11 +55,11 @@ const actions = {
                 .catch((response) => reject());
         });
     },
-    getOftenLink({ commit }) {
+    getDashLink({ commit }) {
         return new Promise((resolve, reject) => {
             api.getAllLinksUnderTag(1)
                 .then((response) => {
-                    commit('setOftenLinks', response.data);
+                    commit('setDashLinks', response.data);
                     resolve();
                 })
                 .catch((response) => reject());
@@ -123,18 +122,18 @@ const actions = {
     downLink({ commit, state, dispatch }, linkId){
         return api.down(linkId);
     },
-    addLinkToOften({ commit, state, dispatch }, link){
+    addLinkToDash({ commit, state, dispatch }, link){
         return new Promise((resolve, reject) => {
             api.addToOften(link.id).then(response => {
-                commit('putOftenLink', link);
+                commit('putDashLink', link);
                 resolve();
             });
         });
     },
-    removeLinkFromOften({ commit, state, dispatch }, link){
+    removeDashLink({ commit, state, dispatch }, link){
         return new Promise((resolve, reject) => {
             api.removeFromOften(link.id).then(response => {
-                commit('removeOftenLink', link.id);
+                commit('removeDashLink', link.id);
                 resolve();
             });
         });

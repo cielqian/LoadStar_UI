@@ -111,7 +111,7 @@ export default {
     ...mapState({
       title: state => state.home.title,
       links: state => state.link.allLink,
-      oftenLinks: state => state.link.oftenLink,
+      oftenLinks: state => state.link.dashLink,
       theme: state => state.setting.theme,
       folders: state => state.folder.allFolder,
       tags: state => state.tag.allTag,
@@ -163,7 +163,7 @@ export default {
     _this.$store.dispatch("getAllFolder");
     _this.$store.dispatch("getAllTag");
     _this.$store
-      .dispatch("getOftenLink")
+      .dispatch("getDashLink")
       .then(x => (_this.loading.allLinkLoading = false));
     _this.$store.dispatch("loadAllTipInfo").then(x => {
       if (_this.intro) {

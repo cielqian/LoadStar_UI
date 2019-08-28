@@ -1,6 +1,5 @@
 import axios from 'axios';
 import apis from './apis';
-import utils from '../utils/commonUtils'
 
 export default{
     getAllFolders(){
@@ -8,6 +7,8 @@ export default{
             axios.get(apis.folder.query)
             .then((response) => {
                 resolve(response);
+            }).catch((err) => {
+                reject(err);
             });
         });
     },
@@ -16,6 +17,8 @@ export default{
             axios.post(apis.folder.create, folder)
             .then(function(response) {
                 resolve(response);
+            }).catch((err) => {
+                reject(err);
             });
         });
     },

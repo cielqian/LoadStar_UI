@@ -40,6 +40,8 @@ export default{
             axios.get(utils.replace(apis.link.underTag,[{key:'{tagId}', val:tagId}]))
             .then((response) => {
                 resolve(response);
+            }).catch(error => {
+                reject(error);
             });
         });
     },

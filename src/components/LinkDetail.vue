@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-col :span="24">
-        <el-form label-width="80px">
+        <el-form label-width="90px">
           <el-form-item :label="$t('detail.lblUrl')">
             <el-input ref="linkUrl" v-model="newLink.url"></el-input>
           </el-form-item>

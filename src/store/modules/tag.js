@@ -16,7 +16,7 @@ const actions = {
                     commit('setTags', response.data);
                     resolve();
                 })
-                .catch((response) => reject());
+                .catch(error => {});
         });
     },
     createTag({ commit }, tag) {
@@ -27,7 +27,7 @@ const actions = {
                 tag.linkCount = 0;
                 commit('putTag', tag);
                 resolve(tag);
-            });
+            }).catch(error => {});
         });
     },
     removeTag({ commit, state, dispatch }, tagId) {
@@ -35,7 +35,7 @@ const actions = {
             api.removeTag(tagId).then(response => {
                 dispatch('getAllTag');
                 resolve();
-            });
+            }).catch(error => {});
         });
     },
 }

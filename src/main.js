@@ -49,18 +49,26 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   function (response) {
     NProgress.done();
-      var res = response.data;
-      if(response.request.responseURL.indexOf(apis.auth.signIn) >= 0){
-      }else{
-        if (res.status == 401) {
-          router.push('Login');
-        }
-        if (res.status != 200) {
-          Vue.prototype.$message.error(res.message);
-          return Promise.reject(res.message);
-        }
+    var res = response.data;
+    if(response.request.responseURL.indexOf(apis.auth.signIn) >= 0){
+    }else{
+      if (res.status == 200) {
+        return Promise.resolve(res);        
       }
-      return res;
+
+      if (res.status == 401) {
+        router.push('Login');
+      }
+      else if (res.status == 400) {
+        console.error(res.message);
+        return Promise.reject(res);
+      }
+      else{
+        Vue.prototype.$message.error(res.message);
+        return Promise.reject(res.message);
+      }
+    }
+    return res;
   },
   function (error) {
     NProgress.done();
@@ -68,8 +76,8 @@ axios.interceptors.response.use(
       return;
     }
     if (!error.response) {
-      store.dispatch('signOut');
-      Vue.prototype.$message.error('服务暂时不可用');
+      // store.dispatch('signOut');
+      // Vue.prototype.$message.error('服务暂时不可用');
       return Promise.reject(error)
     }
     else{
@@ -99,6 +107,8 @@ Vue.prototype._ = _;
 Vue.use(ElementUI);
 Vue.use(ContentMenu)
 Vue.component('LSContentMenu',LSContentMenu)
+
+import './mock.js'
 
 let lang = utils.getQueryString('lang');
 if (!!lang) {

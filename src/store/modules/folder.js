@@ -16,14 +16,14 @@ const actions = {
                     commit('setFolders', response.data);
                     resolve(response);
                 })
-                .catch((response) => reject());
+                .catch(error => {});
         });
     },
     createFolder({ commit }, folder) {
         return new Promise((resolve, reject) => {
             api.createFolder(folder).then(response => {
                 resolve();
-            });
+            }).catch(error => {});
         });
     },
     

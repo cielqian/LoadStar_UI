@@ -23,13 +23,13 @@ export default{
     },
     userInfo(cb, errorCb){
         return new Promise((resolve, reject) => {
-            
             axios.get(apis.auth.userInfo)
             .then(function(response) {
                 cb(response);
                 resolve(response);
-            })
-            .catch(error => reject(error));
+            }).catch((err) => {
+                reject(err);
+            });
         });
     }
 }

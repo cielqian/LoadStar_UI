@@ -85,7 +85,7 @@ export default {
     },
     addToOften(link) {
       let _this = this;
-      _this.$store.dispatch("addLinkToOften", link).then(() => {
+      _this.$store.dispatch("addLinkToDash", link).then(() => {
         _this.$notify({
           message: "已添加至常用",
           position: 'bottom-right'
@@ -94,7 +94,7 @@ export default {
     },
     removeFromOften(link) {
       let _this = this;
-      _this.$store.dispatch("removeLinkFromOften", link);
+      _this.$store.dispatch("removeDashLink", link);
     }
   },
   mounted() {

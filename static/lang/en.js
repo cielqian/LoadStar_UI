@@ -48,7 +48,7 @@ export default{
         lblDialog: 'New Link',
         lblUrl: 'Url',
         lblTitle: 'Title',
-        lblIsOften: 'Common',
+        lblIsOften: 'AddToDash',
         lblFolder: 'Folder',
         lblTag: 'Tags',
         lblNewTag: 'New Tag',

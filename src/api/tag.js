@@ -8,6 +8,8 @@ export default{
             axios.get(apis.tag.query)
             .then((response) => {
                 resolve(response);
+            }).catch(error => {
+                reject(error);
             });
         });
     },
@@ -16,6 +18,8 @@ export default{
             axios.post(apis.tag.create, tag)
             .then(function(response) {
                 resolve(response);
+            }).catch(error => {
+                reject(error);
             });
         });
     },
@@ -24,6 +28,8 @@ export default{
             axios.delete(utils.replace(apis.tag.delete,[{key:'{tagId}', val:tagId}]))
             .then(function(response) {
                 resolve(response);
+            }).catch(error => {
+                reject(error);
             });
         });
     },
@@ -32,6 +38,8 @@ export default{
             axios.get(apis.tag.queryByKeyword, {params: {keyword: keyword}})
             .then(function(response) {
                 resolve(response);
+            }).catch(error => {
+                reject(error);
             });
         });
     }

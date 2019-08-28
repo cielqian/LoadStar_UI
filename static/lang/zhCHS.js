@@ -56,7 +56,7 @@ export default{
         lblDialog: '新链接',
         lblUrl: '链接',
         lblTitle: '标题',
-        lblIsOften: '常用',
+        lblIsOften: '添加至首页',
         lblFolder: '文件夹',
         lblTag: '标签',
         lblNewTag: '新标签',
