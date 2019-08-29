@@ -157,6 +157,7 @@ export default {
         })
         .catch(x => {
           _this.disabled.form = false;
+          _this.$message.error(x.message);
         });
     },
     signInAccount: function() {

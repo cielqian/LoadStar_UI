@@ -108,7 +108,7 @@ Vue.use(ElementUI);
 Vue.use(ContentMenu)
 Vue.component('LSContentMenu',LSContentMenu)
 
-import './mock.js'
+// import './mock.js'
 
 let lang = utils.getQueryString('lang');
 if (!!lang) {
